@@ -1,1 +1,1 @@
-# coinsasia.github.io
+# coins-docs.github.io
