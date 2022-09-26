@@ -1,3 +1,9 @@
+---
+title: ""
+permalink: /errors/
+# layout: posts
+author_profile: true
+---
 # Error codes for Coins (2022-09-07)
 
 Errors consist of two parts: an error code and a message. Codes are universal,
