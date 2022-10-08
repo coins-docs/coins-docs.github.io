@@ -919,7 +919,12 @@ layout: table_wrappers
       changelink(e.target)
 
     });
+    var loading = false;
     var callback = function (e) {
+      if(loading){
+        return
+      };
+      loading=true;
       var links = document.querySelectorAll('.nav-list-link');
       links.forEach(function (link) {
         var offset = 50;
@@ -939,6 +944,8 @@ layout: table_wrappers
         }
 
       });
+      loading=false;
+
     };
     var content = document.querySelector('#main-content-wrap');
     content.addEventListener('mousewheel', callback);

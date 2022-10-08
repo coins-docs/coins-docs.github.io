@@ -12,7 +12,7 @@
 
 html {
   @include fs-4;
-
+  scroll-padding-top: 60px;
   scroll-behavior: smooth;
 }
 
