@@ -8,19 +8,25 @@ h1,
 
   font-weight: 300;
 }
-
+h1{
+  font-size: 25px!important;
+  font-weight: bold;
+}
 h2,
 .text-beta,
 #toctitle {
   @include fs-6;
 }
-
+h2{
+  font-weight: bold;
+  font-size: 19px!important;
+}
 h3,
 .text-gamma {
   @include fs-5;
 }
 h3{
-  font-size: 25px!important;
+  font-size: 17px!important;
 }
 h4,
 .text-delta {
@@ -31,7 +37,7 @@ h4,
   letter-spacing: 0.1em;
 }
 h4{
-  font-size: 19px!important;
+  font-size: 15px!important;
   font-weight: bold;
 }
 .highlight code,.language-javascript code {

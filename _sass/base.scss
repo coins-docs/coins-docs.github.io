@@ -24,7 +24,9 @@ body {
   background-color: $body-background-color;
   overflow-wrap: break-word;
 }
-
+html,body{
+  -webkit-font-smoothing:antialiased ;
+}
 ol,
 ul,
 dl,
