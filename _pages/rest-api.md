@@ -356,7 +356,7 @@ Status | Description
 `NEW` | The order has been accepted by the engine.
 `PARTIALLY_FILLED`| A part of the order has been filled.
 `FILLED` | The order has been completed.
-` PARTIALLY_CANCEL` | A part of the order has been cancelled with self trade.
+`PARTIALLY_CANCEL` | A part of the order has been cancelled with self trade.
 `CANCELED` | The order has been canceled .
 `REJECTED`       | The order was not accepted by the engine and not processed.
 
@@ -1851,6 +1851,7 @@ GET /openapi/v1/capital/deposit/history
 
 * Please notice the default startTime and endTime to make sure that time interval is within 0-90 days.
 * If both startTime and endTime are sent, time between startTime and endTime must be less than 90 days.
+
   **Response:**
 
 ```javascript
@@ -1903,7 +1904,7 @@ timestamp | LONG   | YES       |
 * If withdrawOrderId is sent, startTime and endTime are not sent, will return last 7 days records by default.
 
 **Response:**
-
+**Response:**
 ```javascript
 [
     {

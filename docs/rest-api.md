@@ -1784,8 +1784,8 @@ GET /openapi/v1/capital/deposit/history
 
 * Please notice the default startTime and endTime to make sure that time interval is within 0-90 days.
 * If both startTime and endTime are sent, time between startTime and endTime must be less than 90 days.
-  **Response:**
 
+**Response:**
 ```javascript
 [
     {
