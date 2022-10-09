@@ -19,10 +19,6 @@ nav: sidebar/rest-api.html
 
 2022-08-19: add weight infomation for all interfaces
 
-2022-08-17: change endpoint to **https://api.qa.coinsxyz.me**, **http** should not be used.
-
-2022-08-15: change endpoint to **http://api.qa.coinsxyz.me/**
-
 2022-08-12: change maxNumOrders to 200 in filter MAX_NUM_ORDERS
 
 2022-08-12: change maxNumAlgoOrders to 5 in filter MAX_NUM_ALGO_ORDERS
