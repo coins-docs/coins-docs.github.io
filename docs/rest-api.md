@@ -33,7 +33,7 @@ nav: sidebar/rest-api.html
 
 ## General API Information
 
-* The base endpoint is: **https://api.qa.coinsxyz.me** (sandbox)
+* The base endpoint is: **https://api.pro.coins.xyz**
 * All endpoints return either a JSON object or array.
 * Data is returned in **ascending** order. Oldest first, newest last.
 * All time and timestamp related fields are in milliseconds.
