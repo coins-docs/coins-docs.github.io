@@ -9,13 +9,6 @@ layout: default
 # Change Log
 2022-08-19: add weight infomation for all interfaces
 
-2022-08-17: add base websocket endpoint wss://wsapi.qa.coinsxyz.me
-
-2022-08-17: change base endpoint to https://api.qa.coinsxyz.me, **http** should not be used
-
-2022-08-15: change base endpoint to http://api.qa.coinsxyz.me/
-
-
 
 # User Data Streams for Coins (2022-08-19)
 
