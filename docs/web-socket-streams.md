@@ -12,13 +12,10 @@ layout: default
 
 2022-08-19: add ping frame
 
-2022-08-15: change base endpoint to wsapi.qa.coinsxyz.me.
-
-
 
 # Web Socket Streams for coins (2022-08-15)
 # General WSS information
-* The base endpoint is: **wsapi.qa.coinsxyz.me**
+* The base endpoint is: **wsapi.pro.coins.xyz**
 * Streams can be accessed either in a single raw stream or in a combined stream
 * Raw streams are accessed at **/openapi/quote/ws/v3/\<streamName\>**
 * Combined streams are accessed at **/openapi/quote/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
