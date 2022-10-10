@@ -285,7 +285,7 @@ Status | Description
 `NEW` | The order has been accepted by the engine.
 `PARTIALLY_FILLED`| A part of the order has been filled.
 `FILLED` | The order has been completed.
-`PARTIALLY_CANCEL` | A part of the order has been cancelled with self trade.
+`PARTIALLY_CANCELED` | A part of the order has been cancelled with self trade.
 `CANCELED` | The order has been canceled .
 `REJECTED`       | The order was not accepted by the engine and not processed.
 
