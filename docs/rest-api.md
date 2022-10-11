@@ -154,7 +154,6 @@ MARKET_DATA | Endpoint requires sending a valid API-Key.
 * An additional parameter, `recvWindow`, may be sent to specify the number of
   milliseconds after `timestamp` the request is valid for. If `recvWindow`
   is not sent, **it defaults to 5000**.
-* Currently, `recvWindow` is only used when creates order.
 * The logic is as follows:
 
   ```javascript
