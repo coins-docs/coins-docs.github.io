@@ -8,6 +8,9 @@ layout: default
 
 
 # Change Log
+
+2022-10-11: add field as symbol,eventType,eventTime to Partial Depth Stream.
+
 2022-08-24: change /ws/ to /openapi/quote/ws 
 
 2022-08-19: add ping frame
@@ -368,6 +371,9 @@ Top **\<levels\>** bids and asks, pushed every second. Valid **\<levels\>** are 
 **Payload:**
 ```javascript
 {
+  "s": "XRPPHP",         //symbol
+  "e": "depth",          //eventType
+  "E": 1665484484791,    //eventTime
   "lastUpdateId": 160,  // Last update ID
   "bids": [             // Bids to be updated
     [
