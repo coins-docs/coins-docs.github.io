@@ -1725,7 +1725,7 @@ timestamp | LONG           | YES       |
 }
 ```
 
-#### deposit (to xyz account) (USER_DATA)
+#### deposit (to exchange account) (USER_DATA)
 
 ```shell
 POST /openapi/v1/capital/deposit/apply
