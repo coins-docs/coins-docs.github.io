@@ -14,12 +14,12 @@ layout: default
 
 ## General WSS information
 
-* The base endpoint is: **https://api.pro.coins.xyz**
+* The base endpoint is: **https://api.pro.coins.ph**
 * A User Data Stream `listenKey` is valid for 60 minutes after creation.
 * Doing a `PUT` on a `listenKey` will extend its validity for 60 minutes.
 * Doing a `DELETE` on a `listenKey` will close the stream and invalidate the listenKey.
 * Doing a `POST` on an account with an active `listenKey` will return the currently active `listenKey` and extend its validity for 60 minutes.
-* The base websocket endpoint is: **wss://wsapi.pro.coins.xyz**
+* The base websocket endpoint is: **wss://wsapi.pro.coins.ph**
 * User Data Streams are accessed at **/openapi/ws/\<listenKey\>**
 * A single connection to api endpoint is only valid for 24 hours; expect to be disconnected at the 24 hour mark
 
