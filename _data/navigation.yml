@@ -26,11 +26,10 @@ main:
     url: /rest-api/
   - title: "User-Data-Stream"
     url: /user-data-stream/
-  - title: "Errors"
-    url: /errors/
   - title: "Web-Socket-Streams"
     url: /web-socket-streams/
-    
+  - title: "Errors"
+    url: /errors/ 
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
