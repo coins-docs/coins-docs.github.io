@@ -728,6 +728,264 @@ Current exchange trading rules and symbol information
 
 
 
+### Wallet endpoints
+
+#### All Coins' Information (USER_DATA)
+
+```shell
+GET /openapi/v1/capital/config/get-all  (HMAC SHA256)
+```
+
+Get information of coins (available for deposit and withdraw) for user.
+
+**Weight(IP):** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+recvWindow | LONG | NO |
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+[
+    {
+        "coin": "ETH",
+        "name": "ETH",
+        "depositAllEnable": true,
+        "withdrawAllEnable": true,
+        "free": "1.9144",
+        "locked": "0.0426",
+        "networkList": [
+            {
+                "addressRegex": "0x([0-9a-fA-F]){40}",
+                "memoRegex": "^[0-9A-Za-z\\-_]{1,120}$",
+                "network": "ETH",
+                "name": "ERC20",
+                "depositDesc": "",
+                "depositEnable": true,
+                "isDefault": false,
+                "resetAddressStatus": true,
+                "minConfirm": 8,
+                "unLockConfirm": 12,
+                "withdrawDesc": "1234567890",
+                "withdrawEnable": true,
+                "withdrawFee": "0",
+                "withdrawIntegerMultiple": "0.00000001",
+                "withdrawMax": "1",
+                "withdrawMin": "0.001",
+                "sameAddress": false
+            }
+        ],
+        "legalMoney": false
+    }
+  ]
+```
+
+
+
+#### Withdraw(USER_DATA)
+
+```shell
+POST /openapi/v1/capital/withdraw/apply  (HMAC SHA256)
+```
+
+Submit a withdraw request.
+
+**Weight(UID):** 600
+
+**Parameters:**
+
+| Name            | Type    | Mandatory | Description                                              |
+| --------------- | ------- | --------- | -------------------------------------------------------- |
+| coin            | STRING  | YES       |                                                          |
+| network         | STRING  | YES       |                                                          |
+| address         | STRING  | YES       |                                                          |
+| addressTag      | STRING  | NO        | Secondary address identifier for coins like XRP,XMR etc. |
+| amount          | DECIMAL | YES       |                                                          |
+| withdrawOrderId | STRING  | NO        | client id for withdraw                                   |
+| recvWindow      | LONG    | NO        |                                                          |
+| timestamp       | LONG    | YES       |                                                          |
+
+* Please notice `coin`/`network`/`address`/`addressTag` combination **MUST** be in withdraw address whitelist, it is needed to setup the withdraw address whitelist before doing this api call.
+
+**Response:**
+
+```javascript
+{
+  "id":"459165282044051456"
+}
+```
+
+
+
+#### Deposit History (USER_DATA)
+
+```shell
+POST /openapi/v1/capital/deposit/history  (HMAC SHA256)
+```
+
+Fetch deposit history.
+
+**Weight(IP):** 1
+
+**Parameters:**
+
+| Name       | Type   | Mandatory | Description                                                  |
+| ---------- | ------ | --------- | ------------------------------------------------------------ |
+| coin       | STRING | NO        |                                                              |
+| txId       | STRING | NO        |                                                              |
+| status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
+| startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
+| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| offset     | INT    | NO        | Default:0                                                    |
+| limit      | LONG   | NO        | Default:1000, Max:1000                                       |
+| recvWindow | LONG   | NO        |                                                              |
+| timestamp  | LONG   | YES       |                                                              |
+
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+
+* If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
+
+  
+
+**Response:**
+
+```javascript
+[
+    {
+        "id": "d_769800519366885376",
+        "amount": "0.001",
+        "coin": "BNB",
+        "network": "BNB",
+        "status": 0,
+        "address": "bnb136ns6lfw4zs5hg4n85vdthaad7hq5m4gtkgf23",
+        "addressTag": "101764890",
+        "txId": "98A3EA560C6B3336D348B6C83F0F95ECE4F1F5919E94BD006E5BF3BF264FACFC",
+        "insertTime": 1661493146000,
+        "confirmNo": 10,
+    },
+    {
+        "id": "d_769754833590042625",
+        "amount":"0.5",
+        "coin":"IOTA",
+        "network":"IOTA",
+        "status":1,
+        "address":"SIZ9VLMHWATXKV99LH99CIGFJFUMLEHGWVZVNNZXRJJVWBPHYWPPBOSDORZ9EQSHCZAMPVAPGFYQAUUV9DROOXJLNW",
+        "addressTag":"",
+        "txId":"ESBFVQUTPIWQNJSPXFNHNYHSQNTGKRVKPRABQWTAXCDWOAKDKYWPTVG9BGXNVNKTLEJGESAVXIKIZ9999",
+        "insertTime":1599620082000,
+        "confirmNo": 20,
+    }
+]
+
+```
+
+#### Withdraw History (USER_DATA)
+
+```shell
+POST /openapi/v1/capital/withdraw/history  (HMAC SHA256)
+```
+
+Fetch withdraw history.
+
+**Weight(IP):** 1
+
+**Parameters:**
+
+| Name       | Type   | Mandatory | Description                                                  |
+| ---------- | ------ | --------- | ------------------------------------------------------------ |
+| coin       | STRING | NO        |                                                              |
+| withdrawOrderId       | STRING | NO      |                                                              |
+| status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED |
+| startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
+| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| offset     | INT    | NO        | Default:0                                                    |
+| limit      | LONG   | NO        | Default:1000, Max:1000                                       |
+| recvWindow | LONG   | NO        |                                                              |
+| timestamp  | LONG   | YES       |                                                              |
+
+* `network` may not be in the response for old withdraw.
+
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+
+* If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
+
+* If `withdrawOrderId` is sent, time between `startTime` and `endTime` must be less than 7 days.
+
+* If `withdrawOrderId` is sent, `startTime` and `endTime` are not sent, will return last 7 days records by default.
+
+  
+
+**Response:**
+
+```javascript
+[
+    {
+      "id": "459165282044051456",
+      "amount": "8.91000000",   
+      "transactionFee": "0.004",
+      "coin": "USDT",
+      "status": 2,
+      "address": "0x94df8b352de7f46f64b01d3666bf6e936e44ce60",
+      "txId": "0xb5ef8c13b968a406cc62a93a8bd80f9e9a906ef1b3fcf20a2e48573c17659268",
+      "applyTime": 1673340811123,
+      "network": "ETH",   
+      "withdrawOrderId": "WITHDRAWtest123",
+      "info": "The address is not valid. Please confirm with the recipient",
+      "confirmNo":3
+    },
+    {
+      "id": "156ec387f49b41df8724fa744fa82719",
+      "amount": "0.00150000",
+      "transactionFee": "0.004",
+      "coin": "BTC",
+      "status": 1,
+      "address": "1FZdVHtiBqMrWdjPyRPULCUceZPJ2WLCsB",
+      "txId": "60fd9007ebfddc753455f95fafa808c4302c836e4d1eebc5a132c36c1d8ac354",
+      "applyTime": 1673340815678,
+      "network": "BTC",
+      "withdrawOrderId": "",
+      "info": "",
+      "confirmNo": 2
+    }
+]
+
+```
+
+#### Deposit Address (USER_DATA)
+
+```shell
+GET /openapi/v1/capital/deposit/address  (HMAC SHA256)
+```
+
+Fetch deposit address with network.
+
+**Weight(IP):** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+coin | STRING | YES |
+network | STRING | YES |
+recvWindow | LONG | NO |
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+{
+    "address": "1HPn8Rx2y6nNSfagQBKy27GB99Vbzg89wv",
+    "coin": "BTC",
+    "tag": "",
+}
+```
+
+
+
 ### Market Data endpoints
 
 #### Order book
