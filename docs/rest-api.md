@@ -733,7 +733,7 @@ Current exchange trading rules and symbol information
 #### All Coins' Information (USER_DATA)
 
 ```shell
-GET /openapi/v1/capital/config/get-all  (HMAC SHA256)
+GET /openapi/wallet/config/get-all  (HMAC SHA256)
 ```
 
 Get information of coins (available for deposit and withdraw) for user.
@@ -789,7 +789,7 @@ timestamp | LONG | YES |
 #### Withdraw(USER_DATA)
 
 ```shell
-POST /openapi/v1/capital/withdraw/apply  (HMAC SHA256)
+POST /openapi/wallet/withdraw/apply  (HMAC SHA256)
 ```
 
 Submit a withdraw request.
@@ -824,7 +824,7 @@ Submit a withdraw request.
 #### Deposit History (USER_DATA)
 
 ```shell
-POST /openapi/v1/capital/deposit/history  (HMAC SHA256)
+POST /openapi/wallet/deposit/history  (HMAC SHA256)
 ```
 
 Fetch deposit history.
@@ -886,7 +886,7 @@ Fetch deposit history.
 #### Withdraw History (USER_DATA)
 
 ```shell
-POST /openapi/v1/capital/withdraw/history  (HMAC SHA256)
+POST /openapi/wallet/withdraw/history  (HMAC SHA256)
 ```
 
 Fetch withdraw history.
@@ -958,7 +958,7 @@ Fetch withdraw history.
 #### Deposit Address (USER_DATA)
 
 ```shell
-GET /openapi/v1/capital/deposit/address  (HMAC SHA256)
+GET /openapi/wallet/deposit/address  (HMAC SHA256)
 ```
 
 Fetch deposit address with network.
