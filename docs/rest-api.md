@@ -980,7 +980,7 @@ timestamp | LONG | YES |
 
 ```javascript
 {
-  	"coin": "ETH",
+    "coin": "ETH",
     "address": "0xfe98628173830bf79c59f04585ce41f7de168784",
     "addressTag": ""
 }
