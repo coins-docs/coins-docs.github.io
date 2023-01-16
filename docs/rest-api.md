@@ -824,7 +824,7 @@ Submit a withdraw request.
 #### Deposit History (USER_DATA)
 
 ```shell
-POST /openapi/wallet/v1/deposit/history  (HMAC SHA256)
+GET /openapi/wallet/v1/deposit/history  (HMAC SHA256)
 ```
 
 Fetch deposit history.
@@ -886,7 +886,7 @@ Fetch deposit history.
 #### Withdraw History (USER_DATA)
 
 ```shell
-POST /openapi/wallet/v1/withdraw/history  (HMAC SHA256)
+GET /openapi/wallet/v1/withdraw/history  (HMAC SHA256)
 ```
 
 Fetch withdraw history.
