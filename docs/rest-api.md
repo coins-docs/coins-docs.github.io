@@ -802,7 +802,7 @@ Submit a withdraw request.
 | address         | STRING  | YES       |                                                          |
 | addressTag      | STRING  | NO        | Secondary address identifier for coins like XRP,XMR etc. |
 | amount          | DECIMAL | YES       |                                                          |
-| withdrawOrderId | STRING  | NO        | client id for withdraw                                   |
+| withdrawOrderId | STRING  | NO        | client id for withdraw, length is limited to 64.         |
 | recvWindow      | LONG    | NO        |                                                          |
 | timestamp       | LONG    | YES       |                                                          |
 
