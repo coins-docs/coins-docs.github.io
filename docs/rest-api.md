@@ -764,10 +764,7 @@ timestamp | LONG | YES |
                 "memoRegex": "^[0-9A-Za-z\\-_]{1,120}$",
                 "network": "ETH",
                 "name": "ERC20",
-                "depositDesc": "",
                 "depositEnable": true,
-                "isDefault": false,
-                "resetAddressStatus": true,
                 "minConfirm": 8,
                 "unLockConfirm": 12,
                 "withdrawDesc": "1234567890",
@@ -906,8 +903,6 @@ Fetch withdraw history.
 | limit      | LONG   | NO        | Default:1000, Max:1000                                       |
 | recvWindow | LONG   | NO        |                                                              |
 | timestamp  | LONG   | YES       |                                                              |
-
-* `network` may not be in the response for old withdraw.
 
 * Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
 
