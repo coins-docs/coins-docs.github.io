@@ -783,6 +783,37 @@ timestamp | LONG | YES |
 
 
 
+#### Deposit Address (USER_DATA)
+
+```shell
+GET /openapi/wallet/v1/deposit/address  (HMAC SHA256)
+```
+
+Fetch deposit address with network.
+
+**Weight(IP):** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+coin | STRING | YES |
+network | STRING | YES |
+recvWindow | LONG | NO |
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+{
+    "coin": "ETH",
+    "address": "0xfe98628173830bf79c59f04585ce41f7de168784",
+    "addressTag": ""
+}
+```
+
+
+
 #### Withdraw(USER_DATA)
 
 ```shell
@@ -948,37 +979,6 @@ Fetch withdraw history.
         "confirmNo": 100
     }
 ]
-```
-
-
-
-#### Deposit Address (USER_DATA)
-
-```shell
-GET /openapi/wallet/v1/deposit/address  (HMAC SHA256)
-```
-
-Fetch deposit address with network.
-
-**Weight(IP):** 10
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-coin | STRING | YES |
-network | STRING | YES |
-recvWindow | LONG | NO |
-timestamp | LONG | YES |
-
-**Response:**
-
-```javascript
-{
-    "coin": "ETH",
-    "address": "0xfe98628173830bf79c59f04585ce41f7de168784",
-    "addressTag": ""
-}
 ```
 
 
