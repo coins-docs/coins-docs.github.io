@@ -2221,3 +2221,154 @@ listenKey | STRING | YES |
 ```javascript
 {}
 ```
+
+
+## Merchant Endpoints
+
+### Signature
+
+### Invoicing
+
+An invoice is a statement of what a user will need to pay to another user. Reason behind the transaction can range from providing services, selling an item or simply sending money to another user.
+
+In an invoice there will always be two entities involved:
+
+The receiver who will receive the payment (the merchant).
+The sender who will send the payment to fulfill the invoice (the customer).
+
+#### Creating Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices (HMAC SHA256)
+```
+
+Create an invoice
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+amount            | DECIMAL | YES       |The amount expected from the customer.
+currency | STRING      | YES       | Currency of transaction.
+supportedPaymentCollectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet", "seven_connect","mlhuillier","cebuana_lhuillier"]
+externalTransactionId          | STRING  | NO        |
+expiresAt          | STRING  | NO        |The expiration of the invoice. Expects date time format ISO 8601 (UTC time zone)(e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s)
+
+**Payment Options**
+
+Code |Description
+----|----
+coins_peso_wallet|Pay with the user's Peso Coins wallet.
+seven_connect|Pay over the counter at any 7-eleven convenience store.
+mlhuillier|Pay over the counter at any Mlhuillier branch.
+cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
+
+
+**Request:**
+
+```javascript
+{
+    "amount": 100,
+    "currency": "PHP",
+    "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
+    "externalTransactionId": "1",
+    "expiresAt": "1w"
+}
+```
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "invoiceId": "1",
+        "amount": "10",
+        "currency": "PHP",
+        "status": "pending",
+        "externalTransactionId": "",
+        "createAt": 1678957789117,
+        "updatedAt": 1678957789117,
+        "expiresAt": 1678957799117,
+        "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
+        "paymentUrl": "https://www.pro.coins.ph/payment/invoice/1",
+        "expiresInSeconds": 100,
+        "referenceNumber": "2111-2223-1111"
+    }
+}
+```
+#### Retrieving Invoices
+
+
+```shell
+GET /merchant-api/v1/invoices/{id} (HMAC SHA256)
+```
+
+Retrieving an invoice
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+invoiceId            | STRING | YES       |
+
+
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "invoiceId": "1",
+        "amount": "10",
+        "currency": "PHP",
+        "status": "pending",
+        "externalTransactionId": "",
+        "createAt": 1678957789117,
+        "updatedAt": 1678957789117,
+        "expiresAt": 1678957799117,
+        "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
+        "paymentUrl": "https://www.pro.coins.ph/payment/invoice/1",
+        "expiresInSeconds": 100,
+        "referenceNumber": "2111-2223-1111"
+    }
+}
+```
+
+
+### Invoice Callbacks
+
+Certain events may happen during a lifespan of an invoice. For example, when an invoice gets fully paid, an event invoice.fully_paid is triggered. Merchants may choose to consume these events by providing a callback_url, so that they can act on the events if needed.
+
+Events are delivered to callbacks via a POST request, with the authorization header of Authorization: Token MERCHANT_APIKEY
+
+Event payloads follow this convention:
+```javascript
+{
+  "event": {
+    "name": "invoice.name",
+    "data": {
+        "id": "invoice_id",
+        "currency": "PHP",
+        "amount": "100",
+        "amount_received": "0",
+        "external_transaction_id": "1"
+        }
+    }
+}
+```
+
+Events which may be consumed by callbacks are described at the following table:
+
+Event Name	| Description
+----|---
+invoice.created	|The invoice has been created.
+invoice.updated	|The invoice has been updated. This may be due to the payment received for the invoice.
+invoice.fully_paid	| The invoice is has been complete.
+invoice.payment_reference_number_generated|When generating the invoice payment reference number.
+
+
