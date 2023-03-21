@@ -2227,6 +2227,22 @@ listenKey | STRING | YES |
 
 ### Signature
 
+
+**Common Headers**
+
+The table below shows all of the common API Headers you will encounter in the Coins Access API.
+
+Header Name | Required | Type | Example | Description
+------------ |----------|--| ------------|--
+X-Merchant-Key | yes   | string |     | The authorized merchant key
+X-Merchant-Sign | yes | string |   | The authorized merchant request sign
+X-Timestamp | yes | long  | 1671158910| Request initiation time
+X-Trace-Id | no | string |    |  Request log trace ID
+
+To craft an X-Merchant-Sign:
+1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://192.168.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
+2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
+
 ### Invoicing
 
 An invoice is a statement of what a user will need to pay to another user. Reason behind the transaction can range from providing services, selling an item or simply sending money to another user.
@@ -2312,11 +2328,14 @@ Retrieving an invoice
 
 **Parameters:**
 
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-invoiceId            | STRING | YES       |
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoiceId            | STRING | NO        |
+startTime            | LONG  | NO        | 
+endTime            | LONG  | NO        |
+limit            | INT   | NO        | Returns the number of records, default 500, maximum 1000
 
-
+Default search for records within the last 90 days.
 
 **Response:**
 
