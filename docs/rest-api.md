@@ -2319,7 +2319,7 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 
 
 ```shell
-GET /merchant-api/v1/get-invoices/{id} (HMAC SHA256)
+GET /merchant-api/v1/get-invoices (HMAC SHA256)
 ```
 
 Retrieving an invoice
@@ -2335,7 +2335,8 @@ startTime            | LONG  | NO        |
 endTime            | LONG  | NO        |
 limit            | INT   | NO        | Returns the number of records, default 500, maximum 1000
 
-Default search for records within the last 90 days.
+If invoiceId is filled out, only the data for that invoice will be returned.
+If the time parameter is not passed default search for records within the last 90 days.
 
 **Response:**
 
