@@ -2319,7 +2319,7 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 
 
 ```shell
-GET /merchant-api/v1/invoices/{id} (HMAC SHA256)
+GET /merchant-api/v1/get-invoices/{id} (HMAC SHA256)
 ```
 
 Retrieving an invoice
