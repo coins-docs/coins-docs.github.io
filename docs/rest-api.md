@@ -2269,9 +2269,9 @@ Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
 amount            | DECIMAL | YES       |The amount expected from the customer.
 currency | STRING      | YES       | Currency of transaction.
-supportedPaymentCollectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet", "seven_connect","mlhuillier","cebuana_lhuillier"]
-externalTransactionId          | STRING  | NO        |
-expiresAt          | STRING  | NO        |The expiration of the invoice. Expects date time format ISO 8601 (UTC time zone)(e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s)
+supported_payment_collectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet", "seven_connect","mlhuillier","cebuana_lhuillier"]
+external_transaction_id          | STRING  | NO        |
+expires_at          | STRING  | NO        |The expiration of the invoice. Expects date time format ISO 8601 (UTC time zone)(e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s)
 
 **Payment Options**
 
@@ -2289,9 +2289,9 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 {
     "amount": 100,
     "currency": "PHP",
-    "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
-    "externalTransactionId": "1",
-    "expiresAt": "1w"
+    "supported_payment_collectors": "["coins_peso_wallet","seven_connect"]",
+    "external_transaction_id": "1",
+    "expires_at": "1w"
 }
 ```
 
@@ -2300,18 +2300,18 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 ```javascript
 {
     "invoice": {
-        "invoiceId": "1",
-        "amount": "10",
-        "currency": "PHP",
-        "status": "pending",
-        "externalTransactionId": "",
-        "createAt": 1678957789117,
-        "updatedAt": 1678957789117,
-        "expiresAt": 1678957799117,
-        "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
-        "paymentUrl": "https://www.pro.coins.ph/payment/invoice/1",
-        "expiresInSeconds": 100,
-        "referenceNumber": "2111-2223-1111"
+        "id": "",
+        "amount": "",
+        "amount_due": "",
+        "currency": "",
+        "status": "",
+        "external_transaction_id": "",
+        "created_at": 0,
+        "updated_at": 0,
+        "expires_at": 0,
+        "supported_payment_collectors": "",
+        "payment_url": "",
+        "expires_in_seconds": 0
     }
 }
 ```
@@ -2342,20 +2342,20 @@ If the time parameter is not passed default search for records within the last 9
 
 ```javascript
 {
-    "invoice": {
-        "invoiceId": "1",
-        "amount": "10",
-        "currency": "PHP",
-        "status": "pending",
-        "externalTransactionId": "",
-        "createAt": 1678957789117,
-        "updatedAt": 1678957789117,
-        "expiresAt": 1678957799117,
-        "supportedPaymentCollectors": "["coins_peso_wallet","seven_connect"]",
-        "paymentUrl": "https://www.pro.coins.ph/payment/invoice/1",
-        "expiresInSeconds": 100,
-        "referenceNumber": "2111-2223-1111"
-    }
+    "invoice": [{
+        "id": "",
+        "amount": "",
+        "amount_due": "",
+        "currency": "",
+        "status": "",
+        "external_transaction_id": "",
+        "created_at": 0,
+        "updated_at": 0,
+        "expires_at": 0,
+        "supported_payment_collectors": "",
+        "payment_url": "",
+        "expires_in_seconds": 0
+    }]
 }
 ```
 
