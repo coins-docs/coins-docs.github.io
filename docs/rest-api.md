@@ -2311,7 +2311,8 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
         "expires_at": 0,
         "supported_payment_collectors": "",
         "payment_url": "",
-        "expires_in_seconds": 0
+        "expires_in_seconds": 0,
+        "incoming_address":""
     }
 }
 ```
@@ -2330,9 +2331,9 @@ Retrieving an invoice
 
 Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
-invoiceId            | STRING | NO        |
-startTime            | LONG  | NO        | 
-endTime            | LONG  | NO        |
+invoice_id            | STRING | NO        |
+start_time            | LONG  | NO        |
+end_time            | LONG  | NO        |
 limit            | INT   | NO        | Returns the number of records, default 500, maximum 1000
 
 If invoiceId is filled out, only the data for that invoice will be returned.
@@ -2354,7 +2355,8 @@ If the time parameter is not passed default search for records within the last 9
         "expires_at": 0,
         "supported_payment_collectors": "",
         "payment_url": "",
-        "expires_in_seconds": 0
+        "expires_in_seconds": 0,
+        "incoming_address":""
     }]
 }
 ```
