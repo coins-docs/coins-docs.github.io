@@ -2362,6 +2362,45 @@ If the time parameter is not passed default search for records within the last 9
 ```
 
 
+#### Cancel Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
+```
+
+Cancel an invoice
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoice_id            | STRING | YES       |
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "id": "",
+        "amount": "",
+        "amount_due": "",
+        "currency": "",
+        "status": "",
+        "external_transaction_id": "",
+        "created_at": 0,
+        "updated_at": 0,
+        "expires_at": 0,
+        "supported_payment_collectors": "",
+        "payment_url": "",
+        "expires_in_seconds": 0,
+        "incoming_address":""
+    }
+}
+```
+
 ### Invoice Callbacks
 
 Certain events may happen during a lifespan of an invoice. For example, when an invoice gets fully paid, an event invoice.fully_paid is triggered. Merchants may choose to consume these events by providing a callback_url, so that they can act on the events if needed.
