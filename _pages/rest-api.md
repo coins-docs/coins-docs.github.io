@@ -28,6 +28,7 @@ author_profile: true
       - [Test connectivity](#test-connectivity)
       - [Check server time](#check-server-time)
       - [Exchange information](#exchange-information)
+    - [Convert endpoints](#convert-endpoints)
     - [Market Data endpoints](#market-data-endpoints)
       - [Order book](#order-book)
       - [Recent trades list](#recent-trades-list)
@@ -802,8 +803,6 @@ Current exchange trading rules and symbol information
   ]
 }
 ```
-
-
 
 ### Market Data endpoints
 
@@ -2162,4 +2161,243 @@ listenKey | STRING | YES |
 
 ```javascript
 {}
+```
+
+
+### Convert endpoints
+
+#### Get supported trading pairs
+```shell
+POST /openapi/v1/convert/v1/get-supported-trading-pairs
+```
+
+This constantly updated endpoint returns all available trading pairs. Response details include the minimum and maximum source amounts and the source currency precision in decimal places.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------|------| ------------ | ------------
+|      |      |
+
+**Response:**
+
+```javascript
+{
+  "status":"Success",
+  "error":"OK",
+  "data":[
+     {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"BTC",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"15000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"BTC",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.0001",
+      "maxSourceAmount":"0.1",
+      "precision":"8"
+    },
+    {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"ETH",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"18000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"ETH",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.003",
+      "maxSourceAmount":"4.2",
+      "precision":"8"
+    }
+  ]
+}
+```
+
+
+
+#### Fetch a quote
+
+```shell
+POST /openapi/v1/convert/v1/get-quote
+```
+
+This endpoint returns a quote for specified sourceCurrency and targetCurrency.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+sourceCurrency | STRING | YES |The currency the user holds
+targetCurrency | STRING | YES |The currency the user would like to obtain
+sourceAmount | STRING | YES |The amount for sourceCurrency
+
+**Response:**
+
+```javascript
+{
+  "status": 0, 
+  "error": "OK", 
+  "data": {
+            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
+            "sourceCurrency": "BTC",
+            "targetCurrency": "PHP",
+            "sourceAmount": "0.1",
+            "price": "59999",             //1BTC=59999PHP
+            "targetAmount": "5999",       //The amount of PHP the user holds
+            "expiry": "10"
+  }
+}
+```
+
+#### Accept the quote
+
+
+```shell
+POST /openapi/v1/convert/v1/accpet-quote
+```
+
+To accept the quote (will return the result immediately)
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+quoteId | STRING | YES |The ID assigned to the quote
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0, 
+  "data": {
+         "orderId" : "49d10b74c60a475298c6bbed08dd58fa"
+         "status": "SUCCESS"
+  },
+  "error": "ok"
+}
+```
+
+#### Retrieve order history
+
+
+```shell
+POST /openapi/v1/convert/v1/query-order-history
+```
+
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type   | Mandatory | Description
+------------ |--------|---------| ------------
+startTime | STRING | No |The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |The end point of the required period. If no period is defined, the entire order history is returned.
+page | int    | No |
+size | int    | No |
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+   "error": "OK",
+   "data": [
+    {
+      "id": 1048,
+      "orderId": "49d10b74c60a475298c6bbed08dd58fa",
+      "userId": "1304304339091773722",
+      "quoteId": "cfbe49acf56b43a698d99ca470658a5c",
+      "sourceCurrency": "BTC",
+      "targetCurrency": "PHP",
+      "sourceAmount": "0.00014252",
+      "targetAmount": "131.1432432",
+      "price": "920174.31378052",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1672283052000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "id": 1032,
+      "orderId": "ad3bb743e60747a8a57c2d33317c3149",
+      "userId": "1304304339091773722",
+      "quoteId": "5217a22fdbf044ecaf147fb99bc00be6",
+      "sourceCurrency": "ETH",
+      "targetCurrency": "BTC",
+      "sourceAmount": "0.01583701",
+      "targetAmount": "0.024643",
+      "price": "1.55603867",
+      "fee": "0",
+      "status": "FAILED",
+      "createdAt": "1672025632000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "id": 1031,
+      "orderId": "49678eef7b3b4003ab3552141bb2d2dd",
+      "userId": "1304304339091773722",
+      "quoteId": "ac04e42b37fd439cb06fb2d8b5b21559",
+      "sourceCurrency": "ETH",
+      "targetCurrency": "BTC",
+      "sourceAmount": "0.01584514",
+      "targetAmount": "0.024643",
+      "price": "1.55524028",
+      "fee": "0",
+      "status": "FAILED",
+      "errorMessage" : "Insufficient balance",
+      "createdAt": "1672025122000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "id": 1024,
+      "orderId": "69e4b2d166f24155b9f2221999a5271c",
+      "userId": "1304304339091773722",
+      "quoteId": "671f88b5330043949f6dfda222bcd5f5",
+      "sourceCurrency": "PHP",
+      "targetCurrency": "XRP",
+      "sourceAmount": "43.46",
+      "targetAmount": "1",
+      "price": "0.02300966",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1671800356000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "id": 1023,
+      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
+      "userId": "1304304339091773722",
+      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
+      "sourceCurrency": "BTC",
+      "targetCurrency": "PHP",
+      "sourceAmount": "0.11",
+      "targetAmount": "4466.89275956",
+      "price": "40608.115996",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1671797993000",
+      "errorCode": "",
+      "errorMessage": ""
+    }
+  ],
+  "total": 23
+}
 ```
