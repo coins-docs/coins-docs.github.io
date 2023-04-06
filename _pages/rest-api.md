@@ -2171,8 +2171,7 @@ listenKey | STRING | YES |
 POST /openapi/v1/convert/v1/get-supported-trading-pairs
 ```
 
-This constantly updated endpoint returns all available trading pairs. Response details include the minimum and maximum source amounts and the source currency precision in decimal places.
-
+This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
 **Weight:** 1
 
 **Parameters:**
@@ -2228,7 +2227,7 @@ Name | Type | Mandatory | Description
 POST /openapi/v1/convert/v1/get-quote
 ```
 
-This endpoint returns a quote for specified sourceCurrency and targetCurrency.
+This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
 
 **Weight:** 1
 
@@ -2238,7 +2237,7 @@ Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
 sourceCurrency | STRING | YES |The currency the user holds
 targetCurrency | STRING | YES |The currency the user would like to obtain
-sourceAmount | STRING | YES |The amount for sourceCurrency
+sourceAmount | STRING | YES |The amount of sourceCurrency
 
 **Response:**
 
@@ -2265,7 +2264,7 @@ sourceAmount | STRING | YES |The amount for sourceCurrency
 POST /openapi/v1/convert/v1/accpet-quote
 ```
 
-To accept the quote (will return the result immediately)
+Use this endpoint to accept the quote and receive the result instantly.
 
 **Weight:** 1
 
@@ -2282,7 +2281,7 @@ quoteId | STRING | YES |The ID assigned to the quote
 {
   "status": 0, 
   "data": {
-         "orderId" : "49d10b74c60a475298c6bbed08dd58fa"
+         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
          "status": "SUCCESS"
   },
   "error": "ok"
@@ -2295,7 +2294,7 @@ quoteId | STRING | YES |The ID assigned to the quote
 ```shell
 POST /openapi/v1/convert/v1/query-order-history
 ```
-
+This endpoint retrieves order history with the option to define a specific time period using start and end times.
 
 **Weight:** 1
 
