@@ -52,6 +52,8 @@ author_profile: true
       - [withdraw order history (withdrawal order which withdraw from exchange to coins_ph) (USER_DATA)](#withdraw-order-history-withdrawal-order-which-withdraw-from-exchange-to-coins_ph-user_data)
       - [deposit order history(deposit order which deposit from coins_ph to exchange) (USER_DATA)](#deposit-order-historydeposit-order-which-deposit-from-coins_ph-to-exchange-user_data)
       - [Trade Fee (USER_DATA)](#trade-fee-user_data)
+      - [query transfers (USER_DATA)](#transfers-query-user_data)
+      - [transfers (USER_DATA)](#transfers-user_data)
     - [User data stream endpoints](#user-data-stream-endpoints)
       - [Start user data stream (USER_STREAM)](#start-user-data-stream-user_stream)
       - [Keepalive user data stream (USER_STREAM)](#keepalive-user-data-stream-user_stream)
@@ -1960,6 +1962,90 @@ timestamp          | LONG   | YES        |
       "takerCommission": "0.001"
     }
   ]
+```
+
+
+#### query transfers (USER_DATA)
+
+```shell
+GET /openapi/transfer/v3/transfers/{id}
+```
+
+This endpoint retrieves an existing transfer record if an id is provided. Otherwise, it will return a paginated list of transfers.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | NO        | ID of the transfer record
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+  {
+    "transfers": [
+       {
+            "id": "2309rjw0amf0sq9me0gmadsmfoa",
+            "account": "90dfg03goamdf02fs",
+            "amount": "1",
+            "fee_amount": "0",
+            "currency": "PBTC",
+            "target_address": "1374ba6c3b754",
+            "payment": "23094j0amd0fmag9agjgasd",
+            "status": "success",
+            "message": "example",
+            "created_at": "2019-07-04T03:28:50.531599Z"
+        }
+    ],
+    "meta": {
+        "total_count": 0,
+        "next_page": 2,
+        "previous_page": 0
+    }
+}
+```
+
+
+
+#### transfers (USER_DATA)
+
+```shell
+POST /openapi/transfer/v3/transfers
+```
+
+Transfer funds between two accounts
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+account            | STRING | YES        | Account ID of the user making the transfer
+target_address     | STRING | YES        | Account ID of the user making the transfer
+amount            | BigDecimal | YES        | Account ID of the user making the transfer
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+  {
+    "transfer": 
+       {
+            "id": "2309rjw0amf0sq9me0gmadsmfoa",
+            "status": "success",
+            "account": "90dfg03goamdf02fs",
+            "target_address": "1374ba6c3b754",
+            "amount": "1",    
+            "exchange": "1",      
+            "payment": "23094j0amd0fmag9agjgasd"
+          }
+}
 ```
 
 
