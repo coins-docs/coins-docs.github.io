@@ -2653,15 +2653,16 @@ This endpoint allows users to withdraw funds from their fiat account.
 POST openapi/fiat/v1/history
 ```
 
-This endpoint fetches a comprehensive record of the user’s fiat trading activity. The response contains detailed information about the past trades, including the transaction date, transaction amount, and any associated fees.
+This endpoint fetches a comprehensive record of the user’s fiat trading activity. The response contains detailed information about the past trades, including the transaction date, transaction amount, and any associated fees. The user can also specify a date range for retrieving transaction data.
 **Weight:** 1
 
 **Parameters:**
 
-Name            | Type   | Mandatory | Description
------------------|--------|-----------| ------------
-| startDate | Date   | No        | start date
-| endDate        | Date | No        | end date
+Name            | Type    | Mandatory | Description
+-----------------|---------|-----------| ------------
+| startDate | Date    | No        | Represents the start of the date range and specifies the earliest date for which transaction data should be retrieved. Transactions that occurred on or after the startDate will be included in the results.
+| endDate   | Date    | No        | Represents the end of the date range and specifies the latest date for which transaction data should be retrieved. Transactions that occurred before or on the endDate will be included in the results.
+
 
 **Response:**
 
