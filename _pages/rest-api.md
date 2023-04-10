@@ -2168,7 +2168,7 @@ listenKey | STRING | YES |
 
 #### Get supported trading pairs
 ```shell
-POST /openapi/v1/convert/get-supported-trading-pairs
+POST /openapi/convert/v1/get-supported-trading-pairs
 ```
 
 This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
@@ -2224,7 +2224,7 @@ Name | Type | Mandatory | Description
 #### Fetch a quote
 
 ```shell
-POST /openapi/v1/convert/get-quote
+POST /openapi/convert/v1/get-quote
 ```
 
 This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
@@ -2261,7 +2261,7 @@ sourceAmount | STRING | YES |The amount of sourceCurrency
 
 
 ```shell
-POST /openapi/v1/convert/accpet-quote
+POST /openapi/convert/v1/accpet-quote
 ```
 
 Use this endpoint to accept the quote and receive the result instantly.
@@ -2292,7 +2292,7 @@ quoteId | STRING | YES |The ID assigned to the quote
 
 
 ```shell
-POST /openapi/v1/convert/query-order-history
+POST /openapi/convert/v1/query-order-history
 ```
 This endpoint retrieves order history with the option to define a specific time period using start and end times.
 
