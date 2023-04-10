@@ -2422,88 +2422,10 @@ This continuously updated endpoint returns a list of all available fiat channels
 
 ```javascript
 {
-  "status": 0,
-          "error": "OK",
-          "data": {
-    "id": "1380692028693995387",
-            "orderId": "1383342376659250483",
-            "paymentOrderId": "2023083000000238",
-            "fiatCurrency": "PHP",
-            "fiatAmount": "10",
-            "transactionType": -1,
-            "transactionChannel": "SWIFTPAY_PESONET",
-            "transactionSubject": "gcash",
-            "transactionSubjectType": "e-wallet",
-            "transactionChannelName": "swiftpay_pesonet",
-            "transactionSubjectName": "GCash",
-            "feeCurrency": "PHP",
-            "channelFee": "0",
-            "platformFee": "5",
-            "status": "SUCCEEDED",
-            "errorCode": "",
-            "errorMessage": "",
-            "completedTime": "2023-03-24T07:35:28.000+00:00",
-            "source": "WEB",
-            "createdAt": "2023-03-24T07:34:26.000+00:00",
-            "orderExtendedMap": {
-      "externalCustomerName": "XUAN  CHEN6",
-              "amount": "5",
-              "externalCustomerAddress": "N/A",
-              "channelName": "SWIFTPAY_PESONET",
-              "currency": "PHP",
-              "source": "WEB",
-              "externalAccountNumber": "1234",
-              "channelSubject": "gcash",
-              "userId": 1326887193348759809,
-              "orgId": 9001,
-              "remarks": "N/A"
-    },
-    "dealCancel": false
-  }
-}
-
-
-
-
-
-15:59
-这是pesonet的
-
-
-shadow
-16:02
-1
-
-
-shadow
-15:16
-sandy 你有空的时候把几个open api接口的Response都发我下
-15:16
-不急，你先好好休息
-
-
-sandy
-        :face_with_head_bandage:  15:23
-行，我待会回家发哈，我今天去医院看病去了
-        :white_tick:
-        1
-
-
-
-sandy
-        :face_with_head_bandage:  12:04
-获取渠道配置详情
-
-{
-  "status"
-:
-  0,
-          "error"
-:
-  "OK",
-          "data"
-:
-  [
+  "status":0,
+  "error":"OK",
+  "data":
+   [
     {
       "id": 782,
       "transactionChannel": "SWIFTPAY_PESONET",
@@ -2738,7 +2660,6 @@ Name            | Type   | Mandatory | Description
 | internalOrderId | STRING | Yes | your order id
 | currency        | STRING | Yes | eg: PHP  (only support PHP currently)
 | amount          | STRING | Yes | amount of currency
-| amount          | STRING | Yes | amount of currency
 | channelName     | STRING | Yes | channel name
 | channelSubject  | STRING | Yes | channel subject
 
@@ -2857,7 +2778,6 @@ Name            | Type   | Mandatory | Description
 -----------------|--------| ------------ | ------------
 | internalOrderId | STRING | Yes | your order id
 | currency        | STRING | Yes | eg: PHP  (only support PHP currently)
-| amount          | STRING | Yes | amount of currency
 | amount          | STRING | Yes | amount of currency
 | channelName     | STRING | Yes | channel name
 | channelSubject  | STRING | Yes | channel subject
