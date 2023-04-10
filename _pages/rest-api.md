@@ -52,6 +52,7 @@ author_profile: true
       - [withdraw order history (withdrawal order which withdraw from exchange to coins_ph) (USER_DATA)](#withdraw-order-history-withdrawal-order-which-withdraw-from-exchange-to-coins_ph-user_data)
       - [deposit order history(deposit order which deposit from coins_ph to exchange) (USER_DATA)](#deposit-order-historydeposit-order-which-deposit-from-coins_ph-to-exchange-user_data)
       - [Trade Fee (USER_DATA)](#trade-fee-user_data)
+      - [query balance (USER_DATA)](#query-balance-user_data)
       - [query transfers (USER_DATA)](#transfers-query-user_data)
       - [transfers (USER_DATA)](#transfers-user_data)
     - [User data stream endpoints](#user-data-stream-endpoints)
@@ -1967,6 +1968,41 @@ timestamp          | LONG   | YES        |
 ```
 
 
+
+#### query balance (USER_DATA)
+
+```shell
+GET /openapi/account/v3/crypto-accounts
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+currency            | STRING | NO        | currency
+recvWindow | LONG   | YES       | The value cannot be greater than `60000`
+timestamp          | LONG   | YES       |
+
+**Response:**
+
+```javascript
+  {
+    "crypto-accounts": [
+       {
+            "id": "2309rjw0amf0sq9me0gmadsmfoa",
+            "name": "name",
+            "currency": "PBTC",
+            "balance": "100",
+            "pending_balance": "200"
+        }
+    ]
+}
+```
+
+
+
 #### query transfers (USER_DATA)
 
 ```shell
@@ -1982,8 +2018,8 @@ This endpoint retrieves an existing transfer record if an id is provided. Otherw
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id            | STRING | NO        | ID of the transfer record
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
+recvWindow | LONG   | YES         | The value cannot be greater than `60000`
+timestamp          | LONG   | YES       |
 
 **Response:**
 
@@ -2027,7 +2063,7 @@ Transfer funds between two accounts
 
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-account            | STRING | YES        | Account ID of the user making the transfer
+account            | STRING | YES        | Balance ID of the user making the transfer
 target_address     | STRING | YES        | The recipient account address
 amount            | BigDecimal | YES        | The amount being transferred
 recvWindow | LONG   | NO        | The value cannot be greater than `60000`
