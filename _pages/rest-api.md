@@ -2778,7 +2778,7 @@ This endpoint retrieves information about a specific fiat currency order. The re
 
 Name            | Type   | Mandatory | Description
 -----------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
+| internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
 
 **Response:**
 
