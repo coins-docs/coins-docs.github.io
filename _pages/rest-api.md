@@ -53,7 +53,7 @@ author_profile: true
       - [deposit order history(deposit order which deposit from coins_ph to exchange) (USER_DATA)](#deposit-order-historydeposit-order-which-deposit-from-coins_ph-to-exchange-user_data)
       - [Trade Fee (USER_DATA)](#trade-fee-user_data)
       - [query balance (USER_DATA)](#query-balance-user_data)
-      - [query transfers (USER_DATA)](#transfers-query-user_data)
+      - [query transfers (USER_DATA)](#query-transfers-user_data)
       - [transfers (USER_DATA)](#transfers-user_data)
     - [User data stream endpoints](#user-data-stream-endpoints)
       - [Start user data stream (USER_STREAM)](#start-user-data-stream-user_stream)
