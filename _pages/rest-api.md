@@ -2415,8 +2415,9 @@ This continuously updated endpoint returns a list of all available fiat channels
 
  Name            | Type   | Mandatory | Description
 -----------------|--------| ------------ | ------------
-| transactionType | STRING | Yes |-1 cash-out (only support cash-out currently)
-| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
+| transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
+| currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+
 
 **Response:**
 
@@ -2618,18 +2619,20 @@ This continuously updated endpoint returns a list of all available fiat channels
 GET openapi/fiat/v1/cash-out
 ```
 
-To cash out
+This endpoint allows users to withdraw funds from their fiat account.
+
 **Weight:** 1
 
 **Parameters:**
 
  Name            | Type   | Mandatory | Description
 -----------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | your order id
-| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
-| amount          | STRING | Yes | amount of currency
-| channelName     | STRING | Yes | channel name
-| channelSubject  | STRING | Yes | channel subject
+| internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
+| currency        | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+| amount          | STRING | Yes | The amount of currency to be withdrawn.
+| channelName     | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
+| channelSubject  | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
+
 
 **Response:**
 
@@ -2650,7 +2653,7 @@ To cash out
 POST openapi/fiat/v1/history
 ```
 
-To get your fiat trade history
+This endpoint fetches a comprehensive record of the user’s fiat trading activity. The response contains detailed information about the past trades, including the transaction date, transaction amount, and any associated fees.
 **Weight:** 1
 
 **Parameters:**
@@ -2766,18 +2769,15 @@ Name            | Type   | Mandatory | Description
 GET openapi/fiat/v1/details
 ```
 
-To get your fiat order detail
+This endpoint retrieves information about a specific fiat currency order. The response provides detailed information about the respective trade, including the transaction date, transaction amount, and any associated fees.
+
 **Weight:** 1
 
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
 -----------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | your order id
-| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
-| amount          | STRING | Yes | amount of currency
-| channelName     | STRING | Yes | channel name
-| channelSubject  | STRING | Yes | channel subject
+| internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
 
 **Response:**
 
