@@ -2656,12 +2656,9 @@ To get your fiat trade history
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
------------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | your order id
-| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
-| amount          | STRING | Yes | amount of currency
-| channelName     | STRING | Yes | channel name
-| channelSubject  | STRING | Yes | channel subject
+-----------------|--------|-----------| ------------
+| startDate | Date   | No        | start date
+| endDate        | Date | No        | end date
 
 **Response:**
 
