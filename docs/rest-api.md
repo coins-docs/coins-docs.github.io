@@ -23,6 +23,8 @@ nav: sidebar/rest-api.html
 
 2022-08-12: change maxNumAlgoOrders to 5 in filter MAX_NUM_ALGO_ORDERS
 
+2023-04-10: add transfer interfaces
+
 <!--more-->
 
 # Public Rest API for Coins (2022-09-12)
@@ -2206,8 +2208,8 @@ Transfer funds between two accounts
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 account            | STRING | YES        | Account ID of the user making the transfer
-target_address     | STRING | YES        | Account ID of the user making the transfer
-amount            | BigDecimal | YES        | Account ID of the user making the transfer
+target_address     | STRING | YES        | The recipient account address
+amount            | BigDecimal | YES        | The amount being transferred
 recvWindow | LONG   | NO        | The value cannot be greater than `60000`
 timestamp          | LONG   | YES        |
 
