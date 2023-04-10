@@ -2168,7 +2168,7 @@ listenKey | STRING | YES |
 
 #### Get supported trading pairs
 ```shell
-POST /openapi/v1/convert/v1/get-supported-trading-pairs
+POST /openapi/v1/convert/get-supported-trading-pairs
 ```
 
 This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
@@ -2398,5 +2398,511 @@ size | int    | No |
     }
   ],
   "total": 23
+}
+```
+
+### Fiat endpoints
+
+#### Get supported fiat channels
+```shell
+GET openapi/fiat/v1/support-channel
+```
+
+This continuously updated endpoint returns a list of all available fiat channels. 
+**Weight:** 1
+
+**Parameters:**
+
+ Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| transactionType | STRING | Yes |-1 cash-out (only support cash-out currently)
+| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+          "error": "OK",
+          "data": {
+    "id": "1380692028693995387",
+            "orderId": "1383342376659250483",
+            "paymentOrderId": "2023083000000238",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "10",
+            "transactionType": -1,
+            "transactionChannel": "SWIFTPAY_PESONET",
+            "transactionSubject": "gcash",
+            "transactionSubjectType": "e-wallet",
+            "transactionChannelName": "swiftpay_pesonet",
+            "transactionSubjectName": "GCash",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "5",
+            "status": "SUCCEEDED",
+            "errorCode": "",
+            "errorMessage": "",
+            "completedTime": "2023-03-24T07:35:28.000+00:00",
+            "source": "WEB",
+            "createdAt": "2023-03-24T07:34:26.000+00:00",
+            "orderExtendedMap": {
+      "externalCustomerName": "XUAN  CHEN6",
+              "amount": "5",
+              "externalCustomerAddress": "N/A",
+              "channelName": "SWIFTPAY_PESONET",
+              "currency": "PHP",
+              "source": "WEB",
+              "externalAccountNumber": "1234",
+              "channelSubject": "gcash",
+              "userId": 1326887193348759809,
+              "orgId": 9001,
+              "remarks": "N/A"
+    },
+    "dealCancel": false
+  }
+}
+
+
+
+
+
+15:59
+这是pesonet的
+
+
+shadow
+16:02
+1
+
+
+shadow
+15:16
+sandy 你有空的时候把几个open api接口的Response都发我下
+15:16
+不急，你先好好休息
+
+
+sandy
+        :face_with_head_bandage:  15:23
+行，我待会回家发哈，我今天去医院看病去了
+        :white_tick:
+        1
+
+
+
+sandy
+        :face_with_head_bandage:  12:04
+获取渠道配置详情
+
+{
+  "status"
+:
+  0,
+          "error"
+:
+  "OK",
+          "data"
+:
+  [
+    {
+      "id": 782,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "alamanah",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Al-Amanah Islamic Invest. Bank",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Al-Amanah+Islamic+Bank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 622,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 783,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "0",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 785,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "anz",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "ANZ Banking Group Ltd",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Australia+&+New+Zealand+Bank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 647,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 837,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 623,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "aub",
+      "transactionSubjectType": "e-wallet",
+      "transactionSubjectTypeLabel": "E-wallets",
+      "transactionSubjectName": "Asia United Bank",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AUB.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    }
+  ]
+}
+```
+
+
+#### Cash out
+```shell
+GET openapi/fiat/v1/cash-out
+```
+
+To cash out
+**Weight:** 1
+
+**Parameters:**
+
+ Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| internalOrderId | STRING | Yes | your order id
+| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
+| amount          | STRING | Yes | amount of currency
+| amount          | STRING | Yes | amount of currency
+| channelName     | STRING | Yes | channel name
+| channelSubject  | STRING | Yes | channel subject
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK", 
+  "data": {
+         "externalOrderId": "1380692028693995623",
+         "internalOrderId": "1388420429697583896",
+          },
+  "params": null
+}
+```
+
+#### Fiat trade history
+```shell
+POST openapi/fiat/v1/history
+```
+
+To get your fiat trade history
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| internalOrderId | STRING | Yes | your order id
+| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
+| amount          | STRING | Yes | amount of currency
+| amount          | STRING | Yes | amount of currency
+| channelName     | STRING | Yes | channel name
+| channelSubject  | STRING | Yes | channel subject
+
+**Response:**
+
+```javascript
+{
+  "status":0,
+  "error":"OK",
+  "data":[
+    {
+      "externalOrderId":"1380692028693995750",
+      "internalOrderId":"1392039268679225857",
+      "paymentOrderId":"502864",
+      "fiatCurrency":"PHP",
+      "fiatAmount":"13",
+      "transactionType":-1,
+      "transactionChannel":"INSTAPAY_QR",
+      "transactionSubject":"pnb",
+      "transactionChannelName":"instapay_qr",
+      "transactionSubjectName":"PNB",
+      "transactionSubjectType":"bank",
+      "feeCurrency":"PHP",
+      "channelFee":"0",
+      "platformFee":"0",
+      "status":"PENDING",
+      "errorCode":"",
+      "errorMessage":"",
+      "completedTime":"2023-04-05T07:33:35.000+00:00",
+      "source":"WEB",
+      "createdAt":"2023-04-05T07:33:35.000+00:00",
+      "orderExtendedMap":{
+        "amount":"13",
+        "tfrName":"est registration",
+        "tfrAcctNo":"111111111222111",
+        "channelName":"INSTAPAY_QR",
+        "currency":"PHP",
+        "source":"WEB",
+        "channelSubject":"pnb",
+        "userId":1198653352181844736,
+        "orgId":9001
+      },
+      "dealCancel":false
+    },
+    {
+      "externalOrderId":"1380692028693995749",
+      "internalOrderId":"1392011368101908738",
+      "paymentOrderId":"356142",
+      "fiatCurrency":"PHP",
+      "fiatAmount":"13",
+      "transactionType":-1,
+      "transactionChannel":"INSTAPAY_QR",
+      "transactionSubject":"pnb",
+      "transactionChannelName":"instapay_qr",
+      "transactionSubjectName":"PNB",
+      "transactionSubjectType":"bank",
+      "feeCurrency":"PHP",
+      "channelFee":"0",
+      "platformFee":"0",
+      "status":"PENDING",
+      "errorCode":"",
+      "errorMessage":"JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.",
+      "completedTime":"2023-04-05T06:38:09.000+00:00",
+      "source":"WEB",
+      "createdAt":"2023-04-05T06:38:09.000+00:00",
+      "channelSubject":"pnb",
+      "userId":1198653352181844736,
+      "orgId":9001
+        },
+      "dealCancel":false
+     },
+     {
+        "externalOrderId":"1380596328526306871",
+        "internalOrderId":"1380596591861487948",
+        "paymentOrderId":"687428",
+        "fiatCurrency":"PHP",
+        "fiatAmount":"45",
+        "transactionType":-1,
+        "transactionChannel":"INSTAPAY",
+        "transactionSubject":"coins.ph",
+        "transactionChannelName":"instapay",
+        "transactionSubjectName":"DCPAY PHILIPPINES, INC.",
+        "transactionSubjectType":"bank",
+        "feeCurrency":"PHP",
+        "channelFee":"0",
+        "platformFee":"10",
+        "status":"SUCCEEDED",
+        "errorCode":"",
+        "errorMessage":"",
+        "completedTime":"2023-03-20T12:39:03.000+00:00",
+        "source":"WEB",
+        "createdAt":"2023-03-20T12:39:00.000+00:00",
+        "channelSubject":"coins.ph",
+        "userId":1198653352181844736,
+        "orgId":9001
+     },
+  "dealCancel":false
+ }
+],
+"total":3
+} 
+```
+
+
+#### Fiat order detail
+```shell
+GET openapi/fiat/v1/detail
+```
+
+To get your fiat order detail
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| internalOrderId | STRING | Yes | your order id
+| currency        | STRING | Yes | eg: PHP  (only support PHP currently)
+| amount          | STRING | Yes | amount of currency
+| amount          | STRING | Yes | amount of currency
+| channelName     | STRING | Yes | channel name
+| channelSubject  | STRING | Yes | channel subject
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK",
+  "data": {
+            "id": "1380692028693995623",
+            "orderId": "1388420429697583896",
+            "paymentOrderId": "455628",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "60",
+            "transactionType": -1,
+            "transactionChannel": "INSTAPAY",
+            "transactionSubject": "coins.ph",
+            "transactionSubjectType": "bank",
+            "transactionChannelName": "instapay",
+            "transactionSubjectName": "DCPAY PHILIPPINES, INC.",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "10",
+            "status": "SUCCEEDED",
+            "errorCode": "",
+            "errorMessage": "",
+            "completedTime": "2023-03-31T07:44:42.000+00:00",
+            "source": "WEB",
+            "createdAt": "2023-03-31T07:43:37.000+00:00",
+            "orderExtendedMap": {
+      "amount": "50",
+              "sendAcctNo": "1326887193441018369",
+              "tfrName": "XUAN sissisissi sissi CHEN6",
+              "tfrAcctNo": "447415103851",
+              "channelName": "INSTAPAY",
+              "currency": "PHP",
+              "source": "WEB",
+              "channelSubject": "coins.ph",
+              "userId": 1326887193348759809,
+              "orgId": 9001
+    },
+    "dealCancel": false
+  }
 }
 ```
