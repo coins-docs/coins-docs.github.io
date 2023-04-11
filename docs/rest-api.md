@@ -2243,7 +2243,7 @@ Transfer funds between two accounts
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 account            | STRING | YES        | Balance ID of the user making the transfer
-target_address     | STRING | YES        | The recipient account address
+target_address     | STRING | YES        | The email or phone number for recipient account
 amount            | BigDecimal | YES        | The amount being transferred
 recvWindow | LONG   | NO        | The value cannot be greater than `60000`
 timestamp          | LONG   | YES        |
