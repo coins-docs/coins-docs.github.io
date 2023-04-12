@@ -2316,9 +2316,7 @@ size | int    | No |
    "error": "OK",
    "data": [
     {
-      "id": 1048,
       "orderId": "49d10b74c60a475298c6bbed08dd58fa",
-      "userId": "1304304339091773722",
       "quoteId": "cfbe49acf56b43a698d99ca470658a5c",
       "sourceCurrency": "BTC",
       "targetCurrency": "PHP",
@@ -2332,9 +2330,7 @@ size | int    | No |
       "errorMessage": ""
     },
     {
-      "id": 1032,
       "orderId": "ad3bb743e60747a8a57c2d33317c3149",
-      "userId": "1304304339091773722",
       "quoteId": "5217a22fdbf044ecaf147fb99bc00be6",
       "sourceCurrency": "ETH",
       "targetCurrency": "BTC",
@@ -2348,9 +2344,7 @@ size | int    | No |
       "errorMessage": ""
     },
     {
-      "id": 1031,
       "orderId": "49678eef7b3b4003ab3552141bb2d2dd",
-      "userId": "1304304339091773722",
       "quoteId": "ac04e42b37fd439cb06fb2d8b5b21559",
       "sourceCurrency": "ETH",
       "targetCurrency": "BTC",
@@ -2365,9 +2359,7 @@ size | int    | No |
       "errorMessage": ""
     },
     {
-      "id": 1024,
       "orderId": "69e4b2d166f24155b9f2221999a5271c",
-      "userId": "1304304339091773722",
       "quoteId": "671f88b5330043949f6dfda222bcd5f5",
       "sourceCurrency": "PHP",
       "targetCurrency": "XRP",
@@ -2381,9 +2373,7 @@ size | int    | No |
       "errorMessage": ""
     },
     {
-      "id": 1023,
       "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
-      "userId": "1304304339091773722",
       "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
       "sourceCurrency": "BTC",
       "targetCurrency": "PHP",
