@@ -2247,12 +2247,14 @@ To craft an X-Merchant-Sign:
 
 ### Invoicing
 
-An invoice is a statement of what a user will need to pay to another user. Reason behind the transaction can range from providing services, selling an item or simply sending money to another user.
+An invoice is a document that outlines the details of a transaction between two parties, typically a seller and a buyer. The transaction could be for goods or services rendered, or it could be a transfer of funds from one user to another.
 
-In an invoice there will always be two entities involved:
+In an invoice, there are two main entities involved:
 
-The receiver who will receive the payment (the merchant).
-The sender who will send the payment to fulfill the invoice (the customer).
+1) The payee, who is the recipient of the payment for the goods or services provided (the merchant).
+2) The payer, who is the individual or organization making the payment to fulfill the invoice (the customer).
+
+The API endpoints described in this section allow you to integrate invoicing functionality into your application. Creating, sending, and managing invoices directly from the application simplifies the invoicing process and improves the user experience.
 
 #### Creating Invoices
 
@@ -2261,7 +2263,7 @@ The sender who will send the payment to fulfill the invoice (the customer).
 POST /merchant-api/v1/invoices (HMAC SHA256)
 ```
 
-Create an invoice
+This endpoint generates an invoice based on the provided parameters and returns a response with details of the created invoice.
 
 **Weight:** 1
 
@@ -2271,9 +2273,9 @@ Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
 amount            | DECIMAL | YES       |The amount expected from the customer.
 currency | STRING      | YES       | Currency of transaction.
-supported_payment_collectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet"]
-external_transaction_id          | STRING  | YES       | Must be unique in maintaining
-expires_at          | STRING  | NO        |The expiration of the invoice. Expects date time format ISO 8601 (UTC time zone)(e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s)
+supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, e.g., ["coins_peso_wallet"]
+external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
+expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 
 **Payment Options**
 
@@ -2322,7 +2324,7 @@ coins_peso_wallet|Pay with the user's Peso Coins wallet.
 GET /merchant-api/v1/get-invoices (HMAC SHA256)
 ```
 
-Retrieving an invoice
+This endpoint retrieves information about a specific invoice.
 
 **Weight:** 1
 
@@ -2330,13 +2332,13 @@ Retrieving an invoice
 
 Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | NO        |
-start_time            | LONG  | NO        |
-end_time            | LONG  | NO        |
-limit            | INT   | NO        | Returns the number of records, default 500, maximum 1000
+invoice_id            | STRING | NO        | The ID of a specific invoice to retrieve.
+start_time            | LONG  | NO        | The start time of a time range within which to search for invoices.
+end_time            | LONG  | NO        | The end time of a time range within which to search for invoices.
+limit            | INT   | NO        | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
 
-If invoiceId is filled out, only the data for that invoice will be returned.
-If the time parameter is not passed default search for records within the last 90 days.
+If the invoice_id parameter is provided, only the data for the specified invoice will be returned.
+If the start_time and end_time parameters are not provided, the response will include the records within the last 90 days by default. Developers can provide a specific time range by setting the time parameter to a value that specifies the start and end times of the desired range.
 
 **Response:**
 
@@ -2361,14 +2363,14 @@ If the time parameter is not passed default search for records within the last 9
 ```
 
 
-#### Cancel Invoices
+#### Canceling Invoices
 
 
 ```shell
 POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
 ```
 
-Cancel an invoice
+This endpoint cancels an existing invoice.
 
 **Weight:** 1
 
@@ -2376,7 +2378,7 @@ Cancel an invoice
 
 Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | YES       |
+invoice_id            | STRING | YES       | The ID of a specific invoice to cancel.
 
 **Response:**
 
@@ -2402,9 +2404,11 @@ invoice_id            | STRING | YES       |
 
 ### Invoice Callbacks
 
-Certain events may happen during a lifespan of an invoice. For example, when an invoice gets fully paid, an event invoice.fully_paid is triggered. Merchants may choose to consume these events by providing a callback_url, so that they can act on the events if needed.
+During the lifecycle of an invoice, various events may occur. For example, when an invoice is fully paid, the invoice.fully_paid event is triggered. These events can be tracked and acted upon using the Coins API's event system.
 
-Events are delivered to callbacks via a POST request, with the authorization header of Authorization: Token MERCHANT_APIKEY
+Merchants can specify a callback URL when creating or updating an invoice, which is a web address that the API will send event data to. When an event occurs, the API will send a POST request to the specified callback_URL, containing data about the event. The merchant can then process this data as needed, such as by updating their internal systems or notifying the customer.
+
+To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
 
 Event payloads follow this convention:
 ```javascript
@@ -2422,13 +2426,13 @@ Event payloads follow this convention:
 }
 ```
 
-Events which may be consumed by callbacks are described at the following table:
+Events which may be consumed by callbacks are described in the table below:
 
 Event Name	| Description
 ----|---
-invoice.created	|The invoice has been created.
-invoice.updated	|The invoice has been updated. This may be due to the payment received for the invoice.
-invoice.fully_paid	| The invoice is has been complete.
-invoice.payment_reference_number_generated|When generating the invoice payment reference number.
+invoice.created	| The invoice has been created.
+invoice.updated	| The invoice has been updated. This may be due to the payment received for the invoice.
+invoice.fully_paid	| The invoice payment has been completed.
+invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
 
 
