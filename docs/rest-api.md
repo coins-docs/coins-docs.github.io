@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-04-13: add invoice interface.
+
 2022-09-12: change 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
 2022-09-09: update orderId/transactTime/time/updateTime returning number instead of string in order related interfaces.
