@@ -2234,13 +2234,13 @@ The table below shows all of the common API Headers you will encounter in the Co
 
 Header Name | Required | Type | Example | Description
 ------------ |----------|--| ------------|--
-X-Merchant-Key | yes   | string |     | The authorized merchant key
-X-Merchant-Sign | yes | string |   | The authorized merchant request sign
-X-Timestamp | yes | long  | 1671158910| Request initiation time
-X-Trace-Id | no | string |    |  Request log trace ID
+X-Merchant-Key | YES   | STRING |     | The authorized merchant key
+X-Merchant-Sign | YES | STRING |   | The authorized merchant request sign
+X-Timestamp | YES | LONG  | 1671158910| Request initiation time
+X-Trace-Id | NO | STRING |    |  Request log trace ID
 
 To craft an X-Merchant-Sign:
-1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://192.168.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
+1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://127.0.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
 2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
 
 ### Invoicing
@@ -2269,8 +2269,8 @@ Name              | Type  | Mandatory | Description
 -----------------|-------|-----------|--------------------------------------------------------------------------------------
 amount            | DECIMAL | YES       |The amount expected from the customer.
 currency | STRING      | YES       | Currency of transaction.
-supported_payment_collectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet", "seven_connect","mlhuillier","cebuana_lhuillier"]
-external_transaction_id          | STRING  | NO        |
+supported_payment_collectors          | STRING  | YES       |Payment options available to the user when viewing the payment request ie ["coins_peso_wallet"]
+external_transaction_id          | STRING  | YES       | Must be unique in maintaining
 expires_at          | STRING  | NO        |The expiration of the invoice. Expects date time format ISO 8601 (UTC time zone)(e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s)
 
 **Payment Options**
@@ -2278,9 +2278,6 @@ expires_at          | STRING  | NO        |The expiration of the invoice. Expect
 Code |Description
 ----|----
 coins_peso_wallet|Pay with the user's Peso Coins wallet.
-seven_connect|Pay over the counter at any 7-eleven convenience store.
-mlhuillier|Pay over the counter at any Mlhuillier branch.
-cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 
 
 **Request:**
@@ -2289,7 +2286,7 @@ cebuana_lhuillier|Pay over the counter at any Cebuana Lhuillier branch.
 {
     "amount": 100,
     "currency": "PHP",
-    "supported_payment_collectors": "["coins_peso_wallet","seven_connect"]",
+    "supported_payment_collectors": "["coins_peso_wallet"]",
     "external_transaction_id": "1",
     "expires_at": "1w"
 }
