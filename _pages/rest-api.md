@@ -2813,3 +2813,83 @@ Name            | Type   | Mandatory | Description
   }
 }
 ```
+------
+### Old endpoints from coins.ph
+
+#### Create a new sellorder
+```shell
+POST openapi/migration/v4/sellorder
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+ reference: https://docs.coins.asia/reference/sellorder-create
+
+------
+
+#### Retrieve an existing sellorder
+```shell
+GET openapi/migration/v4/sellorder/{sell_order_id}
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/sellorder-retrieve
+
+------
+
+#### Validate field values
+```shell
+GET openapi/migration/v4/validate-field
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/validate-field
+
+------
+
+#### Retrieve supported payout-outlets
+```shell
+GET openapi/migration/v4/payout-outlets/{id}
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlets
+
+------
+
+#### Retrieve supported payout-outlet-categories
+```shell
+GET openapi/migration/v4/payout-outlet-categories/{id}
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-categories
+
+
+------
+
+#### Retrieve current payout-outlet-fees
+```shell
+GET openapi/migration/v4/payout-outlet-fees
+```
+
+(only support fiat)
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-fees
+
