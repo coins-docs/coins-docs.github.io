@@ -9,23 +9,23 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-04-13: add invoice interface.
+2023-04-10: Added transfer interfaces
 
-2022-09-12: change 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
+2023-04-13: Added the invoice interface.
 
-2022-09-09: update orderId/transactTime/time/updateTime returning number instead of string in order related interfaces.
+2022-09-12: Modified the 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
-2022-08-24: update STOP_LOSS/TAKE_PROFIT description in 'New order  (TRADE)' API.
+2022-09-09: Changed the orderId/transactTime/time/updateTime response from string to number in order related interfaces.
 
-2022-08-23: fix incorrect depth infomation
+2022-08-24: Updated the STOP_LOSS/TAKE_PROFIT description in 'New order  (TRADE)' API.
 
-2022-08-19: add weight infomation for all interfaces
+2022-08-23: Fixed incorrect depth infomation.
 
-2022-08-12: change maxNumOrders to 200 in filter MAX_NUM_ORDERS
+2022-08-19: Added weight information for all interfaces.
 
-2022-08-12: change maxNumAlgoOrders to 5 in filter MAX_NUM_ALGO_ORDERS
+2022-08-12: Changed maxNumOrders to 200 in filter MAX_NUM_ORDERS.
 
-2023-04-10: add transfer interfaces
+2022-08-12: Changed maxNumAlgoOrders to 5 in filter MAX_NUM_ALGO_ORDERS.
 
 <!--more-->
 
