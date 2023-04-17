@@ -2814,14 +2814,14 @@ Name            | Type   | Mandatory | Description
 }
 ```
 ------
-### Old endpoints from coins.ph
+### Old endpoints from coins.ph (Legacy)
 
 #### Create a new sellorder
 ```shell
 POST openapi/migration/v4/sellorder
 ```
 
-(only support fiat)
+This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
 
 **Weight:** 1
 
@@ -2834,7 +2834,12 @@ POST openapi/migration/v4/sellorder
 GET openapi/migration/v4/sellorder/{sell_order_id}
 ```
 
-(only support fiat)
+This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
+
+**Parameters:**
+
+sell_order_id - A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
+
 
 **Weight:** 1
 
@@ -2847,7 +2852,17 @@ reference: https://docs.coins.asia/reference/sellorder-retrieve
 GET openapi/migration/v4/validate-field
 ```
 
-(only support fiat)
+This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
+
+**Parameters:**
+
+field_type - The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
+account_number - When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
+account_type - When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
+mobile_number - When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
+region - When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
+
+
 
 **Weight:** 1
 
@@ -2860,7 +2875,17 @@ reference: https://docs.coins.asia/reference/validate-field
 GET openapi/migration/v4/payout-outlets/{id}
 ```
 
-(only support fiat)
+This endpoint retrieves a list of supported payout outlets for sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
+
+**Parameters:**
+
+outlet_category - A payment outlet category ID that is used to filter the list of supported payout outlets.
+name - A payment outlet name that is used to filter the list of supported payout outlets.
+region - The name of a region that is used to filter the list of supported payout outlets.
+is_enabled - A boolean value that determines whether or not to include disabled payout outlets in the results.
+ui_view - Filter the results based on the view in which the payout outlet usually appears.
+denominations - An array of denominations which describe the outlet's supported currencies and amounts. An empty array means the outlet supports any amount.
+
 
 **Weight:** 1
 
@@ -2873,8 +2898,7 @@ reference: https://docs.coins.asia/reference/payout-outlets
 GET openapi/migration/v4/payout-outlet-categories/{id}
 ```
 
-(only support fiat)
-
+This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
 **Weight:** 1
 
 reference: https://docs.coins.asia/reference/payout-outlet-categories
@@ -2887,7 +2911,8 @@ reference: https://docs.coins.asia/reference/payout-outlet-categories
 GET openapi/migration/v4/payout-outlet-fees
 ```
 
-(only support fiat)
+This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
+
 
 **Weight:** 1
 
