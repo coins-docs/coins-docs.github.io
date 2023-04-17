@@ -2823,6 +2823,19 @@ POST openapi/migration/v4/sellorder
 
 This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
 
+ Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+| payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
+| currency       | STRING | Yes       |  The currency symbol of the sell order.
+| amount         | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
+| id             | STRING | No        |  A unique identifier for the sell order
+| pay_with_wallet             | STRING | Yes       | The wallet code from which the user wishes to initiate the sell order.
+| bank_account_number             | STRING | Yes       | Cash out bank account number
+| bank_account_name             | STRING | Yes       | Cash out bank account bane
+| recipient_phone_number             | STRING | Yes       | Recipient phone number
+| recipient_bank_code             | STRING | Yes       | Recipient bank code
+
+
 **Weight:** 1
 
  reference: https://docs.coins.asia/reference/sellorder-create
@@ -2838,7 +2851,9 @@ This endpoint retrieves information about a previously executed sell order that 
 
 **Parameters:**
 
-sell_order_id - A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+| sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
 
 
 **Weight:** 1
@@ -2856,12 +2871,13 @@ This endpoint validates field values for fiat sell order to ensure that the valu
 
 **Parameters:**
 
-field_type - The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
-account_number - When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
-account_type - When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
-mobile_number - When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
-region - When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
-
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+| field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
+| account_number       | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
+| account_type       | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
+| mobile_number       | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
+| region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
 
 
 **Weight:** 1
@@ -2879,12 +2895,12 @@ This endpoint retrieves a list of supported payout outlets for sell orders. It i
 
 **Parameters:**
 
-outlet_category - A payment outlet category ID that is used to filter the list of supported payout outlets.
-name - A payment outlet name that is used to filter the list of supported payout outlets.
-region - The name of a region that is used to filter the list of supported payout outlets.
-is_enabled - A boolean value that determines whether or not to include disabled payout outlets in the results.
-ui_view - Filter the results based on the view in which the payout outlet usually appears.
-denominations - An array of denominations which describe the outlet's supported currencies and amounts. An empty array means the outlet supports any amount.
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+| outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
+| name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
+| region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
+| is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
 
 
 **Weight:** 1
