@@ -2797,9 +2797,9 @@ This continuously updated endpoint returns a list of all available fiat channels
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
------------------|--------| ------------ | ------------
-| transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
-| currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+----------------|--------| ------------ | ------------
+transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
+currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 
 
 **Response:**
@@ -3008,13 +3008,13 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 **Parameters:**
 
-Name            | Type   | Mandatory | Description
------------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
-| currency        | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-| amount          | STRING | Yes | The amount of currency to be withdrawn.
-| channelName     | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
-| channelSubject  | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
+Name         | Type   | Mandatory | Description
+-------------|--------| ------------ | ------------
+internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
+currency     | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+amount       | STRING | Yes | The amount of currency to be withdrawn.
+channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
+channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
 
 
 **Response:**
@@ -3041,10 +3041,10 @@ This endpoint fetches a comprehensive record of the user’s fiat trading activi
 
 **Parameters:**
 
-Name            | Type    | Mandatory | Description
------------------|---------|-----------| ------------
-| startDate | Date    | No        | Represents the start of the date range and specifies the earliest date for which transaction data should be retrieved. Transactions that occurred on or after the startDate will be included in the results.
-| endDate   | Date    | No        | Represents the end of the date range and specifies the latest date for which transaction data should be retrieved. Transactions that occurred before or on the endDate will be included in the results.
+Name          | Type    | Mandatory | Description
+---------------|---------|-----------| ------------
+startDate | Date    | No        | Represents the start of the date range and specifies the earliest date for which transaction data should be retrieved. Transactions that occurred on or after the startDate will be included in the results.
+endDate   | Date    | No        | Represents the end of the date range and specifies the latest date for which transaction data should be retrieved. Transactions that occurred before or on the endDate will be included in the results.
 
 
 **Response:**
@@ -3160,8 +3160,8 @@ This endpoint retrieves information about a specific fiat currency order. The re
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
------------------|--------| ------------ | ------------
-| internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
+----------------|--------| ------------ | ------------
+internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
 
 **Response:**
 
@@ -3216,17 +3216,17 @@ POST openapi/migration/v4/sellorder
 
 This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
 
-Name           | Type   | Mandatory | Description
-----------------|--------|-----------| ------------
-| payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
-| currency       | STRING | Yes       |  The currency symbol of the sell order.
-| amount         | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
-| id             | STRING | No        |  A unique identifier for the sell order
-| pay_with_wallet             | STRING | Yes       | The wallet code from which the user wishes to initiate the sell order.
-| bank_account_number             | STRING | Yes       | Cash out bank account number
-| bank_account_name             | STRING | Yes       | Cash out bank account bane
-| recipient_phone_number             | STRING | Yes       | Recipient phone number
-| recipient_bank_code             | STRING | Yes       | Recipient bank code
+Name        | Type   | Mandatory | Description
+------------|--------|-----------| ------------
+payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
+currency    | STRING | Yes       |  The currency symbol of the sell order.
+amount      | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
+id          | STRING | No        |  A unique identifier for the sell order
+pay_with_wallet         | STRING | Yes       | The wallet code from which the user wishes to initiate the sell order.
+bank_account_number       | STRING | Yes       | Cash out bank account number
+bank_account_name        | STRING | Yes       | Cash out bank account name
+recipient_phone_number      | STRING | Yes       | Recipient phone number
+recipient_bank_code       | STRING | Yes       | Recipient bank code
 
 
 **Weight:** 1
@@ -3246,7 +3246,7 @@ This endpoint retrieves information about a previously executed sell order that 
 
 Name           | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
-| sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
+sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
 
 
 **Weight:** 1
@@ -3266,11 +3266,11 @@ This endpoint validates field values for fiat sell order to ensure that the valu
 
 Name           | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
-| field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
-| account_number       | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
-| account_type       | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
-| mobile_number       | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
-| region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
+field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
+account_number    | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
+account_type      | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
+mobile_number     | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
+region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
 
 
 **Weight:** 1
@@ -3290,10 +3290,10 @@ This endpoint retrieves a list of supported payout outlets for sell orders. It i
 
 Name           | Type   | Mandatory | Description
 ----------------|--------|-----------| ------------
-| outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
-| name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
-| region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
-| is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
+outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
+name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
+region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
+is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
 
 
 **Weight:** 1
