@@ -9,9 +9,9 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-04-10: Added transfer interfaces
-
 2023-04-13: Added the invoice interface.
+
+2023-04-10: Added the transfer interfaces.
 
 2022-09-12: Modified the 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
@@ -19,7 +19,7 @@ nav: sidebar/rest-api.html
 
 2022-08-24: Updated the STOP_LOSS/TAKE_PROFIT description in 'New order  (TRADE)' API.
 
-2022-08-23: Fixed incorrect depth infomation.
+2022-08-23: Fixed incorrect depth information.
 
 2022-08-19: Added weight information for all interfaces.
 
