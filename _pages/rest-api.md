@@ -1604,14 +1604,14 @@ GET all orders of the account;  canceled, filled or rejected.
 **Parameters:**
 
 Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-symbol | String | NO |
-orderId | LONG | NO |
-startTime | LONG | NO |
-endTime | LONG | NO |
-limit | INT | NO | Default 500; max 1000.
-recvWindow | LONG | NO |The value cannot be greater than `60000`
-timestamp | LONG | YES |
+------------ | ------------ |-----------| ------------
+symbol | String | YES       |
+orderId | LONG | NO        |
+startTime | LONG | NO        |
+endTime | LONG | NO        |
+limit | INT | NO        | Default 500; max 1000.
+recvWindow | LONG | NO        |The value cannot be greater than `60000`
+timestamp | LONG | YES       |
 
 **Notes:**
 
