@@ -9,25 +9,25 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-05-04: Removed the endpoints '/openapi/convert/v1/query-order-history' and 'openapi/fiat/v1/history'; removed a personal detail from a code sample in '/openapi/fiat/v1/details'. 
+2023-05-04: Removed the endpoints `/openapi/convert/v1/query-order-history` and `openapi/fiat/v1/history`; removed a personal detail from a code sample in `/openapi/fiat/v1/details`. 
 
-2023-04-13: Added the invoice interface.
+2023-04-13: Added the `invoice` interface.
 
-2023-04-10: Added the transfer interfaces.
+2023-04-10: Added the `transfer` interfaces.
 
-2022-09-12: Modified the 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
+2022-09-12: Modified the `symbol` in the `Cancel All Open Orders on a Symbol` API request as required.
 
-2022-09-09: Changed the orderId/transactTime/time/updateTime response from string to number in order related interfaces.
+2022-09-09: Changed the `orderId/transactTime/time/updateTime` response from string to number in order related interfaces.
 
-2022-08-24: Updated the STOP_LOSS/TAKE_PROFIT description in 'New order  (TRADE)' API.
+2022-08-24: Updated the `STOP_LOSS/TAKE_PROFIT` description in the `New order (TRADE)` API.
 
 2022-08-23: Fixed incorrect depth information.
 
 2022-08-19: Added weight information for all interfaces.
 
-2022-08-12: Changed maxNumOrders to 200 in filter MAX_NUM_ORDERS.
+2022-08-12: Changed `maxNumOrders` to 200 in `filter MAX_NUM_ORDERS`.
 
-2022-08-12: Changed maxNumAlgoOrders to 5 in filter MAX_NUM_ALGO_ORDERS.
+2022-08-12: Changed `maxNumAlgoOrders` to 5 in `filter MAX_NUM_ALGO_ORDERS`.
 
 <!--more-->
 
