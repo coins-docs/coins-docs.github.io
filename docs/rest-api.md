@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-05-04: Removed the endpoints '/openapi/convert/v1/query-order-history' and 'openapi/fiat/v1/history'; removed a personal detail from a code sample in '/openapi/fiat/v1/details'. 
+
 2023-04-13: Added the invoice interface.
 
 2023-04-10: Added the transfer interfaces.
