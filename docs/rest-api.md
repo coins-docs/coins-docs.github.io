@@ -9,7 +9,7 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-05-08: Added the following endpoints: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers/{id}`, and `/openapi/transfer/v3/transfers/{id}`. The endpoints are still in QA and are appropriately marked as such.
+2023-05-08: Added the following endpoints: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`. The endpoints are still in QA and are appropriately marked as such.
 
 2023-05-04: Removed the endpoints `/openapi/convert/v1/query-order-history` and `openapi/fiat/v1/history`; removed a personal detail from a code sample in `/openapi/fiat/v1/details`. 
 
@@ -3004,11 +3004,13 @@ This endpoint allows users to retrieve their current account balance.
 
 **Weight:** 1
 **Parameters:**
+
 Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
+-----------------|--------|-----------|--------------------------------------------
 currency      | STRING | NO    | The currency for which the balance is being queried.
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which the balance is being queried.
+
 **Response:**
 ```javascript
  {
@@ -3033,12 +3035,15 @@ GET /openapi/transfer/v3/transfers/{id}
 If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
 
 **Weight:** 1
+
 **Parameters:**
+
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id      | STRING | NO    | ID of the transfer record
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
+
 **Response:**
 ```javascript
  {
@@ -3073,7 +3078,9 @@ POST /openapi/transfer/v3/transfers
 This endpoint is used to transfer funds between two accounts.
 
 **Weight:** 1
+
 **Parameters:**
+
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 account      | STRING | YES    | Balance ID of the user making the transfer
@@ -3081,6 +3088,7 @@ target_address   | STRING | YES    | The email or phone number for recipient acc
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed.
+
 **Response:**
 ```javascript
  {
