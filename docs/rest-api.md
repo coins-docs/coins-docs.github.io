@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-05-17: The disclaimer regarding the following endpoints being in the QA phase has been removed as the QA process has been successfully completed: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`.
+
 2023-05-08: Added the following endpoints: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`. The endpoints are still in QA and are appropriately marked as such.
 
 2023-05-04: Removed the endpoints `/openapi/convert/v1/query-order-history` and `openapi/fiat/v1/history`; removed a personal detail from a code sample in `/openapi/fiat/v1/details`. 
@@ -2994,8 +2996,6 @@ reference: https://docs.coins.asia/reference/payout-outlet-fees
 
 #### Query balance (USER_DATA)
 
-**IMPORTANT:** This endpoint is still in QA and may be subject to change. Use it with caution.
-
 ```shell
 GET /openapi/account/v3/crypto-accounts
 ```
@@ -3026,8 +3026,6 @@ timestamp     | LONG  | YES    | A point in time for which the balance is being 
 }
 ```
 #### Query transfers (USER_DATA)
-
-**IMPORTANT:** This endpoint is still in QA and may be subject to change. Use it with caution.
 
 ```shell
 GET /openapi/transfer/v3/transfers/{id}
@@ -3069,8 +3067,6 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
 }
 ```
 #### Transfers (USER_DATA)
-
-**IMPORTANT:** This endpoint is still in QA and may be subject to change. Use it with caution.
 
 ```shell
 POST /openapi/transfer/v3/transfers
