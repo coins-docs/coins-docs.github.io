@@ -40,16 +40,16 @@ nav: sidebar/rest-api.html
 ## General API Information
 
 * The base endpoint is: **https://api.pro.coins.ph**
-* All endpoints return either a JSON object or array.
-* Data is returned in **ascending** order. Oldest first, newest last.
-* All time and timestamp related fields are in milliseconds.
+* All endpoints return data in either a JSON object or array format.
+* Data is returned in **ascending** order, with the oldest records appearing first and the newest records appearing last.
+* All time and timestamp related fields are expressed in milliseconds.
 
 ## HTTP Return Codes
-* HTTP `4XX` return codes are used for for malformed requests;the issue is on the sender's side.
+* HTTP `4XX` return codes are used for malformed requests; the issue is on the sender's side.
 * HTTP `403` return code is used when the WAF Limit (Web Application Firewall) has been violated.
 * HTTP `429` return code is used when breaking a request rate limit.
 * HTTP `418` return code is used when an IP has been auto-banned for continuing to send requests after receiving `429` codes.
-* HTTP `5XX` return codes are used for internal errors; the issue is on exchange's side.It is important to **NOT** treat this as a failure operation; the execution status is UNKNOWN and could have been a success.
+* HTTP `5XX` return codes are used for internal errors; the issue is on exchange's side. It is important to **NOT** treat this as a failure operation; the execution status is UNKNOWN and could have been a success.
 
 ## Error Codes
 * Any endpoint can return an ERROR; the error payload is as follows:
@@ -61,20 +61,17 @@ nav: sidebar/rest-api.html
 }
 ```
 
-* Specific error codes and messages defined in another document.
+* Specific error codes and messages are defined in another document.
 
 
 
 ## General Information on Endpoints
 
 * For `GET` endpoints, parameters must be sent as a `query string`.
-* For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a
-  `query string` or in the `request body` with content type
-  `application/x-www-form-urlencoded`. You may mix parameters between both the
-  `query string` and `request body` if you wish to do so.
-* Parameters may be sent in any order.
-* If a parameter sent in both the `query string` and `request body`, the
-  `query string` parameter will be used.
+* For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a `query string` or in the `request body` with content type
+  `application/x-www-form-urlencoded`. It is also possible to use a combination of parameters in both the query string and the request body if desired.
+* Parameters can be sent in any order.
+* If a parameter is included in both the `query string` and the `request body`, the value of the parameter from the `query string` will take precedence and be used.
 
 
 
@@ -82,70 +79,69 @@ nav: sidebar/rest-api.html
 
 **General Info on Limits**
 
-* intervalNum describes the amount of the interval. For example, intervalNum 5 with intervalLetter M means "Every 5 minutes".
+* `intervalNum` describes the amount of the interval. For example, `intervalNum 5` with `intervalLetter M` means "Every 5 minutes".
 
-* A 429 will be returned when either rate limit is violated.
+* A HTTP status code 429 will be returned when the rate limit is violated.
 
 
 
 ### IP Limits
 
-* Each route has a `weight` which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier `weight`.
-* When a 429 is recieved, it's your obligation as an API to back off and not spam the API.
-* **Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (http status 418).**
-* IP bans are tracked and **scale in duration** for repeat offenders, **from 2 minutes to 3 days**.
-* A `Retry-After` header is sent with a 418 or 429 responses and will give the **number of seconds**required to wait, in the case of a 429, to prevent a ban, or, in the case of a 418, until the ban is over.
-* **The limits on the API are based on the IPs, not the API keys.**
+* Each route has a `weight` which determines the number of requests each endpoint counts for. Endpoints with heavier operations or those that involve multiple symbols will have a higher `weight`.
+* When a 429 response code is received, it is mandatory for the API user to back off and refrain from making further requests.
+* **Repeated failure to comply with rate limits and a disregard for backing off after receiving 429 responses can result in an automated IP ban. The HTTP status code 418 is used for IP bans.**
+* IP bans are tracked and their duration increases for repeat offenders, ranging **from 2 minutes to 3 days**.
+* A `Retry-After` header iis included in 418 or 429 responses, indicating the number of seconds that need to be waited in order to prevent a ban (for 429) or until the ban is lifted (for 418).
+* **The limits imposed by the API are based on IP addresses rather than API keys**
 
 
 
 ### Order Rate Limits
 
-- When the order count exceeds the limit, you will receive a 429 error without the `Retry-After` header.
+* When the order count exceeds the limit, you will receive a 429 error without the `Retry-After` header.
 
-- The order rate limit is counted against each IP and UID.
+* The order rate limit is counted against each IP and UID.
 
 
 
 ### Websocket Limits
 
-- A single connection can listen to a maximum of 1024 streams.
+* A single connection can listen to a maximum of 1024 streams.
 
 
 
 ### /api/ Limit Introduction
 
-- Endpoints related to `/api/*`:
+* For endpoints related to `/api/*`:
 
-  - According to the two modes of IP and UID limit, each are independent.
+  * There are two modes of limit enforcement: IP limit and UID limit. Each mode operates independently.
 
-  - Endpoints share the 1200 per minute limit based on IP.
+  * The IP limit allows a maximum of 1200 requests per minute across all endpoints within the `/api/*` namespace.
 
 
 
-### Endpoint security type
+### Endpoint Security Type
 
-* Each endpoint has a security type that determines the how you will interact with it.This is stated next to the NAME of the endpoint.
-  - If no security type is stated, assume the security type is NONE.
-* API-keys are passed into the Rest API via the `X-COINS-APIKEY`header.
-* API-keys and secret-keys **are case sensitive**.
-* API-keys can be configured to only access certain types of secure endpoints.
-  For example, one API-key could be used for TRADE only, while another API-key can access everything except for TRADE routes.
-* By default, API-keys can access all secure routes.
+* Each endpoint is associated with a security type, which indicates how you should interact with it. The security type is specified next to the name of the endpoint.
+  * If no security type is mentioned, assume that the security type is NONE.
+* API keys are passed to the Rest API via the `X-COINS-APIKEY`header.
+* Both API keys and secret keys **are case sensitive**.
+* API keys can be configured to have access only to specific types of secure endpoints. For example, one API key may be restricted to TRADE routes only, while another API key can have access to all routes except TRADE.
+* By default, API keys have access to all secure routes.
 
 Security Type | Description
 ------------ | ------------
 NONE | Endpoint can be accessed freely.
-TRADE | Endpoint requires sending a valid API-Key and signature.
-USER_DATA | Endpoint requires sending a valid API-Key and signature.
-USER_STREAM | Endpoint requires sending a valid API-Key.
-MARKET_DATA | Endpoint requires sending a valid API-Key.
+TRADE | Endpoint requires sending a valid API Key and signature.
+USER_DATA | Endpoint requires sending a valid API Key and signature.
+USER_STREAM | Endpoint requires sending a valid API Key.
+MARKET_DATA | Endpoint requires sending a valid API Key.
 
 * `TRADE` and `USER_DATA` endpoints are `SIGNED` endpoints.
 
 
 
-### SIGNED (TRADE and USER_DATA) Endpoint security
+### SIGNED (TRADE and USER_DATA) Endpoint Security
 
 * `SIGNED` endpoints require an additional parameter, `signature`, to be
   sent in the  `query string` or `request body`.
@@ -157,13 +153,10 @@ MARKET_DATA | Endpoint requires sending a valid API-Key.
 
 
 
-### Timing security
+### Timing Security
 
-* A `SIGNED` endpoint also requires a parameter, `timestamp`, to be sent which
-  should be the millisecond timestamp of when the request was created and sent.
-* An additional parameter, `recvWindow`, may be sent to specify the number of
-  milliseconds after `timestamp` the request is valid for. If `recvWindow`
-  is not sent, **it defaults to 5000**.
+* A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be included in the request. The `timestamp` should be the millisecond timestamp indicating when the request was created and sent.
+* An optional parameter, `recvWindow`, can be included to specify the validity duration of the request in milliseconds after the timestamp. If `recvWindow` is not provided, **it will default to 5000 milliseconds**.
 * The logic is as follows:
 
   ```javascript
@@ -180,14 +173,14 @@ servers. With `recvWindow`, you can specify that the request must be
 processed within a certain number of milliseconds or be rejected by the
 server.
 
-**It recommended to use a small recvWindow of 5000 or less!The max cannot go beyond 60,000!**
+**To ensure optimal performance, it is recommended to use a `recvWindow` value of 5000 milliseconds or less. The maximum value allowed for `recvWindow`is 60,000 milliseconds and should not exceed this limit.**
 
 
 
 ### SIGNED Endpoint Examples for POST /openapi/v1/order
 
 Here is a step-by-step example of how to send a valid signed payload from the
-Linux command line using `echo`, `openssl`, and `curl`.
+Linux command line using `echo`, `openssl`, and `curl`:
 
 Key | Value
 ------------ | ------------
@@ -263,8 +256,7 @@ timestamp | 1538323200000
 [linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=885c9e3dd89ccd13408b25e6d54c2330703759d7494bea6dd5a3d1fd16ba3afa'
 ```
 
-Note that the signature is different in example 3.
-There is no & between "GTC" and "quantity=1".
+Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
 
 
 
