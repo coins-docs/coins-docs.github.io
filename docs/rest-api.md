@@ -2154,7 +2154,7 @@ timestamp          | LONG   | YES        |
 #### Payment request (USER_DATA)
 
 ```shell
-POST /openapi/v3/payment-requests (HMAC SHA256)
+POST /openapi/payment-request/v3/payment-requests (HMAC SHA256)
 ```
 Create a new payment request
 
@@ -2196,7 +2196,7 @@ expires_at          | STRING | NO       | he expiration of the payment request. 
 #### Get Payment request
 
 ```shell
-GET /openapi/v3/get-payment-request (HMAC SHA256)
+GET /openapi/payment-request/v3/get-payment-request (HMAC SHA256)
 ```
 Retrieve an existing or a list of existing payment requests
 
@@ -2235,7 +2235,7 @@ limit          | INT    | NO       | The maximum number of records to return in 
 #### Cancel Payment request
 
 ```shell
-POST /openapi/v3/delete-payment-request (HMAC SHA256)
+POST /openapi/payment-request/v3/delete-payment-request (HMAC SHA256)
 ```
 Cancel an existing payment request
 
@@ -2271,7 +2271,7 @@ id            | STRING | YES       | The ID of a specific payment reqeust to ret
 #### Reminds Payment request
 
 ```shell
-POST /openapi/v3/payment-request-reminder (HMAC SHA256)
+POST /openapi/payment-request/v3/payment-request-reminder (HMAC SHA256)
 ```
 Reminds a payer to pay for a payment request
 
