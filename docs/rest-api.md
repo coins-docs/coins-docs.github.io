@@ -2166,7 +2166,7 @@ Name              | Type  | Mandatory | Description
 -----------------|-------|----------|--------------------------------------------------------------------------------------
 payer_contact_info            | STRING | YES      | The contact to send a payment request to. It can be a  email address.
 receiving_account | LONG  | YES      |  Balance ID of the user making the transfer
-amount          | LONG  | YES      |  The requested amount to be transferred to the requestor's receiving_account.
+amount          | DECIMAL  | YES      |  The requested amount to be transferred to the requestor's receiving_account.
 message          | LONG  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          |   STRING    | NO       | Methods of payment that are available to a user when they view a payment request, e.g., ["coins_peso_wallet"]
 expires_at          | STRING | NO       | he expiration of the payment request. Expects date time format ISO 8601 (e.g. 2016-10-20T13:00:00.000000Z) or time delta from current time (e.g. 1w 3d 2h 32m 5s), Default 7 days
