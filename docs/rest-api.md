@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-06-08: Added the `payment request` interface.
+
 2023-05-17: The disclaimer regarding the following endpoints being in the QA phase has been removed as the QA process has been successfully completed: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`.
 
 2023-05-08: Added the following endpoints: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`. The endpoints are still in QA and are appropriately marked as such.
@@ -2146,6 +2148,145 @@ timestamp          | LONG   | YES        |
   ]
 ```
 
+
+
+
+#### Payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
+```
+Initiate a new payment transaction by creating a payment request.
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|----------|--------------------------------------------------------------------------------------
+payer_contact_info            | STRING | YES      | The contact information, typically an email address, to which the payment request should be sent.
+receiving_account | LONG  | YES      |  Balance ID of the user making the transfer.
+amount          | DECIMAL  | YES      |  The requested amount to be transferred to the requestor's receiving_account.
+message          | LONG  | YES      | An arbitrary message that will be attached to the payment request.
+supported_payment_collectors          |   STRING    | NO       | Methods of payment that are available to a user when they view a payment request (e.g., ["coins_peso_wallet"])
+expires_at          | STRING | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "user@example.com"
+    }
+}
+```
+
+
+#### Get payment request
+
+```shell
+GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
+```
+Retrieve either a single existing payment request or a list of existing payment requests.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | NO        | The ID of a specific payment request to retrieve.
+start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
+end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
+limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "user@example.com"
+    }
+}
+```
+
+#### Cancel payment request
+
+```shell
+POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
+```
+Cancel an existing payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID the payment request that needs to be canceled.
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "user@example.com"
+    }
+}
+```
+
+#### Send reminder for payment request
+
+```shell
+POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
+```
+Send a reminder to the recipient to fulfill the payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
+
+**Response:**
+
+```javascript
+true
+```
 
 
 ### User data stream endpoints
