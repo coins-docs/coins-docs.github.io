@@ -2373,7 +2373,7 @@ listenKey | STRING | YES |
 
 **Common Headers**
 
-The table below shows all of the common API Headers you will encounter in the Coins Access API.
+The table below shows all of the common API Headers you will encounter in the Coins API.
 
 Header Name | Required | Type | Example | Description
 ------------ |----------|--| ------------|--
