@@ -11,7 +11,7 @@ nav: sidebar/rest-api.html
 
 2023-07-15: Updated `MARKET order type now supports quantity for buy and quoteOrderQty for sell` 
 
-2023-07-15: Added  `stpFlag` in the request of New order  (TRADE) endpoint.
+2023-07-15: Added  `stpFlag` in the request of New order (TRADE) endpoint for anti self-trading behaviour.
 
 2023-07-15: Added order status `EXPIRED`.
 
