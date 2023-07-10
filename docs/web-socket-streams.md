@@ -9,6 +9,8 @@ layout: default
 
 # Change Log
 
+2023-07-15: update `Partial Book Depth`  support 200 levels and Update Speed.
+
 2022-10-11: add field as symbol,eventType,eventTime to Partial Depth Stream.
 
 2022-08-24: change /ws/ to /openapi/quote/ws 
@@ -362,11 +364,11 @@ Pushes any update to the best bid or ask's price or quantity in real-time for al
 ```
 
 ## Partial Book Depth Streams
-Top **\<levels\>** bids and asks, pushed every second. Valid **\<levels\>** are 5, 10, or 20.
+Top **\<levels\>** bids and asks, pushed every second. Valid **\<levels\>** are 5, 10, 20 or 200.
 
 **Stream Names:** \<symbol\>@depth\<levels\> OR \<symbol\>@depth\<levels\>@100ms
 
-**Update Speed:** 1000ms or 100ms
+**Update Speed:** 1000ms  for 200 levels, 100ms for other levels when there's update
 
 **Payload:**
 ```javascript
@@ -395,7 +397,7 @@ Order book price and quantity depth updates used to locally manage an order book
 
 **Stream Name:** \<symbol\>@depth OR \<symbol\>@depth@100ms
 
-**Update Speed:** 1000ms or 100ms
+**Update Speed:** 1000ms or 100ms when there's update
 
 **Payload:**
 ```javascript
