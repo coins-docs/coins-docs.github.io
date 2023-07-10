@@ -7,6 +7,8 @@ layout: default
 
 
 # Change Log
+2023-07-15: update `balanceUpdate` trigger condition
+
 2022-08-19: add weight infomation for all interfaces
 
 
@@ -118,7 +120,7 @@ balance snapshot
 
 ### Balance Update
 
-Trigger after user balance be changed.
+`balanceUpdate`  is pushed upon non trading fund activities - transfer / deposit / withdrawal
 
 **Payload:**
 contains balance changed

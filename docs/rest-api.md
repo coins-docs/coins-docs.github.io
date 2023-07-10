@@ -9,6 +9,12 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-07-15: Updated `MARKET order type now supports quantity for buy and quoteOrderQty for sell` 
+
+2023-07-15: Added  `stpFlag` in the request of New order  (TRADE) endpoint.
+
+2023-07-15: Added order status `EXPIRED`.
+
 2023-06-08: Added the `payment request` interface.
 
 2023-05-17: The disclaimer regarding the following endpoints being in the QA phase has been removed as the QA process has been successfully completed: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`.
@@ -289,8 +295,8 @@ Status | Description
 `PARTIALLY_FILLED`| A part of the order has been filled.
 `FILLED` | The order has been completed.
 `PARTIALLY_CANCELED` | A part of the order has been cancelled with self trade.
-`CANCELED` | The order has been canceled .
-`REJECTED`       | The order was not accepted by the engine and not processed.
+`CANCELED` | The order has been canceled by user 
+`EXPIRED`       | The order has been cancelled by matching-engine: LIMIT FOK order not filled, limit order not fully filled etc 
 
 **Order types:**
 
@@ -318,6 +324,16 @@ Status | Description
 
 * BUY
 * SELL
+
+
+
+**Anti self-trading behaviour(stpFlag):**
+
+| Value | Description                                     |
+| ----- | ----------------------------------------------- |
+| `CB`  | Both orders will be cancelled by match engine   |
+| `CN`  | The new order will be cancelled by match engine |
+| `CO`  | The old order will be cancelled by match engine |
 
 
 
@@ -1423,12 +1439,13 @@ symbol | STRING | YES |
 side | ENUM | YES |
 type | ENUM | YES |
 timeInForce | ENUM | NO |
-quantity | DECIMAL | YES |
+quantity | DECIMAL | NO |
 quoteOrderQty | DECIMAL | NO |
 price | DECIMAL | NO |
 newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent. Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
 stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
 newOrderRespType | ENUM | NO | Set the response JSON. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
+stpFlag | ENUM | NO | The anti self-trading behaviour, Default anti self-dealing behaviour is CB 
 recvWindow | LONG | NO |The value cannot be greater than `60000`
 timestamp | LONG | YES |
 
@@ -1436,12 +1453,12 @@ Additional mandatory parameters based on `type`:
 
 Type | Additional mandatory parameters                  | Additional Information
 ------------ |--------------------------------------------------| ------------ 
-`LIMIT` | `timeInForce`, `quantity`, `price`               |
-`MARKET` | `quantity` or `quoteOrderQty`                    | `MARKET` orders using `quantity` field specifies the amount of the base asset the user wants to sell, E.g. `MARKET` order on BCHUSDT  will specify how much BCH the user is selling. <br />`MARKET` orders using `quoteOrderQty` field specifies the amount of the quote asset the user wants to buy, E.g. `MARKET` order on BCHUSDT  will specify how much USDT the user is buying.<br /> **It's not supported to use the `quantity` for buying or use  the  `quoteOrderQty` for selling  for now.**
+`LIMIT` | `quantity`, `price`               |
+`MARKET` | `quantity` or `quoteOrderQty`                    | `MARKET` orders using `quantity` field specifies the amount of the base asset the user wants to buy/sell, E.g. `MARKET` order on BCHUSDT  will specify how much BCH the user is buying/selling. <br />`MARKET` orders using `quoteOrderQty` field specifies the amount of the quote asset the user wants to buy/sell, E.g. `MARKET` order on BCHUSDT  will specify how much USDT the user is buying/selling.<br /> 
 `STOP_LOSS` | `quantity` or `quoteOrderQty`, `stopPrice`       | This will execute a `MARKET` order when`stopPrice` is met. Use `quantity` for selling, `quoteOrderQty` for buying.
-`STOP_LOSS_LIMIT` | `timeInForce`, `quantity`,  `price`, `stopPrice` | This will execute a `LIMIT` order when`stopPrice` is met.
+`STOP_LOSS_LIMIT` | `quantity`,  `price`, `stopPrice` | This will execute a `LIMIT` order when`stopPrice` is met.
 `TAKE_PROFIT` | `quantity` or `quoteOrderQty`, `stopPrice`            | This will execute a `MARKET` order when`stopPrice` is met. Use `quantity` for selling, `quoteOrderQty` for buying.
-`TAKE_PROFIT_LIMIT` | `timeInForce`, `quantity`, `price`, `stopPrice`  | This will execute a `LIMIT` order when`stopPrice` is met.
+`TAKE_PROFIT_LIMIT` | `quantity`, `price`, `stopPrice`  | This will execute a `LIMIT` order when`stopPrice` is met.
 `LIMIT_MAKER` | `quantity`, `price`                              | This is a `LIMIT` order that will be rejected if the order immediately matches and trades as a taker.
 
 Trigger order price rules against market price for both MARKET and LIMIT versions:
