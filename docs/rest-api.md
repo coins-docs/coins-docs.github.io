@@ -9,6 +9,12 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-07-15: 
+* Order status changes: The new `EXPIRED` status indicates cancellation by the matching engine for unfulfilled LIMIT FOK and partially filled limit orders.
+The `CANCELED` status is now applicable only to user-triggered order cancellations.
+* A new `stpFlag` parameter has been added to the Order API to prevent self-dealing. The parameter accepts the following values: **CB** (default), **CN**, and **CO**.
+* Additional parameters for `MARKET` order type: `buy quantity` and `sell quoteOrderQty`.
+
 2023-06-08: Added the `payment request` interface.
 
 2023-05-17: The disclaimer regarding the following endpoints being in the QA phase has been removed as the QA process has been successfully completed: `/openapi/account/v3/crypto-accounts`, `/openapi/transfer/v3/transfers`, and `/openapi/transfer/v3/transfers/{id}`.
@@ -289,8 +295,9 @@ Status | Description
 `PARTIALLY_FILLED`| A part of the order has been filled.
 `FILLED` | The order has been completed.
 `PARTIALLY_CANCELED` | A part of the order has been cancelled with self trade.
-`CANCELED` | The order has been canceled .
+`CANCELED` | The order has been canceled by the user.
 `REJECTED`       | The order was not accepted by the engine and not processed.
+`EXPIRED` | The order has been canceled by the matching engine due to certain conditions. The `EXPIRED` status is applicable to two types of orders:<br> &#8226; LIMIT FOK Orders: If a `LIMIT FOK` (Fill or Kill) order is not completely filled within the specified time frame, the order will be automatically canceled by the matching engine and marked as `EXPIRED`.<br> &#8226; Limit Orders: For standard `LIMIT` orders, if the order is not entirely filled at the desired price, any remaining unfilled portion will be canceled by the matching engine and marked as `EXPIRED`.
 
 **Order types:**
 
@@ -1423,21 +1430,22 @@ symbol | STRING | YES |
 side | ENUM | YES |
 type | ENUM | YES |
 timeInForce | ENUM | NO |
-quantity | DECIMAL | YES |
-quoteOrderQty | DECIMAL | NO |
+quantity | DECIMAL | YES | The amount of the base asset the user wants to sell.
+quoteOrderQty | DECIMAL | NO | The amount of the quote asset the user wants to receive when executing the sell order.
 price | DECIMAL | NO |
-newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent. Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
+newClientOrderId | STRING | NO | A unique ID among open orders. Automatically generated if not sent. Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
 stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
 newOrderRespType | ENUM | NO | Set the response JSON. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
 recvWindow | LONG | NO |The value cannot be greater than `60000`
 timestamp | LONG | YES |
+stpFlag | ENUM | NO | STP (Stop Price Protection) flag is used to prevent self-dealing in trading orders. It allows you to specify the behavior of the stop price order in case it matches with an existing order in the order book. stpFlag supports the following values:<br> &#8226; **CB (Cancel Both)**: If a stop price order matches with an existing order in the order book, both the new order and the existing order will be canceled. This is the default setting.<br> &#8226; **CN (Cancel New)**: If a stop price order matches with an existing order, only the new order will be canceled. The existing order in the order book will remain unaffected.<br> &#8226; **CO (Cancel Old)**: If a stop price order matches with an existing order, the old order in the order book will be canceled, and the new order will be placed.
 
 Additional mandatory parameters based on `type`:
 
 Type | Additional mandatory parameters                  | Additional Information
 ------------ |--------------------------------------------------| ------------ 
 `LIMIT` | `timeInForce`, `quantity`, `price`               |
-`MARKET` | `quantity` or `quoteOrderQty`                    | `MARKET` orders using `quantity` field specifies the amount of the base asset the user wants to sell, E.g. `MARKET` order on BCHUSDT  will specify how much BCH the user is selling. <br />`MARKET` orders using `quoteOrderQty` field specifies the amount of the quote asset the user wants to buy, E.g. `MARKET` order on BCHUSDT  will specify how much USDT the user is buying.<br /> **It's not supported to use the `quantity` for buying or use  the  `quoteOrderQty` for selling  for now.**
+`MARKET` | `quantity` or `quoteOrderQty`                    | When placing a `MARKET` order, the `quantity` field specifies the amount of the base asset the user wants to sell. For example, a `MARKET` order on BCHUSDT  will specify how much BCH the user is selling. <br /> The `quoteOrderQty` field in `MARKET` orders specifies the amount of the quote asset the user wants to buy. For example, a `MARKET` order on BCHUSDT  will specify how much USDT the user is buying.<br />
 `STOP_LOSS` | `quantity` or `quoteOrderQty`, `stopPrice`       | This will execute a `MARKET` order when`stopPrice` is met. Use `quantity` for selling, `quoteOrderQty` for buying.
 `STOP_LOSS_LIMIT` | `timeInForce`, `quantity`,  `price`, `stopPrice` | This will execute a `LIMIT` order when`stopPrice` is met.
 `TAKE_PROFIT` | `quantity` or `quoteOrderQty`, `stopPrice`            | This will execute a `MARKET` order when`stopPrice` is met. Use `quantity` for selling, `quoteOrderQty` for buying.
