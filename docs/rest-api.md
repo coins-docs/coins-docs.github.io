@@ -1664,9 +1664,6 @@ Cancels all active orders on a symbol.
         "type": "LIMIT",
         "side": "BUY",
         "stopPrice": "0",
-        "time": 1657877397079,
-        "updateTime": 1657877397092,
-        "isWorking": false,
         "origQuoteOrderQty": "0"
     },
     {
@@ -1682,9 +1679,6 @@ Cancels all active orders on a symbol.
         "type": "LIMIT",
         "side": "BUY",
         "stopPrice": "0",
-        "time": 1657877814763,
-        "updateTime": 1657877814776,
-        "isWorking": false,
         "origQuoteOrderQty": "0"
     },
     {
@@ -1700,9 +1694,6 @@ Cancels all active orders on a symbol.
         "type": "LIMIT",
         "side": "BUY",
         "stopPrice": "0",
-        "time": 1657877821529,
-        "updateTime": 1657877821542,
-        "isWorking": false,
         "origQuoteOrderQty": "0"
     }
 ]
