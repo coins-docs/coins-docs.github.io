@@ -3180,6 +3180,8 @@ If an ID is provided, this endpoint retrieves an existing transfer record; other
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id      | STRING | NO    | ID of the transfer record
+page    | INT | NO | Current page, default is `1`
+per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 
