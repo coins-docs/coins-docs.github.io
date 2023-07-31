@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-07-31: Added `openapi/fiat/v1/history` endpoint to query fiat currency order history 
+
 2023-07-15: Updated `MARKET order type now supports quantity for buy and quoteOrderQty for sell` 
 
 2023-07-15: Added  `stpFlag` in the request of New order (TRADE) endpoint for anti self-trading behaviour.
@@ -3015,6 +3017,94 @@ internalOrderId | STRING | Yes | ID of the order for which the user wishes to re
 }
 ```
 ------
+#### Fiat order history
+```shell
+GET openapi/fiat/v1/history
+```
+
+This endpoint is used to query all fiat related history
+
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+pageNum | STRING | No | Page number.
+pageSize | STRING | No | Page size.
+internalOrderId | STRING | No | Coins returns a unique tracking order number.
+transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
+transactionChannel | STRING | No | Transaction channel, example: instapay etc.
+transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
+status | STRING | No | Coins fiat order status.
+
+**Response:**
+
+```javascript
+{
+    "status": 0,
+    "error": "OK",
+    "data": [
+        {
+            "externalOrderId": "1476829580936625682",
+            "internalOrderId": "1476829580936625681",
+            "paymentOrderId": "000008",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "11111",
+            "transactionType": 1,
+            "transactionChannel": "INSTAPAY",
+            "transactionSubject": "allbank",
+            "transactionChannelName": "instapay",
+            "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+            "transactionSubjectType": "bank",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "0",
+            "status": "SUCCEEDED",
+            "errorCode": "SUCCEEDED",
+            "errorMessage": "",
+            "completedTime": "2023-07-31T07:16:47.000+00:00",
+            "source": "WEBHOOK",
+            "createdAt": "2023-07-31T07:16:46.000+00:00",
+            "orderExtendedMap": {
+                "channelReferenceNo": "000008",
+                "senderAccountNumber": "8613989193526"
+            },
+            "dealCancel": false
+        },
+        {
+            "externalOrderId": "1476829580936625686",
+            "internalOrderId": "1474038775754799133",
+            "paymentOrderId": "2023072799",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "100",
+            "transactionType": 1,
+            "transactionChannel": "SWIFTPAY_PESONET",
+            "transactionSubject": "aub",
+            "transactionChannelName": "swiftpay_pesonet",
+            "transactionSubjectName": "Asia United Bank",
+            "transactionSubjectType": "e-wallet",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "10",
+            "status": "SUCCEEDED",
+            "errorCode": "SUCCEEDED",
+            "errorMessage": "",
+            "completedTime": "2023-07-27T10:52:41.000+00:00",
+            "source": "WEBHOOK",
+            "createdAt": "2023-07-27T10:52:40.000+00:00",
+            "orderExtendedMap": {
+                "channelReferenceNo": "000008",
+                "senderAccountNumber": "8613989193526"
+            },
+            "dealCancel": false
+        }
+    ],
+    "total": 2
+}
+```
+------
+
 ### Old endpoints from coins.ph (Legacy)
 
 #### Create a new sellorder
