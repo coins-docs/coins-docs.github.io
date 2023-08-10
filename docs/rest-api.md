@@ -9,6 +9,10 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-08-08: Updated `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.  
+
+2023-07-31: Added `openapi/fiat/v1/history` endpoint to query fiat currency order history 
+
 2023-07-15: Updated `MARKET order type now supports quantity for buy and quoteOrderQty for sell` 
 
 2023-07-15: Added  `stpFlag` in the request of New order (TRADE) endpoint for anti self-trading behaviour.
@@ -2725,7 +2729,8 @@ Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
 transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-
+transactionChannel | STRING | No | transaction channel.
+transactionSubject        | STRING | No | Subchannels under transactionChannel.
 
 **Response:**
 
@@ -2940,6 +2945,7 @@ currency     | STRING | Yes | The parameter represents the currency used in the 
 amount       | STRING | Yes | The amount of currency to be withdrawn.
 channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
 channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
+extendInfo | JSON Object | No | Json object. json field As follows: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`. <br> Example: {"recipientName":"xxx","recipientAccountNumber":"xxx","recipientAddress":"xxx","remarks":"xxx"} 
 
 
 **Response:**
@@ -3015,6 +3021,97 @@ internalOrderId | STRING | Yes | ID of the order for which the user wishes to re
 }
 ```
 ------
+#### Fiat order history
+```shell
+GET openapi/fiat/v1/history
+```
+
+This endpoint is used to query all fiat related history
+
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+pageNum | STRING | No | Page number.
+pageSize | STRING | No | Page size.
+internalOrderId | STRING | No | Coins returns a unique tracking order number.
+transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
+transactionChannel | STRING | No | Transaction channel, example: instapay etc.
+transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
+status | STRING | No | Coins fiat order status.
+fiatCurrency | STRING | No | fiat currecy.
+startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+
+**Response:**
+
+```javascript
+{
+    "status": 0,
+    "error": "OK",
+    "data": [
+        {
+            "externalOrderId": "1476829580936625682",
+            "internalOrderId": "1476829580936625681",
+            "paymentOrderId": "000008",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "11111",
+            "transactionType": 1,
+            "transactionChannel": "INSTAPAY",
+            "transactionSubject": "allbank",
+            "transactionChannelName": "instapay",
+            "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+            "transactionSubjectType": "bank",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "0",
+            "status": "SUCCEEDED",
+            "errorCode": "SUCCEEDED",
+            "errorMessage": "",
+            "completedTime": "2023-07-31T07:16:47.000+00:00",
+            "source": "WEBHOOK",
+            "createdAt": "2023-07-31T07:16:46.000+00:00",
+            "orderExtendedMap": {
+                "channelReferenceNo": "000008",
+                "senderAccountNumber": "8613989193526"
+            },
+            "dealCancel": false
+        },
+        {
+            "externalOrderId": "1476829580936625686",
+            "internalOrderId": "1474038775754799133",
+            "paymentOrderId": "2023072799",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "100",
+            "transactionType": 1,
+            "transactionChannel": "SWIFTPAY_PESONET",
+            "transactionSubject": "aub",
+            "transactionChannelName": "swiftpay_pesonet",
+            "transactionSubjectName": "Asia United Bank",
+            "transactionSubjectType": "e-wallet",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "10",
+            "status": "SUCCEEDED",
+            "errorCode": "SUCCEEDED",
+            "errorMessage": "",
+            "completedTime": "2023-07-27T10:52:41.000+00:00",
+            "source": "WEBHOOK",
+            "createdAt": "2023-07-27T10:52:40.000+00:00",
+            "orderExtendedMap": {
+                "channelReferenceNo": "000008",
+                "senderAccountNumber": "8613989193526"
+            },
+            "dealCancel": false
+        }
+    ],
+    "total": 2
+}
+```
+------
+
 ### Old endpoints from coins.ph (Legacy)
 
 #### Create a new sellorder
@@ -3027,14 +3124,25 @@ This endpoint converts digital assets into real-world cash, making it easy for u
 Name        | Type   | Mandatory | Description
 ------------|--------|-----------| ------------
 payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
+base_amount      | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
 currency    | STRING | Yes       |  The currency symbol of the sell order.
-amount      | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
-id          | STRING | No        |  A unique identifier for the sell order
-pay_with_wallet         | STRING | Yes       | The wallet code from which the user wishes to initiate the sell order.
 bank_account_number       | STRING | Yes       | Cash out bank account number
 bank_account_name        | STRING | Yes       | Cash out bank account name
 recipient_phone_number      | STRING | Yes       | Recipient phone number
-recipient_bank_code       | STRING | Yes       | Recipient bank code
+recipient_bank_code       | STRING | No       | Recipient bank code
+external_transaction_id          | STRING | No        |  A unique identifier for the sell order
+pay_with_wallet         | STRING | No       | The wallet code from which the user wishes to initiate the sell order.
+sender_first_name	| STRING | No       | sender first name.
+sender_middle_name	| STRING | No       | sender middle name.
+sender_last_name	| STRING | No       | sender last name.
+sender_address	| STRING | No       | sender address.
+sender_city	| STRING | No       | sender city.
+sender_province	| STRING | No       | sender province.
+sender_country	| STRING | No       | sender country.
+sender_postal_code	| STRING | No       | sender postal code.
+sender_phone	| STRING | No       | sender phone.
+sender_email	| STRING | No       | sender email.
+sender_company_name	| STRING | No       | sender company name.
 
 
 **Weight:** 1
@@ -3069,6 +3177,7 @@ GET openapi/migration/v4/validate-field
 ```
 
 This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
+It is best to no longer use this interface, only compatible with the old interface.
 
 **Parameters:**
 
@@ -3092,12 +3201,13 @@ reference: https://docs.coins.asia/reference/validate-field
 GET openapi/migration/v4/payout-outlets/{id}
 ```
 
-This endpoint retrieves a list of supported payout outlets for sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
+This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them. 
 
 **Parameters:**
 
 Name           | Type   | Mandatory | Description
 ----------------|--------|-----------| ------------
+id       | STRING | No       |  A unique identifier for the payout outlet.
 outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
 name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
 region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
@@ -3116,6 +3226,14 @@ GET openapi/migration/v4/payout-outlet-categories/{id}
 ```
 
 This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+id       | STRING | No       |   ID of a particular category to retrieve. If not provided, all categories will be retrieved.
+
+
 **Weight:** 1
 
 reference: https://docs.coins.asia/reference/payout-outlet-categories
@@ -3129,6 +3247,13 @@ GET openapi/migration/v4/payout-outlet-fees
 ```
 
 This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+payment_outlet       | STRING | Yes       |   query param to specify the target payout outlet.
+currency       | STRING | Yes       |   query param to specify the target currency.
 
 
 **Weight:** 1
