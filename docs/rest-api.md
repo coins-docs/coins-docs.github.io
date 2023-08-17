@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-08-17: Updated `/openapi/convert/v1/accept-quote`, `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.
+
 2023-08-08: Updated `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.  
 
 2023-07-31: Added `openapi/fiat/v1/history` endpoint to query fiat currency order history 
@@ -2686,7 +2688,7 @@ sourceAmount | STRING | YES |The amount of sourceCurrency
 
 
 ```shell
-POST /openapi/convert/v1/accpet-quote
+POST /openapi/convert/v1/accept-quote
 ```
 
 Use this endpoint to accept the quote and receive the result instantly.
@@ -2717,7 +2719,7 @@ quoteId | STRING | YES |The ID assigned to the quote
 
 #### Get supported fiat channels
 ```shell
-GET openapi/fiat/v1/support-channel
+POST openapi/fiat/v1/support-channel
 ```
 
 This continuously updated endpoint returns a list of all available fiat channels.
@@ -2929,7 +2931,7 @@ transactionSubject        | STRING | No | Subchannels under transactionChannel.
 
 #### Cash out
 ```shell
-GET openapi/fiat/v1/cash-out
+POST openapi/fiat/v1/cash-out
 ```
 
 This endpoint allows users to withdraw funds from their fiat account.
@@ -3023,7 +3025,7 @@ internalOrderId | STRING | Yes | ID of the order for which the user wishes to re
 ------
 #### Fiat order history
 ```shell
-GET openapi/fiat/v1/history
+POST openapi/fiat/v1/history
 ```
 
 This endpoint is used to query all fiat related history
@@ -3120,6 +3122,7 @@ POST openapi/migration/v4/sellorder
 ```
 
 This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 Name        | Type   | Mandatory | Description
 ------------|--------|-----------| ------------
@@ -3130,7 +3133,7 @@ bank_account_number       | STRING | Yes       | Cash out bank account number
 bank_account_name        | STRING | Yes       | Cash out bank account name
 recipient_phone_number      | STRING | Yes       | Recipient phone number
 recipient_bank_code       | STRING | No       | Recipient bank code
-external_transaction_id          | STRING | No        |  A unique identifier for the sell order
+external_transaction_id          | STRING | No        |  A unique identifier for the sell order, should be number.
 pay_with_wallet         | STRING | No       | The wallet code from which the user wishes to initiate the sell order.
 sender_first_name	| STRING | No       | sender first name.
 sender_middle_name	| STRING | No       | sender middle name.
@@ -3144,6 +3147,19 @@ sender_phone	| STRING | No       | sender phone.
 sender_email	| STRING | No       | sender email.
 sender_company_name	| STRING | No       | sender company name.
 
+**Request:**
+
+```javascript
+{
+  "base_amount": "10",
+  "external_transaction_id":"12121212212121212", // number not string
+  "currency":"PHP",
+  "bank_account_number":"9163011937",  // recipient phone （pesonet）or credit card numbers （instapy）
+  "bank_account_name":"Mike",  // recipient name
+  "recipient_phone_number":"9163011937", // recipient phone
+  "payment_outlet":"citi_SWIFTPAY_PESONET"
+}
+```
 
 **Weight:** 1
 
@@ -3157,6 +3173,7 @@ GET openapi/migration/v4/sellorder/{sell_order_id}
 ```
 
 This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -3173,11 +3190,11 @@ reference: https://docs.coins.asia/reference/sellorder-retrieve
 
 #### Validate field values
 ```shell
-GET openapi/migration/v4/validate-field
+POST openapi/migration/v4/validate-field
 ```
 
 This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
-It is best to no longer use this interface, only compatible with the old interface.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -3201,7 +3218,8 @@ reference: https://docs.coins.asia/reference/validate-field
 GET openapi/migration/v4/payout-outlets/{id}
 ```
 
-This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them. 
+This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -3226,6 +3244,7 @@ GET openapi/migration/v4/payout-outlet-categories/{id}
 ```
 
 This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -3247,6 +3266,7 @@ GET openapi/migration/v4/payout-outlet-fees
 ```
 
 This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
 
 **Parameters:**
 
