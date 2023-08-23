@@ -2183,6 +2183,8 @@ amount          | DECIMAL  | YES      |  The requested amount to be transferred 
 message          | LONG  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          |   STRING    | NO       | Methods of payment that are available to a user when they view a payment request (e.g., ["coins_peso_wallet"])
 expires_at          | STRING | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
 
 **Response:**
 
