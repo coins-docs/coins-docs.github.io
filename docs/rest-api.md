@@ -3343,7 +3343,7 @@ If an ID is provided, this endpoint retrieves an existing transfer record; other
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id      | STRING | NO    | ID of the transfer record
-client_transfer_id| STRING | NO | Client Transfer ID
+client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
 page    | INT | NO | Current page, default is `1`
 per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
