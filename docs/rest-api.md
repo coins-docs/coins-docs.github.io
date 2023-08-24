@@ -3313,6 +3313,44 @@ timestamp     | LONG  | YES    | A point in time for which the balance is being 
   ]
 }
 ```
+
+#### Transfers (USER_DATA)
+
+```shell
+POST /openapi/transfer/v3/transfers
+```
+This endpoint is used to transfer funds between two accounts.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+client_transfer_id | STRING | NO | Client Transfer ID
+account      | STRING | YES    | Balance ID of the user making the transfer
+target_address   | STRING | YES    | The email or phone number for recipient account
+amount      | BigDecimal | YES    | The amount being transferred
+recvWindow | LONG  | NO    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time when the transfer is performed.
+
+**Response:**
+```javascript
+ {
+  "transfer":
+    {
+      "id": "2309rjw0amf0sq9me0gmadsmfoa",
+      "status": "success",//status enum: pending,success,failed
+      "account": "90dfg03goamdf02fs",
+      "target_address": "1374ba6c3b754",
+      "amount": "1",
+      "exchange": "1",
+      "payment": "23094j0amd0fmag9agjgasd",
+      "client_transfer_id": "1487573639841995271"
+     }
+}
+```
+
 #### Query transfers (USER_DATA)
 
 ```shell
@@ -3327,10 +3365,14 @@ If an ID is provided, this endpoint retrieves an existing transfer record; other
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id      | STRING | NO    | ID of the transfer record
+client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
 page    | INT | NO | Current page, default is `1`
 per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
+
+If both the id and client_transfer_id parameters are passed, the id parameter will take precedence.
+
 
 **Response:**
 ```javascript
@@ -3338,6 +3380,7 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
   "transfers": [
     {
       "id": "2309rjw0amf0sq9me0gmadsmfoa",
+      "client_transfer_id": "1487573639841995270",
       "account": "90dfg03goamdf02fs",
       "amount": "1",
       "fee_amount": "0",
@@ -3354,39 +3397,5 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
     "next_page": 2,
     "previous_page": 0
   }
-}
-```
-#### Transfers (USER_DATA)
-
-```shell
-POST /openapi/transfer/v3/transfers
-```
-This endpoint is used to transfer funds between two accounts.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-account      | STRING | YES    | Balance ID of the user making the transfer
-target_address   | STRING | YES    | The email or phone number for recipient account
-amount      | BigDecimal | YES    | The amount being transferred
-recvWindow | LONG  | NO    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time when the transfer is performed.
-
-**Response:**
-```javascript
- {
-  "transfer":
-    {
-      "id": "2309rjw0amf0sq9me0gmadsmfoa",
-      "status": "success",
-      "account": "90dfg03goamdf02fs",
-      "target_address": "1374ba6c3b754",
-      "amount": "1",
-      "exchange": "1",
-      "payment": "23094j0amd0fmag9agjgasd"
-     }
 }
 ```
