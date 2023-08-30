@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-08-17: add `/openapi/convert/v1/query-order-history` docs.
+
 2023-08-17: Updated `/openapi/convert/v1/accept-quote`, `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.
 
 2023-08-08: Updated `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.  
@@ -2714,6 +2716,56 @@ quoteId | STRING | YES |The ID assigned to the quote
          "status": "SUCCESS"
   },
   "error": "ok"
+}
+```
+
+#### Retrieve order history
+
+
+```shell
+POST /openapi/convert/v1/query-order-history
+```
+This endpoint retrieves order history with the option to define a specific time period using start and end times.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type   | Mandatory | Description
+------------ |--------|---------| ------------
+startTime | STRING | No | Millisecond numeric string. The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |Millisecond numeric string. The end point of the required period. If no period is defined, the entire order history is returned.
+status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+page | int    | No |
+size | int    | No |
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+   "error": "OK",
+   "data": [
+    {
+      "id":"",
+      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
+      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
+      "userId":"",
+      "sourceCurrency": "BTC",
+      "sourceCurrencyIcon":"",
+      "targetCurrency": "PHP",
+      "targetCurrencyIcon":"",
+      "sourceAmount": "0.11",
+      "targetAmount": "4466.89275956",
+      "price": "40608.115996",
+      "status": "SUCCESS",
+      "createdAt": "1671797993000",
+      "errorCode": "",
+      "errorMessage": ""
+    }
+  ],
+  "total": 23
 }
 ```
 
