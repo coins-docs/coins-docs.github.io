@@ -2787,130 +2787,199 @@ transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out 
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 transactionChannel | STRING | No | transaction channel.
 transactionSubject        | STRING | No | Subchannels under transactionChannel.
+amount        | STRING | No | If not set, the default value is 0 
 
 **Response:**
 
 ```javascript
 {
-    "status": 0, 
-    "error": "OK",
-    "data": [
+  "status":0,
+  "error":"OK",
+  "data":
+  [
     {
-      "id": "20",
-      "transactionChannel": "SWIFTPAY_OTC",
-      "transactionChannelName": "swiftpay_otc",
-      "transactionSubject": "MLH",
-      "transactionSubjectType": "otc",
-      "transactionSubjectTypeLabel": "Remittance Center",
-      "transactionSubjectName": "M Lhuillier",
-      "transactionType": -1,
-      "paymentMethod": "BANK_TRANSFER",
-      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/DragonPay.png",
-      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/M%20Lhuillier.png",
-      "maximum": "50000",
-      "minimum": "1000",
-      "dailyLimit": "100000",
-      "monthlyLimit": "200000",
-      "annualLimit": "3000000",
-      "remainingDailyLimit": "99990",
-      "remainingMonthlyLimit": "199990",
-      "remainingAnnualLimit": "2999990",
-      "precision": "2",
-      "fee": null,
-      "feeType": null,
-      "feeRanges": [
-        {
-          "fee": "105",
-          "minAmount": "0",
-          "maxAmount": "10000",
-          "feeType": "FIXED"
-        },
-        {
-          "fee": "0.016",
-          "minAmount": "10000",
-          "maxAmount": "50000",
-          "feeType": "PERCENTAGE"
-        },
-        {
-          "fee": "0.016",
-          "minAmount": "50000",
-          "maxAmount": null,
-          "feeType": "PERCENTAGE"
-        }
-      ],
-      "status": "1",
-      "maxWithdrawBalance": "10024590"
-    },
-    {
-      "id": "653",
-      "transactionChannel": "INSTAPAY",
-      "transactionChannelName": "instapay",
-      "transactionSubject": "malayan",
-      "transactionSubjectType": "bank",
-      "transactionSubjectTypeLabel": "Banks",
-      "transactionSubjectName": "Malayan Bank Savings",
-      "transactionType": -1,
-      "paymentMethod": "BANK_TRANSFER",
-      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
-      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Malayan+Bank.png",
-      "maximum": "50000",
-      "minimum": "1",
-      "dailyLimit": "50000",
-      "monthlyLimit": "200000",
-      "annualLimit": "400000",
-      "remainingDailyLimit": "50000",
-      "remainingMonthlyLimit": "199990",
-      "remainingAnnualLimit": "400000",
-      "precision": "2",
-      "fee": "10",
-      "feeType": "fixed",
-      "feeRanges": [
-        {
-          "fee": "10",
-          "minAmount": "0",
-          "maxAmount": null,
-          "feeType": "FIXED"
-        }
-      ],
-      "status": "1",
-      "maxWithdrawBalance": "10024590"
-    },
-    {
-      "id": "817",
+      "id": 782,
       "transactionChannel": "SWIFTPAY_PESONET",
       "transactionChannelName": "swiftpay_pesonet",
-      "transactionSubject": "malayan",
+      "transactionSubject": "alamanah",
       "transactionSubjectType": "bank",
       "transactionSubjectTypeLabel": "Banks",
-      "transactionSubjectName": "Malayan Bank Savings",
+      "transactionSubjectName": "Al-Amanah Islamic Invest. Bank",
       "transactionType": -1,
       "paymentMethod": "BANK_TRANSFER",
       "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
-      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Malayan+Bank.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Al-Amanah+Islamic+Bank.png",
       "maximum": "100000000",
       "minimum": "5",
-      "dailyLimit": "40000",
-      "monthlyLimit": "50000",
-      "annualLimit": "50000",
-      "remainingDailyLimit": "39990",
-      "remainingMonthlyLimit": "49990",
-      "remainingAnnualLimit": "49990",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
       "precision": "2",
-      "fee": "0",
+      "fee": "5",
       "feeType": "fixed",
-      "feeRanges": [
-        {
-          "fee": "0",
-          "minAmount": "0",
-          "maxAmount": null,
-          "feeType": "FIXED"
-        }
-      ],
       "status": "1",
-      "maxWithdrawBalance": "10024590"
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 622,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 783,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "0",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 785,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "anz",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "ANZ Banking Group Ltd",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Australia+&+New+Zealand+Bank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 647,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 837,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 623,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "aub",
+      "transactionSubjectType": "e-wallet",
+      "transactionSubjectTypeLabel": "E-wallets",
+      "transactionSubjectName": "Asia United Bank",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AUB.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
     }
-  ],
-          "params": null
+  ]
 }
 ```
 
@@ -2933,7 +3002,7 @@ currency     | STRING | Yes | The parameter represents the currency used in the 
 amount       | STRING | Yes | The amount of currency to be withdrawn.
 channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
 channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
-extendInfo | JSON Object | No | Json object. Different channels require different parameters. json field As follows: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks``channel`,`recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`, `processDate`.
+extendInfo | JSON Object | No | Json object. Different channels require different parameters. json field As follows: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
 
 **Request:**
 
@@ -2950,7 +3019,6 @@ extendInfo | JSON Object | No | Json object. Different channels require differen
     "recipientMiddleName": "Pal",
     "recipientFirstName": "Joseph",
     "recipientCityAddress": "Santo",
-    "channel": "DRAGONPAY",
     "remarks": "OTC Cash out",
     "recipientBirthDate": "1974-06-19",
     "recipientStreetAddress": "Purok Magsaysay",
@@ -2958,8 +3026,7 @@ extendInfo | JSON Object | No | Json object. Different channels require differen
     "recipientBarangayAddress": "Katipunan",
     "recipientCountryAddress": "PH",
     "recipientEmail": "xxxx@gmail.com",
-    "recipientMobile": "+63 900 000 0000",
-    "processDate":"2023-09-04"
+    "recipientMobile": "+63 900 000 0000"
   }
 }
 ```
