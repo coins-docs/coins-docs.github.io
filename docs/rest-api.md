@@ -9,7 +9,7 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-08-30: add `/openapi/convert/v1/query-order-history`, `openapi/fiat/v1/cancel` docs.
+2023-08-30: add `/openapi/convert/v1/query-order-history`, and updated`openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel` docs.
 
 2023-08-17: Updated `/openapi/convert/v1/accept-quote`, `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.
 
@@ -3042,65 +3042,6 @@ extendInfo | JSON Object | No | Json object. Different channels require differen
          "internalOrderId": "1388420429697583896"
           },
   "params": null
-}
-```
-
-#### Fiat order cancel
-```shell
-POST openapi/fiat/v1/cancel
-```
-
-This endpoint allows users to cancel fiat order for otc. only for otc transaction can be canceled.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name         | Type   | Mandatory | Description
--------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
-
-**Response:**
-
-```javascript
-{
-  "status": 0,
-  "error": "OK",
-  "data": {
-    "id": "1380692028693995623",
-    "orderId": "1388420429697583896",
-    "paymentOrderId": "455628",
-    "fiatCurrency": "PHP",
-    "fiatAmount": "60",
-    "transactionType": -1,
-    "transactionChannel": "SWIFTPAY_OTC",
-    "transactionSubject": "coins.ph",
-    "transactionSubjectType": "bank",
-    "transactionChannelName": "instapay",
-    "transactionSubjectName": "DCPAY PHILIPPINES, INC.",
-    "feeCurrency": "PHP",
-    "channelFee": "0",
-    "platformFee": "10",
-    "status": "CANCEL",
-    "errorCode": "",
-    "errorMessage": "",
-    "completedTime": "2023-03-31T07:44:42.000+00:00",
-    "source": "WEB",
-    "createdAt": "2023-03-31T07:43:37.000+00:00",
-    "orderExtendedMap": {
-      "amount": "50",
-      "sendAcctNo": "1326887193441018369",
-      "tfrName": "Li Mei Ling",
-      "tfrAcctNo": "447415103851",
-      "channelName": "INSTAPAY",
-      "currency": "PHP",
-      "source": "WEB",
-      "channelSubject": "coins.ph",
-      "userId": 1326887193348759809,
-      "orgId": 9001
-    },
-    "dealCancel": false
-  }
 }
 ```
 
