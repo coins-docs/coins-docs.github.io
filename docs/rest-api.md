@@ -2733,8 +2733,8 @@ This endpoint retrieves order history with the option to define a specific time 
 
 Name | Type   | Mandatory | Description
 ------------ |--------|---------| ------------
-startTime | STRING | No | Millisecond numeric string. The starting point of the required period. If no period is defined, the entire order history is returned.
-endTime | STRING | No |Millisecond numeric string. The end point of the required period. If no period is defined, the entire order history is returned.
+startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
 status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
 page | int    | No |
 size | int    | No |
