@@ -3002,7 +3002,7 @@ currency     | STRING | Yes | The parameter represents the currency used in the 
 amount       | STRING | Yes | The amount of currency to be withdrawn.
 channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
 channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
-extendInfo | JSON Object | No | Json object. Different channels require different parameters. json field As follows: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
+extendInfo | JSON Object | No | A JSON object with additional information. Its structure and content may vary depending on the specific channel. The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
 
 **Request:**
 
