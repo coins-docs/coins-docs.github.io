@@ -9,7 +9,9 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-08-30: add `/openapi/convert/v1/query-order-history`, and updated`openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel` docs.
+2023-09-20: Added the `message` parameter to the `/openapi/transfer/v3/transfers` endpoint.
+
+2023-08-30: Added `/openapi/convert/v1/query-order-history`, and updated`openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel` docs.
 
 2023-08-17: Updated `/openapi/convert/v1/accept-quote`, `openapi/fiat/v1/history`, `openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel`, `openapi/migration/v4/sellorder`, `openapi/migration/v4/validate-field`, `openapi/migration/v4/payout-outlets/{id}`, `openapi/migration/v4/payout-outlet-categories/{id}`, `openapi/migration/v4/payout-outlet-fees` docs.
 
@@ -3411,11 +3413,12 @@ account      | STRING | YES    | Balance ID of the user making the transfer
 target_address   | STRING | YES    | The email or phone number for recipient account
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time when the transfer is performed.
+timestamp     | LONG  | YES    | A point in time when the transfer is performed
+message     | STRING  | NO    | The message sent to the recipient account
 
 **Response:**
 ```javascript
- {
+{
   "transfer":
     {
       "id": "2309rjw0amf0sq9me0gmadsmfoa",
@@ -3425,7 +3428,8 @@ timestamp     | LONG  | YES    | A point in time when the transfer is performed.
       "amount": "1",
       "exchange": "1",
       "payment": "23094j0amd0fmag9agjgasd",
-      "client_transfer_id": "1487573639841995271"
+      "client_transfer_id": "1487573639841995271",
+      "message": "example"
      }
 }
 ```
