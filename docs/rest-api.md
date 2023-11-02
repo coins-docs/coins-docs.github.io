@@ -2223,6 +2223,8 @@ id            | STRING | NO        | The ID of a specific payment request to ret
 start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
 end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
 limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
 
 **Response:**
 
@@ -2259,6 +2261,8 @@ Cancel an existing payment request.
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id            | STRING | YES       | The ID the payment request that needs to be canceled.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
 
 **Response:**
 
@@ -2295,6 +2299,8 @@ Send a reminder to the recipient to fulfill the payment request.
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
 
 **Response:**
 
