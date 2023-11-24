@@ -1406,7 +1406,7 @@ None
 
 
 
-### Account endpoints
+### Spot Trading Endpoints
 
 #### Test new order (TRADE)
 
