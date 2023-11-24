@@ -38,7 +38,7 @@ author_profile: true
       - [Symbol order book ticker](#symbol-order-book-ticker)
       - [Current average price](#current-average-price)
       - [Cryptoasset trading pairs](#cryptoasset-trading-pairs)
-    - [Account endpoints](#account-endpoints)
+    - [Spot Trading Endpoints](#account-endpoints)
       - [New order  (TRADE)](#new-order--trade)
       - [Test new order (TRADE)](#test-new-order-trade)
       - [Query order (USER_DATA)](#query-order-user_data)
@@ -1195,7 +1195,7 @@ None
 
 
 
-### Account endpoints
+### Spot Trading Endpoints
 
 #### Test new order (TRADE)
 
