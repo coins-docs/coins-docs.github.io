@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2023-12-06: Added the `internalOrderId` generate rule description to the `/openapi/fiat/v1/cash-out` endpoint.
+
 2023-09-20: Added the `message` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
 2023-08-30: Added `/openapi/convert/v1/query-order-history`, and updated`openapi/fiat/v1/cash-out`, `openapi/fiat/v1/support-channel` docs.
@@ -3005,7 +3007,7 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 Name         | Type   | Mandatory | Description
 -------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
+internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order, all are numbers and not start with 0
 currency     | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 amount       | STRING | Yes | The amount of currency to be withdrawn.
 channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
