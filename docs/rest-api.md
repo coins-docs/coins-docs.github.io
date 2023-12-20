@@ -2617,7 +2617,6 @@ This continuously updated endpoint returns a list of all available trading pairs
 
 Name | Type | Mandatory | Description
 ------|------| ------------ | ------------
-|      |      |
 
 **Response:**
 
