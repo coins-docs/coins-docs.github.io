@@ -2617,8 +2617,9 @@ This continuously updated endpoint returns a list of all available trading pairs
 
 **Parameters:**
 
-Name | Type | Mandatory | Description
-------|------| ------------ | ------------
+|Name | Type | Mandatory | Description|
+|------|------| ------------ | ------------|
+
 
 **Response:**
 
