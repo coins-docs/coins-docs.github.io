@@ -2613,12 +2613,13 @@ POST /openapi/convert/v1/get-supported-trading-pairs
 ```
 
 This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
+
 **Weight:** 1
 
 **Parameters:**
 
-|Name | Type | Mandatory | Description|
-|------|------| ------------ | ------------|
+ N/A
+
 
 
 **Response:**
