@@ -3013,10 +3013,11 @@ currency     | STRING | Yes | The parameter represents the currency used in the 
 amount       | STRING | Yes | The amount of currency to be withdrawn.
 channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
 channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
-extendInfo | JSON Object | No | A JSON object with additional information. Its structure and content may vary depending on the specific channel. The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
+extendInfo | JSON Object | No | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
 
 **Request:**
 
+- SWIFTPAY_OTC 
 ```javascript
 {
   "amount": "1000",
@@ -3038,6 +3039,48 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
     "recipientCountryAddress": "PH",
     "recipientEmail": "xxxx@gmail.com",
     "recipientMobile": "+63 900 000 0000"
+  }
+}
+```
+- SWIFTPAY_PESONET
+```javascript
+{
+  "amount": "1000",
+  "internalOrderId":"2023090410571114",
+  "currency":"PHP",
+  "channelName": "SWIFTPAY_PESONET",
+  "channelSubject":"unionbank",
+  "extendInfo":{    
+    "recipientAccountNumber": "20232249",
+    "recipientEmail": "xxxx@gmail.com",  
+    "recipientMobile": "+63 900 000 0000",
+    "recipientName":"Joseph Pal Fajagut",
+    "recipientAddress": "Santo",
+    "recipientLastName": "Fajagut",     //optional
+    "recipientMiddleName": "Pal",       //optional
+    "recipientFirstName": "Joseph",     //optional
+    "remarks": ""                       //optional
+  }
+}
+```
+- INSTAPAY
+```javascript
+{
+  "amount": "1000",
+  "internalOrderId":"2023090410571114",
+  "currency":"PHP",
+  "channelName": "INSTAPAY",
+  "channelSubject":"gcash",
+  "extendInfo":{    
+    "recipientAccountNumber": "20232249",
+    "recipientEmail": "xxxx@gmail.com",  
+    "recipientMobile": "+63 900 000 0000",
+    "recipientName":"Joseph Pal Fajagut",
+    "recipientAddress": "Santo",
+    "recipientLastName": "Fajagut",     //optional
+    "recipientMiddleName": "Pal",       //optional
+    "recipientFirstName": "Joseph",     //optional
+    "remarks": ""                       //optional
   }
 }
 ```
