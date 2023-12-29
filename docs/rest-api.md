@@ -8,6 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2023-12-29: Added kyc remaining and limit to the `/openapi/v1/account` endpoint.
 
 2023-12-06: Added the `internalOrderId` generate rule description to the `/openapi/fiat/v1/cash-out` endpoint.
 
@@ -1920,7 +1921,32 @@ timestamp | LONG | YES |
       "free": "4763368.68006011",
       "locked": "0.00000000"
     }
-  ]
+  ],
+  "token": "PHP",
+   "daily": {
+      "cashInLimit": "10000",
+      "cashInRemaining": "10000",
+      "cashOutLimit": "0",
+      "cashOutRemaining": "0",
+      "totalWithdrawLimit": "0",
+      "totalWithdrawRemaining": "0"
+   },
+   "monthly": {
+      "cashInLimit": "10000",
+      "cashInRemaining": "10000",
+      "cashOutLimit": "0",
+      "cashOutRemaining": "0",
+      "totalWithdrawLimit": "0",
+      "totalWithdrawRemaining": "0"
+   },
+   "annually": {
+      "cashInLimit": "10000",
+      "cashInRemaining": "10000",
+      "cashOutLimit": "0",
+      "cashOutRemaining": "0",
+      "totalWithdrawLimit": "0",
+      "totalWithdrawRemaining": "0"
+   }
 }
 ```
 
