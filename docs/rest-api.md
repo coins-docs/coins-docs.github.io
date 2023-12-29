@@ -2184,7 +2184,7 @@ Initiate a new payment transaction by creating a payment request.
 Name              | Type  | Mandatory | Description
 -----------------|-------|----------|--------------------------------------------------------------------------------------
 payer_contact_info            | STRING | YES      | The contact information, typically an email address, to which the payment request should be sent.
-receiving_account | LONG  | YES      |  Balance ID of the user making the transfer.
+receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
 amount          | DECIMAL  | YES      |  The requested amount to be transferred to the requestor's receiving_account.
 message          | LONG  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          |   STRING    | NO       | Methods of payment that are available to a user when they view a payment request (e.g., ["coins_peso_wallet"])
@@ -3461,7 +3461,7 @@ This endpoint is used to transfer funds between two accounts.
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 client_transfer_id | STRING | NO | Client Transfer ID
-account      | STRING | YES    | Balance ID of the user making the transfer
+account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
 target_address   | STRING | YES    | The email or phone number for recipient account
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
