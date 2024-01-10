@@ -331,17 +331,21 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 * Order does not exist.
 
-### -2014 BAD_API_KEY_FMT
+### -2015 API_KEY_NOT_ENABLE
 
-* API-key format invalid.
+* API-key is not enabled.
 
-### -2015 REJECTED_MBX_KEY
+### -2017 IP_NOT_IN_WHITELIST
 
-* Invalid API-key, IP, or permissions for action.
+* Request ip is not in the whitelist
 
-### -2016 NO_TRADING_WINDOW
+### -2018 API_KEY_NOT_EXIST
 
-* No trading window could be found for the symbol. Try ticker/24hrs instead.
+* API-key does not exist.
+
+### -2019 API_KEY_TYPE_WRONG
+
+* API-key type is wrong.
 
 ## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
 
