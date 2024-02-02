@@ -3574,7 +3574,7 @@ GET /openapi/v1/sub-account/list
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | NO    | Sub-account email
+email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
 page    | INT | NO | Current page, default value: 1
 limit    | INT | NO | Quantity per page, default value 1, maximum `200`
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
@@ -3612,7 +3612,7 @@ POST /openapi/v1/sub-account/create
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-accountName      | STRING | NO        | Sub-account email
+accountName      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3639,7 +3639,7 @@ GET /openapi/v1/sub-account/asset
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | NO        | Sub-account email
+email      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3679,8 +3679,8 @@ Name       | Type  | Mandatory | Description
 fromEmail      | STRING | NO        | 
 toEmail      | STRING | NO        | 
 clientTranId      | STRING | NO        | Must be unique
-asset      | STRING | NO        | 
-amount      | DECIMAL | NO        | 
+asset      | STRING | YES       | 
+amount      | DECIMAL | YES        | 
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3711,7 +3711,7 @@ Name       | Type  | Mandatory | Description
 fromEmail      | STRING | NO        |
 toEmail      | STRING | NO        |
 clientTranId      | STRING | NO        | 
-tokenId      | STRING | NO        | Sub-account email
+tokenId      | STRING | NO        | 
 startTime      | LONG | NO        | Millisecond timestamp
 endTime      | LONG | NO        | Millisecond timestamp
 page      | DECIMAL | NO        | Current page, default value: 1
@@ -3757,7 +3757,7 @@ GET /openapi/v1/sub-account/transfer/sub-history
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 asset      | STRING | NO        |
-type      | STRING | NO        | 1: transfer in, 2: transfer out
+type      | INT | NO        | 1: transfer in, 2: transfer out
 startTime      | LONG   | NO        | Millisecond timestamp
 endTime      | LONG   | NO        | Millisecond timestamp
 page      | INT    | NO        | Current page, default value: 1
@@ -3800,7 +3800,7 @@ GET /openapi/v1/sub-account/apikey/ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES        | 
-email      | STRING | YES        | 	Sub-account email
+email      | STRING | YES        | 	<a href="#request-parameters">Sub-account email</a>
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3831,7 +3831,7 @@ POST /openapi/v1/sub-account/apikey/add-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	Sub-account email
+email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
 ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
 ipRestriction      | STRING | YES       | 	IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
@@ -3864,8 +3864,8 @@ POST /openapi/v1/sub-account/apikey/delete-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	Sub-account email
-ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
+email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
+ipAddress      | STRING | YES       | 	Can be added in batches, separated by commas
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3882,6 +3882,13 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
   "updateTime": 1689744700710
 }
 ```
+
+### Note
+
+### Request Parameters
+
+- Email address should be encoded. e.g. test@gmail.com should be encoded into test%40gmail.com 
+- Email address should be in lower case.
 
 
 
