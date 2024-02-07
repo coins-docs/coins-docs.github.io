@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-02-07: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints 
+
 2023-12-29: Added kyc remaining and limit to the `/openapi/v1/account` endpoint.
 
 2023-12-06: Added the `internalOrderId` generate rule description to the `/openapi/fiat/v1/cash-out` endpoint.
@@ -3691,10 +3693,35 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 **Response:**
 ```json
 {
-  "clientTransferId": "uniq"
+  "clientTransferId": "1487573639841995271"
 }
 ```
 
+### Transfer to Master (For Sub-account)
+
+```shell
+POST /openapi/v1/sub-account/transfer/sub-history
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+asset      | STRING | YES       |
+amount      | DECIMAL | YES        |
+clientTranId      | STRING | NO        | Must be unique
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "clientTransferId": "1487573639841995271"
+}
+```
 
 ### Query Universal Transfer History (For Master Account)
 
@@ -3882,6 +3909,8 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
   "updateTime": 1689744700710
 }
 ```
+
+
 
 ### Note
 
