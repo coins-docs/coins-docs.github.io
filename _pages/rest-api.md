@@ -27,6 +27,7 @@ author_profile: true
     - [General endpoints](#general-endpoints)
       - [Test connectivity](#test-connectivity)
       - [Check server time](#check-server-time)
+      - [Get user ip](#get-user-ip)
       - [Exchange information](#exchange-information)
     - [Convert endpoints](#convert-endpoints)
     - [Market Data endpoints](#market-data-endpoints)
@@ -721,6 +722,28 @@ Test connectivity to the Rest API and get the current server time.
 ```javascript
 {
   "serverTime": 1538323200000
+}
+```
+
+
+
+#### Get user ip
+
+```shell
+GET /openapi/v1/user/ip
+```
+
+Get the user ip.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "ip": "57.181.16.43"
 }
 ```
 
