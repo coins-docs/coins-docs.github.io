@@ -3701,7 +3701,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 ### Transfer to Master (For Sub-account)
 
 ```shell
-POST /openapi/v1/sub-account/transfer/sub-history
+POST /openapi/v1/sub-account/transfer/sub-to-master
 ```
 
 **Weight:** 1
