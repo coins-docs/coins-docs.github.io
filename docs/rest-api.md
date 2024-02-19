@@ -54,6 +54,8 @@ nav: sidebar/rest-api.html
 
 2022-08-12: Changed `maxNumAlgoOrders` to 5 in `filter MAX_NUM_ALGO_ORDERS`.
 
+2024-02-19: Added the `openapi/v1/user/ip` interface.
+
 <!--more-->
 
 # Public Rest API for Coins (2022-09-12)
@@ -678,6 +680,28 @@ Test connectivity to the Rest API and get the current server time.
 ```javascript
 {
   "serverTime": 1538323200000
+}
+```
+
+
+
+#### Get user ip
+
+```shell
+GET /openapi/v1/user/ip
+```
+
+Get the user ip.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "ip": "57.181.16.43"
 }
 ```
 
