@@ -3743,7 +3743,7 @@ tokenId      | STRING | NO        |
 startTime      | LONG | NO        | Millisecond timestamp
 endTime      | LONG | NO        | Millisecond timestamp
 page      | DECIMAL | NO        | Current page, default value: 1
-limit      | DECIMAL | NO        | Quantity per page, default value 1, maximum `500`
+limit      | DECIMAL | NO        | Quantity per page, default value `500`, maximum `500`
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3789,7 +3789,7 @@ type      | INT | NO        | 1: transfer in, 2: transfer out
 startTime      | LONG   | NO        | Millisecond timestamp
 endTime      | LONG   | NO        | Millisecond timestamp
 page      | INT    | NO        | Current page, default value: 1
-limit      | INT | NO        | Quantity per page, default value 1, maximum `500`
+limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
