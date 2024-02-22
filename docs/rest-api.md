@@ -3720,7 +3720,8 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 **Response:**
 ```json
 {
-  "clientTransferId": "1487573639841995271"
+  "clientTransferId": "1487573639841995271",
+  "result": true//true:succes,false:failed
 }
 ```
 
