@@ -3594,11 +3594,11 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
     },
     {
       "createTime": "1689744700710",
-      "email": "testsub@gmail.com",
+      "email": "testsub2@gmail.com",
       "isFreeze": false
     }
   ],
- "total": 8
+ "total": 2
 }
 ```
 
@@ -3742,8 +3742,8 @@ clientTranId      | STRING | NO        |
 tokenId      | STRING | NO        | 
 startTime      | LONG | NO        | Millisecond timestamp,Data excluding the startTime.
 endTime      | LONG | NO        | Millisecond timestamp,Data excluding the endTime.
-page      | DECIMAL | NO        | Current page, default value: 1
-limit      | DECIMAL | NO        | Quantity per page, default value `500`, maximum `500`
+page      | INT | NO        | Current page, default value: 1
+limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3767,7 +3767,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
       "status": "success"//success,pending,failed
     }
   ],
-  "total": 0
+  "total": 1
 }
 ```
 
@@ -3810,7 +3810,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
       "status": "success"//success,pending,failed
     }
   ],
-  "total": 0
+  "total": 1
 }
 ```
 
@@ -3917,8 +3917,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 
 ### Request Parameters
 
-- Email address should be encoded. e.g. test@gmail.com should be encoded into test%40gmail.com 
-- Email address should be in lower case.
+- Email address should be encoded. e.g. test@gmail.com should be encoded into test%40gmail.com
 
 
 
