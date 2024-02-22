@@ -3578,7 +3578,7 @@ Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
 page    | INT | NO | Current page, default value: 1
-limit    | INT | NO | Quantity per page, default value 1, maximum `200`
+limit    | INT | NO | Quantity per page, default value 10, maximum `200`
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 
@@ -3751,7 +3751,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 
 - fromEmail and toEmail cannot be sent at the same time.
 - Return fromEmail equal master account email by default.
-- The query time period must be less then 30 days. 
+- The query time period must be less than 30 days. 
 - If startTime and endTime not sent, return records of the last 30 days by default.
 
 **Response:**
