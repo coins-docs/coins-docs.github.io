@@ -3786,7 +3786,7 @@ GET /openapi/v1/sub-account/transfer/sub-history
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 asset      | STRING | NO        |
-type      | INT | NO        | 1: transfer in, 2: transfer out
+type      | INT | NO        | 1: transfer in, 2: transfer out. If the type parameter is not provided or provided incorrectly, the data returned will be for transfer out.
 startTime      | LONG   | NO        | Millisecond timestamp
 endTime      | LONG   | NO        | Millisecond timestamp,Data excluding the endTime.
 page      | INT    | NO        | Current page, default value: 1
