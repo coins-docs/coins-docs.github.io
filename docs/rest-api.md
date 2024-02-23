@@ -3694,7 +3694,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 ```json
 {
   "clientTransferId": "1487573639841995271",
-  "result": true//true:succes,false:failed
+  "result": true//true:success,false:failed
 }
 ```
 
@@ -3721,7 +3721,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 ```json
 {
   "clientTransferId": "1487573639841995271",
-  "result": true//true:succes,false:failed
+  "result": true//true:success,false:failed
 }
 ```
 
