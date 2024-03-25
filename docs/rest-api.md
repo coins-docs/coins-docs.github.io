@@ -8,6 +8,11 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+
+2024-03-25: Added the `openapi/v1/order/cancelReplace` interface.
+
+2024-02-19: Added the `openapi/v1/user/ip` interface.
+
 2023-12-29: Added kyc remaining and limit to the `/openapi/v1/account` endpoint.
 
 2023-12-06: Added the `internalOrderId` generate rule description to the `/openapi/fiat/v1/cash-out` endpoint.
@@ -53,8 +58,6 @@ nav: sidebar/rest-api.html
 2022-08-12: Changed `maxNumOrders` to 200 in `filter MAX_NUM_ORDERS`.
 
 2022-08-12: Changed `maxNumAlgoOrders` to 5 in `filter MAX_NUM_ALGO_ORDERS`.
-
-2024-02-19: Added the `openapi/v1/user/ip` interface.
 
 <!--more-->
 
@@ -1664,6 +1667,139 @@ Notes:
 }
 ```
 
+
+####  Cancel an Existing Order and Send a New Order (TRADE)
+
+```shell
+POST /v1/order/cancelReplace  (HMAC SHA256)
+```
+
+Cancels an existing order and places a new order on the same symbol.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES |
+side | ENUM | YES |
+type | ENUM | YES |
+cancelReplaceMode |ENUM| YES |`STOP_ON_FAILURE` - If the cancel request fails, the new order placement will not be attempted.`ALLOW_FAILURE` - new order placement will be attempted even if cancel request fails.|
+timeInForce | ENUM | NO |
+quantity | DECIMAL | NO |
+quoteOrderQty | DECIMAL | NO |
+price | DECIMAL | NO |
+cancelOrderId |LONG|NO|Either the `cancelOrigClientOrderId` or `cancelOrderId` must be provided. If both are provided, `cancelOrderId` takes precedence.|
+cancelOrigClientOrderId| STRING|NO|
+newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent. Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
+stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+newOrderRespType | ENUM | NO | Set the response JSON. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
+stpFlag | ENUM | NO | The anti self-trading behaviour, Default anti self-dealing behaviour is CB 
+cancelRestrictions  | ENUM |NO|Supported values: `ALL` `ONLY_NEW` `ONLY_PARTIALLY_FILLED`
+recvWindow | LONG | NO |The value cannot be greater than `60000`
+timestamp | LONG | YES |
+
+Similar to `POST /api/v3/order`, additional mandatory parameters are determined by type.
+
+**Response:**
+
+****Response Both SUCCESS:****
+```javascript
+{
+  'cancelResponse': {
+          'clientOrderId': '34bee231-a636-4ecb-ba30-156f34914a5b',
+          'cummulativeQuoteQty': '0',
+          'executedQty': '0',
+          'orderId': 1629198769701544448,
+          'origQty': '1',
+          'origQuoteOrderQty': '99',
+          'price': '99',
+          'side': 'BUY',
+          'status': 'CANCELED',
+          'stopPrice': '0',
+          'stpFlag': 'CB',
+          'symbol': 'BATPHP',
+          'timeInForce': 'GTC',
+          'transactTime': 0,
+          'type': 'LIMIT'
+},
+  'cancelResult': 'SUCCESS', 
+  'newOrderResponse': {
+          'clientOrderId': '7ec6f7c4-5154-40a7-9382-80d525d4649f',
+          'cummulativeQuoteQty': '0',
+          'executedQty': '0',
+          'fills': [],
+          'orderId': 1629198773166039552,
+          'origQty': '1',
+          'origQuoteOrderQty': '100',
+          'price': '100',
+          'side': 'BUY',
+          'status': 'NEW',
+          'stopPrice': '0',
+          'symbol': 'BATPHP',
+          'timeInForce': 'GTC',
+          'transactTime': 1708951628287,
+          'type': 'LIMIT_MAKER'
+   },
+  'newOrderResult': 'SUCCESS'
+}
+```
+
+****Response when Cancel Order Fails with STOP_ON_FAILURE:****
+
+```javascript
+{
+	'code': -1132,
+	'data': {
+		'cancelResponse': {
+			'code': 4022,
+			'msg': 'Order was not canceled due to cancel restrictions.'
+		},
+		'cancelResult': 'FAILURE',
+		'newOrderResponse': None,
+		'newOrderResult': 'NOT_ATTEMPTED'
+	},
+	'msg': 'Order cancel-replace failed.'
+}
+```
+
+****Response when Cancel Order Succeeds but New Order Placement Fails:****
+
+
+****Response when Cancel Order fails with ALLOW_FAILURE:****
+
+```javascript
+{
+  'code': -1133,
+  'data': {
+        'cancelResponse': {
+            'code': 4022,
+            'msg': 'Order was not canceled due to cancel restrictions.'
+         },
+        'cancelResult': 'FAILURE',
+        'newOrderResponse': {
+                 'clientOrderId': '3d4a07a3-f898-40bf-8134-4de8013b153c',
+                 'cummulativeQuoteQty': '0',
+                 'executedQty': '0',
+                 'fills': [],
+                 'orderId': 1629196711548183040,
+                 'origQty': '1',
+                 'origQuoteOrderQty': '100',
+                 'price': '100',
+                 'side': 'BUY',
+                 'status': 'NEW',
+                 'stopPrice': '0',
+                 'symbol': 'BATPHP',
+                 'timeInForce': 'GTC',
+                 'transactTime': 1708951382523,
+                 'type': 'LIMIT_MAKER'
+         },
+        'newOrderResult': 'SUCCESS'
+  },
+  'msg': 'Order cancel-replace partially failed.'
+}
+```
 
 
 #### Cancel All Open Orders on a Symbol (TRADE)
