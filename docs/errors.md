@@ -12,8 +12,8 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 ```javascript
 {
-  "code":-1000,
-  "msg":"An unknown error occurred while processing the request."
+  "code": -1000,
+  "msg": "An unknown error occurred while processing the request."
 }
 ```
 
