@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-02-19: Added the `openapi/v1/user/ip` endpoint.
+
 2023-12-29: Added kyc remaining and limit to the `/openapi/v1/account` endpoint.
 
 2023-12-06: Added the `internalOrderId` generate rule description to the `/openapi/fiat/v1/cash-out` endpoint.
@@ -54,8 +56,6 @@ nav: sidebar/rest-api.html
 
 2022-08-12: Changed `maxNumAlgoOrders` to 5 in `filter MAX_NUM_ALGO_ORDERS`.
 
-2024-02-19: Added the `openapi/v1/user/ip` interface.
-
 <!--more-->
 
 # Public Rest API for Coins (2022-09-12)
@@ -79,8 +79,8 @@ nav: sidebar/rest-api.html
 
 ```javascript
 {
-  "code": -1121,
-  "msg": "Invalid symbol."
+  "code": -1000,
+  "msg": "An unknown error occurred while processing the request."
 }
 ```
 
