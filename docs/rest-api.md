@@ -715,7 +715,7 @@ GET /openapi/v1/exchangeInfo
 
 Current exchange trading rules and symbol information
 
-**Weight:** 10
+**Weight:** 1
 
 **Parameters:**
 
