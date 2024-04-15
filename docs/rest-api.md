@@ -3566,6 +3566,8 @@ If both the id and client_transfer_id parameters are passed, the id parameter wi
 
 ### Query Sub-account List (For Master Account)
 
+Applies to master accounts only.
+
 ```shell
 GET /openapi/v1/sub-account/list
 ```
@@ -3604,6 +3606,8 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
 
 ### Create a Virtual Sub-account(For Master Account)
 
+This interface currently supports the creation of virtual sub-accounts (maximum 30).
+
 ```shell
 POST /openapi/v1/sub-account/create
 ```
@@ -3630,6 +3634,8 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 
 
 ### Query Sub-account Assets (For Master Account)
+
+Query detailed balance information of a sub-account via the master account (applies to master accounts only).
 
 ```shell
 GET /openapi/v1/sub-account/asset
@@ -3668,6 +3674,8 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 
 ### Universal Transfer (For Master Account)
 
+Master account can initiate a transfer from any of its sub-accounts to the master account, or from the master account to any sub-account.
+
 ```shell
 POST /openapi/v1/sub-account/transfer/universal-transfer
 ```
@@ -3700,6 +3708,8 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 
 ### Transfer to Master (For Sub-account)
 
+Sub-account can initiate a transfer from itself to the master account.
+
 ```shell
 POST /openapi/v1/sub-account/transfer/sub-to-master
 ```
@@ -3726,6 +3736,9 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 ```
 
 ### Query Universal Transfer History (For Master Account)
+
+Applies to master accounts only.
+If startTime and endTime are not sent, this will return records of the last 30 days by default.
 
 ```shell
 GET /openapi/v1/sub-account/transfer/universal-transfer-history
@@ -3775,6 +3788,9 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 
 ### Sub-account Transfer History (For Sub-account)
 
+Applies to sub-accounts only.
+If startTime and endTime are not sent, this will return records of the last 30 days by default.
+
 ```shell
 GET /openapi/v1/sub-account/transfer/sub-history
 ```
@@ -3817,6 +3833,8 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 
 
 ### Get IP Restriction for a Sub-account API Key (For Master Account)
+
+Query detailed IPs for a sub-account API key.
 
 ```shell
 GET /openapi/v1/sub-account/apikey/ip-restriction
