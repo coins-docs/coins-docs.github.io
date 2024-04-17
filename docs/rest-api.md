@@ -2726,10 +2726,11 @@ This endpoint returns a quote for a specified source currency (sourceCurrency) a
 **Parameters:**
 
 Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-sourceCurrency | STRING | YES |The currency the user holds
-targetCurrency | STRING | YES |The currency the user would like to obtain
-sourceAmount | STRING | YES |The amount of sourceCurrency
+------------ | ------------ |-----------| ------------
+sourceCurrency | STRING | YES       |The currency the user holds
+targetCurrency | STRING | YES       |The currency the user would like to obtain
+sourceAmount | STRING | NO        |The amount of sourceCurrency. Either of sourceAmount or targetAmount should not be blank
+targetAmount | STRING | NO        |The amount of targetCurrency. Either of sourceAmount or targetAmount should not be  blank
 
 **Response:**
 
