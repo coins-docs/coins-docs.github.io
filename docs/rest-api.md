@@ -2729,8 +2729,8 @@ Name | Type | Mandatory | Description
 ------------ | ------------ |-----------| ------------
 sourceCurrency | STRING | YES       |The currency the user holds
 targetCurrency | STRING | YES       |The currency the user would like to obtain
-sourceAmount | STRING | NO        |The amount of sourceCurrency. Either of sourceAmount or targetAmount should not be blank
-targetAmount | STRING | NO        |The amount of targetCurrency. Either of sourceAmount or targetAmount should not be  blank
+sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
 
 **Response:**
 
