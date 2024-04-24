@@ -8,7 +8,11 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2024-02-07: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`
+2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`
+
+2024-04-17: Added the `targetAmount` parameter to the `/openapi/convert/v1/get-quote` endpoint.
+
+2024-02-19: Added the `openapi/v1/user/ip` endpoint.
 
 2023-12-29: Added kyc remaining and limit to the `/openapi/v1/account` endpoint.
 
@@ -79,8 +83,8 @@ nav: sidebar/rest-api.html
 
 ```javascript
 {
-  "code": -1121,
-  "msg": "Invalid symbol."
+  "code": -1000,
+  "msg": "An unknown error occurred while processing the request."
 }
 ```
 
@@ -685,6 +689,28 @@ Test connectivity to the Rest API and get the current server time.
 
 
 
+#### Get user ip
+
+```shell
+GET /openapi/v1/user/ip
+```
+
+Get the user ip.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "ip": "57.181.16.43"
+}
+```
+
+
+
 #### Exchange information
 
 ```shell
@@ -693,7 +719,7 @@ GET /openapi/v1/exchangeInfo
 
 Current exchange trading rules and symbol information
 
-**Weight:** 10
+**Weight:** 1
 
 **Parameters:**
 
@@ -857,7 +883,7 @@ POST /openapi/wallet/v1/withdraw/apply  (HMAC SHA256)
 
 Submit a withdraw request.
 
-**Weight(UID):** 600
+**Weight(UID):** 100
 
 **Parameters:**
 
@@ -892,7 +918,7 @@ GET /openapi/wallet/v1/deposit/history  (HMAC SHA256)
 
 Fetch deposit history.
 
-**Weight(IP):** 1
+**Weight(IP):** 2
 
 **Parameters:**
 
@@ -954,7 +980,7 @@ GET /openapi/wallet/v1/withdraw/history  (HMAC SHA256)
 
 Fetch withdraw history.
 
-**Weight(IP):** 1
+**Weight(IP):** 2
 
 **Parameters:**
 
@@ -1724,7 +1750,7 @@ GET /openapi/v1/openOrders  (HMAC SHA256)
 
 GET all open orders on a symbol. **Careful** when accessing this with no symbol.
 
-**Weight:** 3 for a single symbol; **40** when the symbol parameter is omitted;
+**Weight:** 10
 
 **Parameters:**
 
@@ -2704,10 +2730,11 @@ This endpoint returns a quote for a specified source currency (sourceCurrency) a
 **Parameters:**
 
 Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-sourceCurrency | STRING | YES |The currency the user holds
-targetCurrency | STRING | YES |The currency the user would like to obtain
-sourceAmount | STRING | YES |The amount of sourceCurrency
+------------ | ------------ |-----------| ------------
+sourceCurrency | STRING | YES       |The currency the user holds
+targetCurrency | STRING | YES       |The currency the user would like to obtain
+sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
 
 **Response:**
 
@@ -3482,7 +3509,7 @@ POST /openapi/transfer/v3/transfers
 ```
 This endpoint is used to transfer funds between two accounts.
 
-**Weight:** 1
+**Weight:** 50
 
 **Parameters:**
 
@@ -3521,7 +3548,7 @@ GET /openapi/transfer/v3/transfers/{id}
 ```
 If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
 
-**Weight:** 1
+**Weight:** 10
 
 **Parameters:**
 

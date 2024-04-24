@@ -5,69 +5,51 @@ layout: default
 nav: sidebar/errors.html
 
 ---
-# Error codes for Coins (2022-09-07)
+# Error codes for Coins (2024-03-28)
 
 Errors consist of two parts: an error code and a message. Codes are universal,
  but messages can vary. Here is the error JSON payload:
 
 ```javascript
 {
-  "code":-1121,
-  "msg":"Invalid symbol."
+  "code": -1000,
+  "msg": "An unknown error occurred while processing the request."
 }
 ```
 
 ## 10xx - General Server or Network issues
 
-### -1000 UNKNOWN
+### -1000 UNKNOWN_ERROR
 
-* An unknown error occured while processing the request.
+* An unknown error occurred while processing the request.
 
 ### -1001 DISCONNECTED
 
-* Internal error; unable to process your request. Please try again.
+* Internal error.
 
 ### -1002 UNAUTHORIZED
 
-* You are not authorized to execute this request. Request need API Key included in . We suggest that API Key be included in any request.
+* You are not authorized to execute this request
 
 ### -1003 TOO_MANY_REQUESTS
 
-* Too many requests; please use the websocket for live updates.
-* Too many requests; current limit is %s requests per minute. Please use the websocket for live updates to avoid polling the API.
-* Way too many requests; IP banned until %s. Please use the websocket for live updates to avoid bans.
+* Too many requests, current limit is %s requests per %s.
 
-### -1006 UNEXPECTED_RESP
+### -1010 BAD_REQUEST
 
-* An unexpected response was received from the message bus. Execution status unknown. OPEN API server find some exception in execute request .Please report to Customer service.
-
-### -1007 TIMEOUT
-
-* Timeout waiting for response from backend server. Send status unknown; execution status unknown.
-
-### -1014 UNKNOWN_ORDER_COMPOSITION
-
-* Unsupported order combination.
+* Bad request
 
 ### -1015 TOO_MANY_ORDERS
 
-* Reach the rate limit .Please slow down your request speed.
-* Too many new orders.
 * Too many new orders; current limit is %s orders per %s.
-
-### -1016 SERVICE_SHUTTING_DOWN
-
-* This service is no longer available.
 
 ### -1020 UNSUPPORTED_OPERATION
 
 * This operation is not supported.
 
-### -1021 INVALID_TIMESTAMP
+### -1021 TIMESTAMP_OUT_OF_WINDOW
 
-* Timestamp for this request is outside of the recvWindow.
-* Timestamp for this request was 1000ms ahead of the server's time.
-* Please check the difference between your local time and server time .
+* Timestamp for this request is outside of the recv window.
 
 ### -1022 INVALID_SIGNATURE
 
@@ -75,253 +57,83 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 ### -1023 BIND_IP_WHITE_LIST_FIRST
 
-* Please set IP whitelist before using API.
+* set ip white_list before use
 
-### -1024 INVALID_RECVWINDOW
+### -1024 MISS_HEADER_ERROR
 
-* recvWindow is not valid.
+* Header '%s' is required.
 
-### -1025 TOO_BIG_RECVWINDOW
+### -1025 INVALID_PARAMETER
 
-* recvWindow cannot be greater than 60000.
+* Parameter '%s' is not valid.
 
-### -1030 ERR_UPSTREAM_BUSINESS
+### -1026 CREATE_LISTEN_KEY_RATE_LIMIT
 
-* Business error.
+* Create listenKey rate limited(%s per hour), please try again next hour
+
+### -1027 INVALID_ORG_ID
+
+* This api only support for coins.ph.
+
 
 ## 11xx - Request issues
 
-### -1100 ILLEGAL_CHARS
-
-* Illegal characters found in a parameter.
-* Illegal characters found in parameter '%s'; legal range is '%s'.
-
-### -1101 TOO_MANY_PARAMETERS
-
-* Too many parameters sent for this endpoint.
-* Too many parameters; expected '%s' and received '%s'.
-* Duplicate values for a parameter detected.
-
-### -1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED
-
-* A mandatory parameter was not sent, was empty/null, or malformed.
-* Mandatory parameter '%s' was not sent, was empty/null, or malformed.
-* Param '%s' or '%s' must be sent, but both were empty/null!
-
 ### -1103 UNKNOWN_PARAM
 
-* An unknown parameter was sent.
-* In BHEx Open Api , each request requires at least one parameter. {Timestamp}.
+* Required param not found, please ensure the parameters being sent correctly, more information please refer to the openapi documentation 'SIGNED Endpoint Examples' section.
 
-### -1104 UNREAD_PARAMETERS
+### -1105 MISS_PARAMETER
 
-* Not all sent parameters were read.
-* Not all sent parameters were read; read '%s' parameter(s) but was sent '%s'.
+* Parameter '%s' is required.
 
-### -1105 PARAM_EMPTY
+### -1106 PARAMETER_NOT_REQUIRED
 
-* A parameter was empty.
-* Parameter '%s' was empty.
+* Parameter '%s' sent when not required
 
-### -1106 PARAM_NOT_REQUIRED
+### -1107 CONFLICT_PARAMETER_ERROR
 
-* A parameter was sent when not required.
-* Parameter '%s' sent when not required.
+* Parameter '%s' should not be both set.
 
-### -1111 BAD_PRECISION
+### -1108 ORDER_CANCEL_REPLACE_PARAMETER_ERROR
 
-* Precision is over the maximum defined for this asset.
+* Either the cancelOrigClientOrderId or cancelOrderId must be provided
 
-### -1112 NO_DEPTH
+### -1125 LISTEN_KEY_EXPIRED
 
-* No orders on book for symbol.
+* This listenKey does not exist
 
-### -1114 TIF_NOT_REQUIRED
+### -1126 CREATE_LISTEN_KEY_FAILED
 
-* TimeInForce parameter sent when not required.
-
-### -1115 INVALID_TIF
-
-* Invalid timeInForce.
-* In the current version, this parameter is either empty or GTC.
-
-### -1116 INVALID_ORDER_TYPE
-
-* Invalid orderType.
-* In the current version , ORDER_TYPE values is LIMIT or MARKET.
-
-### -1117 INVALID_SIDE
-
-* Invalid side.
-* ORDER_SIDE values is BUY or SELL
-
-### -1118 EMPTY_NEW_CL_ORD_ID
-
-* New client order ID was empty.
-
-### -1119 EMPTY_ORG_CL_ORD_ID
-
-* Original client order ID was empty.
-
-### -1120 BAD_INTERVAL
-
-* Invalid interval.
-
-### -1121 BAD_SYMBOL
-
-* Invalid symbol.
-
-### -1122 INVALID_NEW_ORDER_RES_TYPE
-
-* Invalid newOrderRespType.
-
-### -1125 INVALID_LISTEN_KEY
-
-* This listenKey does not exist.
-
-### -1127 MORE_THAN_XX_HOURS
-
-* Lookup interval is too big.
-* More than %s hours between startTime and endTime.
-
-### -1128 OPTIONAL_PARAMS_BAD_COMBO
-
-* Combination of optional parameters invalid.
-
-### -1130 INVALID_PARAMETER
-
-* Invalid data sent for a parameter.
-* Data sent for paramter '%s' is not valid.
+* Create listenKey failed, please try again later
 
 ### -1131 INSUFFICIENT_BALANCE
 
-* Balance insufficient.
+* Balance insufficient
 
-### -1132 ORDER_PRICE_TOO_HIGH
+### -1132 ORDER_CANCEL_REPLACE_FAILED
 
-* Order price too high.
+* Order cancel-replace failed.
 
-### -1133 ORDER_PRICE_TOO_SMALL
+### -1133 ORDER_CANCEL_REPLACE_PARTIALLY_FAILED
 
-* Order price lower than the minimum,please check general broker info.
+* Order cancel-replace partially failed.
 
-### -1134 ORDER_PRICE_PRECISION_TOO_LONG
+### -1150 MERCHANT_AUTHENTICATION_FAIL
 
-* Order price decimal too long,please check general broker info.
+* merchant authentication failed.
 
-### -1135 ORDER_QUANTITY_TOO_BIG
+### -1151 USER_NOT_FOUND
 
-* Order quantity too large.
+* merchant user not found
 
-### -1136 ORDER_QUANTITY_TOO_SMALL
+### -1152 NO_PERMISSION
 
-* Order quantity lower than the minimum.
-
-### -1137 ORDER_QUANTITY_PRECISION_TOO_LONG
-
-* Order quantity decimal too long.
-
-### -1138 ORDER_PRICE_WAVE_EXCEED
-
-* Order price exceeds permissible range.
-
-### -1139 ORDER_HAS_FILLED
-
-* Order has been filled.
-
-### -1140 ORDER_AMOUNT_TOO_SMALL
-
-* Transaction amount lower than the minimum.
-
-### -1141 ORDER_DUPLICATED
-
-* Duplicate clientOrderId
-
-### -1142 ORDER_CANCELLED
-
-* Order has been canceled
-
-### -1143 ORDER_NOT_FOUND_ON_ORDER_BOOK
-
-* Cannot be found on order book
-
-### -1144 ORDER_LOCKED
-
-* Order has been locked
-
-### -1145 ORDER_NOT_SUPPORT_CANCELLATION
-
-* This order type does not support cancellation
-
-### -1146 ORDER_CREATION_TIMEOUT
-
-* Order creation timeout
-
-### -1147 ORDER_CANCELLATION_TIMEOUT
-
-* Order cancellation timeout
-
-### -1148 ORDER_AMOUNT_PRECISION_TOO_LONG
-
-* Market order amount decimal too long
-
-
-### -1149 CREATE_ORDER_FAILED
-
-* Create order failed
-
-### -1150 CANCEL_ORDER_FAILED
-
-* Cancel order failed
-
-### -1151 SYMBOL_PROHIBIT_ORDER
-
-* The trading pair is not open yet
-
-### -1152 COMING_SOON
-
-* Coming soon
-
-### -1153 USER_NOT_EXIST
-
-* User not exist
-
-### -1154 INVALID_PRICE_TYPE
-
-* Invalid price type
-
-### -1155 INVALID_POSITION_SIDE
-
-* Invalid position side
-
-### -1156 ORDER_QUANTITY_INVALID
-
-* Order quantity invalid
-
-### -1157 SYMBOL_API_TRADING_NOT_AVAILABLE
-
-* The trading pair is not available for api trading
-
-### -1158 CREATE_LIMIT_MAKER_ORDER_FAILED
-
-* create limit maker order failed
-
-### -1159 PLAN_SPOT_ORDER_TRADE_IMMEDIATELY
-
-* STOP_LOSS/TAKE_PROFIT order is not allowed to trade immediately
-
-### -1160 ERROR_MODIFY_MARGIN
-
-* Modify futures margin error
-
-### -1161 REDUCE_MARGIN_FORBIDDEN
-
-* Reduce margin forbidden
+* Unauthorized to operate this API.
 
 
 ### -2010 NEW_ORDER_REJECTED
 
-* NEW_ORDER_REJECTED
+* New order rejected.
 
 ### -2011 CANCEL_REJECTED
 
@@ -331,17 +143,21 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 * Order does not exist.
 
-### -2014 BAD_API_KEY_FMT
+### -2015 API_KEY_NOT_ENABLE
 
-* API-key format invalid.
+* API-key is not enabled.
 
-### -2015 REJECTED_MBX_KEY
+### -2017 IP_NOT_IN_WHITELIST
 
-* Invalid API-key, IP, or permissions for action.
+* Request ip is not in the whitelist
 
-### -2016 NO_TRADING_WINDOW
+### -2018 API_KEY_NOT_EXIST
 
-* No trading window could be found for the symbol. Try ticker/24hrs instead.
+* API-key does not exist.
+
+### -2019 API_KEY_TYPE_WRONG
+
+* API-key type is wrong.
 
 ## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
 
