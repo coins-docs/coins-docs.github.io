@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
+
 2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`
 
 2024-04-17: Added the `targetAmount` parameter to the `/openapi/convert/v1/get-quote` endpoint.
@@ -2828,7 +2830,8 @@ size | int    | No |
       "status": "SUCCESS",
       "createdAt": "1671797993000",
       "errorCode": "",
-      "errorMessage": ""
+      "errorMessage": "",
+      "inversePrice": "3306.115996"
     }
   ],
   "total": 23
