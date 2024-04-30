@@ -3520,7 +3520,7 @@ Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 client_transfer_id | STRING | NO | Client Transfer ID
 account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-target_address   | STRING | YES    | The email or phone number for recipient account
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed
@@ -3534,7 +3534,7 @@ message     | STRING  | NO    | The message sent to the recipient account
       "id": "2309rjw0amf0sq9me0gmadsmfoa",
       "status": "success",//status enum: pending,success,failed
       "account": "90dfg03goamdf02fs",
-      "target_address": "1374ba6c3b754",
+      "target_address": "testsub@gmail.com",
       "amount": "1",
       "exchange": "1",
       "payment": "23094j0amd0fmag9agjgasd",
@@ -3578,7 +3578,7 @@ If both the id and client_transfer_id parameters are passed, the id parameter wi
       "amount": "1",
       "fee_amount": "0",
       "currency": "PBTC",
-      "target_address": "1374ba6c3b754",
+      "target_address": "testsub@gmail.com",
       "payment": "23094j0amd0fmag9agjgasd",
       "status": "success",
       "message": "example",

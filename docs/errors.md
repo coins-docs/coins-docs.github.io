@@ -5,7 +5,7 @@ layout: default
 nav: sidebar/errors.html
 
 ---
-# Error codes for Coins (2024-03-28)
+# Error codes for Coins (2024-04-30)
 
 Errors consist of two parts: an error code and a message. Codes are universal,
  but messages can vary. Here is the error JSON payload:
@@ -30,10 +30,12 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1002 UNAUTHORIZED
 
 * You are not authorized to execute this request
+* How to resolve: Put X-COINS-APIKEY in http header, refer to api doc "Endpoint Security Type" part.
 
 ### -1003 TOO_MANY_REQUESTS
 
 * Too many requests, current limit is %s requests per %s.
+* How to resolve: Your request is breaking our rate limit, if you need higher rate limit, please contact us.
 
 ### -1010 BAD_REQUEST
 
@@ -46,36 +48,44 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1020 UNSUPPORTED_OPERATION
 
 * This operation is not supported.
+* How to resolve: Please create and use functional API key instead of using read-only API key.
 
 ### -1021 TIMESTAMP_OUT_OF_WINDOW
 
 * Timestamp for this request is outside of the recv window.
+* How to resolve: The request is valid if server timestamp <= (recvWindow + timestamp), refer to API doc "Timing Security" part.
 
 ### -1022 INVALID_SIGNATURE
 
 * Signature for this request is not valid.
+* How to resolve: Your signature is not valid, refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
 
 ### -1023 BIND_IP_WHITE_LIST_FIRST
 
 * set ip white_list before use
+* How to resolve: You need to set up IP white list for your api key.
 
 ### -1024 MISS_HEADER_ERROR
 
 * Header '%s' is required.
+* How to resolve: Missing parameter in http header.
 
 ### -1025 INVALID_PARAMETER
 
 * Parameter '%s' is not valid.
-
+* How to resolve: The parameter passed is not valid.
+  
 ### -1026 CREATE_LISTEN_KEY_RATE_LIMIT
 
 * Create listenKey rate limited(%s per hour), please try again next hour
+* How to resolve: Create listenKey request is breaking our rate limit.
 
 ### -1027 INVALID_ORG_ID
 
 * This api only support for coins.ph.
+* How to resolve: This api is not supported in coins.xyz.
 
-
+  
 ## 11xx - Request issues
 
 ### -1103 UNKNOWN_PARAM
@@ -146,20 +156,23 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -2015 API_KEY_NOT_ENABLE
 
 * API-key is not enabled.
+* How to resolve: Cannot find the api key or the api key is not enabled.
 
 ### -2017 IP_NOT_IN_WHITELIST
 
 * Request ip is not in the whitelist
+* How to resolve: The request IP is not in the IP white list of your api key, please update your api key. You can get your current IP by endpoint openapi/v1/user/ip.
 
 ### -2018 API_KEY_NOT_EXIST
 
 * API-key does not exist.
+* How to resolve: Cannot find the api key.
 
 ### -2019 API_KEY_TYPE_WRONG
 
 * API-key type is wrong.
 
-## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
+## Messages for -1010 BAD_REQUEST, -2010 NEW_ORDER_REJECTED and -2011 CANCEL_REJECTED
 
 This code is sent when an error has been returned by the matching engine.
 The following messages which will indicate the specific error:
