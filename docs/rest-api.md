@@ -3520,7 +3520,7 @@ Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 client_transfer_id | STRING | NO | Client Transfer ID
 account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-target_address   | STRING | YES    | The email or phone number for recipient account (e.g. testsub@gmail.com or +63 9686490252)
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed
