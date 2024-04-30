@@ -58,7 +58,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1022 INVALID_SIGNATURE
 
 * Signature for this request is not valid.
-* How to resolve: Your signature passed is not valid, refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
+* How to resolve: Your signature is not valid, refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
 
 ### -1023 BIND_IP_WHITE_LIST_FIRST
 
