@@ -171,7 +171,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 * API-key type is wrong.
 
-## Messages for -1010 BAD_REQUEST, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
+## Messages for -1010 BAD_REQUEST, -2010 NEW_ORDER_REJECTED and -2011 CANCEL_REJECTED
 
 This code is sent when an error has been returned by the matching engine.
 The following messages which will indicate the specific error:
