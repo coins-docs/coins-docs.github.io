@@ -84,6 +84,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 
 * This api only support for coins.ph.
 * How to resolve: This api is not supported in coins.xyz.
+
   
 ## 11xx - Request issues
 
