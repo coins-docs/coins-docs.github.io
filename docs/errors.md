@@ -35,7 +35,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1003 TOO_MANY_REQUESTS
 
 * Too many requests, current limit is %s requests per %s.
-* How to resolve: Your request is breaking our rate limit. If you need higher rate limit, please contact us.
+* How to resolve: Your request is breaking our rate limit, if you need higher rate limit, please contact us.
 
 ### -1010 BAD_REQUEST
 
@@ -58,12 +58,12 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1022 INVALID_SIGNATURE
 
 * Signature for this request is not valid.
-* How to resolve: Your signature passed is not valid. Refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
+* How to resolve: Your signature passed is not valid, refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
 
 ### -1023 BIND_IP_WHITE_LIST_FIRST
 
 * set ip white_list before use
-* How to resolve: The IP is not in the IP white list of your api key, please update your api key. You can get your current IP by endpoint openapi/v1/user/ip.
+* How to resolve: You need to set up IP white list for your api key.
 
 ### -1024 MISS_HEADER_ERROR
 
@@ -155,20 +155,23 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -2015 API_KEY_NOT_ENABLE
 
 * API-key is not enabled.
+* How to resolve: Cannot find the api key or your api key is not enabled.
 
 ### -2017 IP_NOT_IN_WHITELIST
 
 * Request ip is not in the whitelist
+* How to resolve: The request IP is not in the IP white list of your api key, please update your api key. You can get your current IP by endpoint openapi/v1/user/ip.
 
 ### -2018 API_KEY_NOT_EXIST
 
 * API-key does not exist.
+* How to resolve: Cannot find the api key.
 
 ### -2019 API_KEY_TYPE_WRONG
 
 * API-key type is wrong.
 
-## Messages for -1010 ERROR_MSG_RECEIVED, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
+## Messages for -1010 BAD_REQUEST, -2010 NEW_ORDER_REJECTED, and -2011 CANCEL_REJECTED
 
 This code is sent when an error has been returned by the matching engine.
 The following messages which will indicate the specific error:
