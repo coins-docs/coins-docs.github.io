@@ -155,7 +155,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -2015 API_KEY_NOT_ENABLE
 
 * API-key is not enabled.
-* How to resolve: Cannot find the api key or your api key is not enabled.
+* How to resolve: Cannot find the api key or the api key is not enabled.
 
 ### -2017 IP_NOT_IN_WHITELIST
 
