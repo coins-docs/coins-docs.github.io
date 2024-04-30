@@ -35,7 +35,7 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1003 TOO_MANY_REQUESTS
 
 * Too many requests, current limit is %s requests per %s.
-* How to resolve: You request is breaking our rate limit. If you need higher rate limit, please contact us.
+* How to resolve: Your request is breaking our rate limit. If you need higher rate limit, please contact us.
 
 ### -1010 BAD_REQUEST
 
@@ -68,20 +68,23 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1024 MISS_HEADER_ERROR
 
 * Header '%s' is required.
+* How to resolve: Missing parameter in http header.
 
 ### -1025 INVALID_PARAMETER
 
 * Parameter '%s' is not valid.
-
+* How to resolve: The parameter passed is not valid.
+  
 ### -1026 CREATE_LISTEN_KEY_RATE_LIMIT
 
 * Create listenKey rate limited(%s per hour), please try again next hour
+* How to resolve: Create listenKey request is breaking our rate limit.
 
 ### -1027 INVALID_ORG_ID
 
 * This api only support for coins.ph.
-
-
+* How to resolve: This api is not supported in coins.xyz.
+  
 ## 11xx - Request issues
 
 ### -1103 UNKNOWN_PARAM
