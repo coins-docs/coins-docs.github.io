@@ -30,10 +30,12 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1002 UNAUTHORIZED
 
 * You are not authorized to execute this request
+* How to resolve: Put X-COINS-APIKEY in http header, refer to api doc "Endpoint Security Type" part.
 
 ### -1003 TOO_MANY_REQUESTS
 
 * Too many requests, current limit is %s requests per %s.
+* How to resolve: You request is breaking our rate limit. If you need higher rate limit, please contact us.
 
 ### -1010 BAD_REQUEST
 
@@ -46,18 +48,22 @@ Errors consist of two parts: an error code and a message. Codes are universal,
 ### -1020 UNSUPPORTED_OPERATION
 
 * This operation is not supported.
+* How to resolve: Please create and use functional API key instead of using read-only API key.
 
 ### -1021 TIMESTAMP_OUT_OF_WINDOW
 
 * Timestamp for this request is outside of the recv window.
+* How to resolve: The request is valid if server timestamp <= (recvWindow + timestamp), refer to API doc "Timing Security" part.
 
 ### -1022 INVALID_SIGNATURE
 
 * Signature for this request is not valid.
+* How to resolve: Your signature passed is not valid. Refer to API doc "SIGNED Endpoint Examples for POST /openapi/v1/order" part.
 
 ### -1023 BIND_IP_WHITE_LIST_FIRST
 
 * set ip white_list before use
+* How to resolve: The IP is not in the IP white list of your api key, please update your api key. You can get your current IP by endpoint openapi/v1/user/ip.
 
 ### -1024 MISS_HEADER_ERROR
 
