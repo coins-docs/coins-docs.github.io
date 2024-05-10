@@ -129,7 +129,19 @@ author_profile: true
 
 * Specific error codes and messages defined in another document.
 
+## API Library
 
+### Connectors
+
+The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
+
+* Python https://github.com/coins-docs/coins-connector-python
+
+### Postman Collections
+
+Postman collections are available, and they are recommended for new users seeking a quick and easy start with the API.
+
+https://github.com/coins-docs/coins-api-postman
 
 ## General Information on Endpoints
 
