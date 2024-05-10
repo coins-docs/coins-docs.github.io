@@ -8,6 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+
+2023-05-10: Added the `type` parameter to the `/openapi/transfer/v3/transfers` endpoint.
+
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
 
 2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`
@@ -3526,6 +3529,8 @@ recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed
 message     | STRING  | NO    | The message sent to the recipient account
 
+If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
+
 **Response:**
 ```javascript
 {
@@ -3561,6 +3566,7 @@ id      | STRING | NO    | ID of the transfer record
 client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
 page    | INT | NO | Current page, default is `1`
 per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
+type  | INT | NO | 1:Transfer in,2:Transfer out, Default:2
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 
@@ -3580,6 +3586,7 @@ If both the id and client_transfer_id parameters are passed, the id parameter wi
       "currency": "PBTC",
       "target_address": "testsub@gmail.com",
       "payment": "23094j0amd0fmag9agjgasd",
+      "typr": 2,//2:transfer out,1:transfer in
       "status": "success",
       "message": "example",
       "created_at": "2019-07-04T03:28:50.531599Z"
