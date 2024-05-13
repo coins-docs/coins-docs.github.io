@@ -9,7 +9,7 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2023-05-10: Added the `type` parameter to the `/openapi/transfer/v3/transfers` endpoint.
+2023-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
 
@@ -3587,9 +3587,10 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
       "amount": "1",
       "fee_amount": "0",
       "currency": "PBTC",
-      "target_address": "testsub@gmail.com",
+      "sourceAddress": "test1@gmail.com",
+      "target_address": "test2@gmail.com",
       "payment": "23094j0amd0fmag9agjgasd",
-      "typr": 2,//2:transfer out,1:transfer in
+      "type": 2,//2:transfer out,1:transfer in
       "status": "success",
       "message": "example",
       "created_at": "2019-07-04T03:28:50.531599Z"
