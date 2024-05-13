@@ -3572,8 +3572,8 @@ from_address |STRING|NO| The phone number or email for recipient account (e.g. +
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 
-- If both the id and client_transfer_id parameters are passed, the id parameter will take precedence.
-
+- If client_transfer_id both the id and  parameters are passed, the id parameter will take precedence.
+- If client_transfer_id/id both the type and  parameters are passed, the client_transfer_id/id parameter will take precedence.
 - Only when type=1, from_address will take effect.
 
 **Response:**
