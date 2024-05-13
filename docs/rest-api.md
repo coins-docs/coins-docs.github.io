@@ -3573,6 +3573,7 @@ recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 
 If both the id and client_transfer_id parameters are passed, the id parameter will take precedence.
+
 Only when type=1, from_address will take effect.
 
 **Response:**
