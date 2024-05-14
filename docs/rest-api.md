@@ -2697,11 +2697,39 @@ Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
 transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-transactionChannel | STRING | No | transaction channel.
-transactionSubject        | STRING | No | Subchannels under transactionChannel.
-amount        | STRING | No | If not set, the default value is 0 
+transactionChannel | STRING | No |  Filter list passes through the first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+transactionSubject        | STRING | No | Filter the list through secondary channels. Such as gcash.
+amount        | STRING | No | Used to match the fee rate. If the fee rate is calculated based on the amount range, the default value is 0 if not filled in.
 
 **Response:**
+
+FieldName            | Type   | Description
+----------------|--------| ------------
+id | Long   |channel id
+transactionChannel | String |The first-level channel to which it belongs.
+transactionChannelName | String |The name of the first-level channel to which it belongs
+transactionSubject | String |Channel code.
+transactionSubjectType | String |Channel type.
+transactionSubjectTypeLabel | String |Channel label.
+transactionSubjectName | String |Channel name.
+transactionType | int    |1 mean cash in,-1 mean cash out
+paymentMethod | String |Channel code.
+channelIcon | url    |first-level channel Icon
+subjectIcon | url    |Channel Icon.
+maximum | String |Maximum order amount.
+minimum | String |Minimum order amount.
+dailyLimit | String |Channel daily limit.
+monthlyLimit | String |Channel monthly limit.
+annualLimit | String |Channel annual limit.
+remainingDailyLimit | String |Channel daily limit remaining.
+remainingMonthlyLimit | String |Channel monthly limit remaining.
+remainingAnnualLimit | String |Channel annual limit remaining.
+precision | String |Preserved precision.
+fee | String |Fee rate.
+feeType | String |Channel fee method, FIXED stands for fixed, value PERCENTAGE stands for percentage charging.
+status | String |Channel status 1 is normally available, 0 means the channel is under maintenance.
+maxWithdrawBalance | String |Current user’s balance available for withdrawal.
+
 
 ```javascript
 {
@@ -2908,13 +2936,13 @@ This endpoint allows users to withdraw funds from their fiat account.
 **Parameters:**
 
 Name         | Type   | Mandatory | Description
--------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order, all are numbers and not start with 0,Length is 10 to 20
-currency     | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-amount       | STRING | Yes | The amount of currency to be withdrawn.
-channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
-channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
-extendInfo | JSON Object | No | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
+-------------|--------|-----------| ------------
+internalOrderId | STRING | No        | Associate a unique ID with this order. If specified, it can only be successfully created once and placed with the merchant. Otherwise, a new order will be created every time. It is recommended to use UUID.
+currency     | STRING | Yes       | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+amount       | STRING | Yes       | The amount of currency to be withdrawn.
+channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+channelSubject | STRING | Yes       | Channel code.
+extendInfo | JSON Object | No        | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
 
 **Request:**
 
@@ -2953,14 +2981,9 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
   "channelSubject":"unionbank",
   "extendInfo":{    
     "recipientAccountNumber": "20232249",
-    "recipientEmail": "xxxx@gmail.com",  
-    "recipientMobile": "+639651960000",
     "recipientName":"Joseph Pal Fajagut",
-    "recipientAddress": "Santo",
-    "recipientLastName": "Fajagut",     //optional
-    "recipientMiddleName": "Pal",       //optional
-    "recipientFirstName": "Joseph",     //optional
-    "remarks": ""                       //optional
+    "recipientAddress": "Santo",  // optional
+    "remarks": "pesonet Cash out"  // optional
   }
 }
 ```
@@ -2974,19 +2997,17 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
   "channelSubject":"gcash",
   "extendInfo":{    
     "recipientAccountNumber": "20232249",
-    "recipientEmail": "xxxx@gmail.com",  
-    "recipientMobile": "+639651960000",
-    "recipientName":"Joseph Pal Fajagut",
-    "recipientAddress": "Santo",
-    "recipientLastName": "Fajagut",     //optional
-    "recipientMiddleName": "Pal",       //optional
-    "recipientFirstName": "Joseph",     //optional
-    "remarks": ""                       //optional
+    "recipientName":"Joseph Pal Fajagut"
   }
 }
 ```
 
 **Response:**
+
+FieldName            | Type   | Description
+----------------|--------| ------------
+externalOrderId | String   |The internalOrderId here if you have set it, otherwise it is the same as server side "internalOrderId".
+internalOrderId | String   |The unique order id generated by the server.
 
 ```javascript
 {
@@ -2999,6 +3020,24 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
   "params": null
 }
 ```
+***Error code description:***
+
+status code           | Description
+----------------| ------------
+88010002 | User account disabled,please contact support for assistance.
+88010003 | order amount lower than channel minAmount.
+88010004 | order amount great than channel maxAmount.
+88010005 | Daily cash-out limit exceeded.
+88010006 | Monthly cash-out limit exceeded.
+88010007 | Annual cash-out limit exceeded.
+88010008,88010009,88010010,88010011 | Cash-outs method unavailable. please try again later
+88010012 | Have cash-out order in progress. Wait for it completion and create new.
+88010013 | Insufficient balance.Please make sure you have enough available balance
+88010014,88010015,88010016,88010018 | Please pass kyc first.
+88010017 | Please bind your phone number under Account Settings first.
+88010000 | Server side error,please contact support for assistance.
+
+
 
 #### Fiat order detail
 ```shell
@@ -3012,10 +3051,37 @@ This endpoint retrieves information about a specific fiat currency order. The re
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
+----------------|--------|-----------| ------------
+internalOrderId | STRING | NO        | server side order Id.One of the two is required 
+externalOrderId | STRING | NO        | client side order Id.One of the two is required
 
 **Response:**
+
+FieldName            | Type    | Description
+----------------|---------| ------------
+id | String  |The client side OrderId here if you have set it, otherwise it is the same as server side "internalOrderId".
+orderId | String  |The unique order id generated by the server.
+paymentOrderId | String  |The payment order id generated by the channel.
+fiatCurrency | String  |PHP as it is the only currency currently supported
+fiatAmount | String  |The order amount.
+transactionType | String  |1 mean cash in,-1 mean cash out.
+transactionChannel | String  |The first-level channel to order it belongs.
+transactionSubject | String  |The channel code of order.
+transactionSubjectType | String  |Channel type.
+transactionChannelName | String  |First level channel Name.
+transactionSubjectName | String  |channel Name.
+feeCurrency | String  |PHP as it is the only currency currently supported
+channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
+platformFee | String  |The fee of order.
+status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not a final state, SUCCEEDED represents the order processing success, FAILED represents the order processing failure, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+errorCode | String  |Order fail with errorCode.
+errorMessage | String  |Order fail with error message.
+completedTime | String  |The time of order completed.
+source | String  |Order create client Type，such as WEB,ANDROID,IOS,open-api.
+createdAt | String  |The time of order created.
+orderExtendedMap | Object  |The order extend data.
+dealCancel | boolean |If order can cancel value will be true.
+
 
 ```javascript
 {
@@ -3072,18 +3138,43 @@ This endpoint is used to query all fiat related history
 
 Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
-pageNum | STRING | No | Page number.
-pageSize | STRING | No | Page size.
+pageNum | STRING | No | Page number default 1.
+pageSize | STRING | No | Page size,default 10.
 internalOrderId | STRING | No | Coins returns a unique tracking order number.
 transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
-transactionChannel | STRING | No | Transaction channel, example: instapay etc.
+transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
 transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No | Coins fiat order status.
+status | STRING | No | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not a final state, SUCCEEDED represents the order processing success, FAILED represents the order processing failure, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
 fiatCurrency | STRING | No | fiat currecy.
 startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 
 **Response:**
+
+FieldName            | Type    | Description
+----------------|---------| ------------
+externalOrderId | String  |The client side unique order id if you have set it, otherwise it is the same as server side "internalOrderId".
+internalOrderId | String  |The unique order id generated by the server.
+paymentOrderId | String  |The payment order id generated by the channel.
+fiatCurrency | String  |PHP as it is the only currency currently supported
+fiatAmount | String  |The order amount.
+transactionType | String  |1 mean cash in,-1 mean cash out.
+transactionChannel | String  |The first-level channel to order it belongs.
+transactionSubject | String  |The channel code of order.
+transactionSubjectType | String  |Channel type.
+transactionChannelName | String  |First level channel Name.
+transactionSubjectName | String  |channel Name.
+feeCurrency | String  |PHP as it is the only currency currently supported
+channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
+platformFee | String  |The fee of order.
+status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not a final state, SUCCEEDED represents the order processing success, FAILED represents the order processing failure, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+errorCode | String  |Order fail with errorCode.
+errorMessage | String  |Order fail with error message.
+completedTime | String  |The time of order completed.
+source | String  |Order create client Type，such as WEB,ANDROID,IOS,open-api.
+createdAt | String  |The time of order created.
+orderExtendedMap | Object  |The order extend data.
+dealCancel | boolean |If order can cancel value will be true.
 
 ```javascript
 {
