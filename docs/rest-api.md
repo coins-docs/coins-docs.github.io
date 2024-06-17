@@ -8,8 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-06-17: Added the `internalOrderId` support str or UUID to the `/openapi/fiat/v1/cash-out` endpoint.
 
-2023-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
+2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
 
