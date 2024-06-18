@@ -3595,6 +3595,11 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 - Transfer from master account by default if fromEmail is not sent.
 - Transfer to master account by default if toEmail is not sent.
 - Specify at least one of fromEmail and toEmail.
+- Supported transfer scenarios:
+  - Master account transfer to sub-account 
+  - Sub-account transfer to master account 
+  - Sub-account transfer to Sub-account
+
 
 **Response:**
 ```json
