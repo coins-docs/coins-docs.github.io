@@ -3763,7 +3763,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
@@ -3796,7 +3796,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
@@ -3828,7 +3828,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
