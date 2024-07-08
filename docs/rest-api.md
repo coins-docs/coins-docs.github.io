@@ -2523,7 +2523,7 @@ invoice.payment_reference_number_generated| The invoice payment reference number
 
 ### Convert endpoints
 
-#### Get supported trading pairs(TRADE)
+#### Get supported trading pairs (TRADE)
 ```shell
 POST /openapi/convert/v1/get-supported-trading-pairs
 ```
@@ -2579,7 +2579,7 @@ This continuously updated endpoint returns a list of all available trading pairs
 
 
 
-#### Fetch a quote(TRADE)
+#### Fetch a quote (TRADE)
 
 ```shell
 POST /openapi/convert/v1/get-quote
@@ -2616,7 +2616,7 @@ targetAmount | STRING | NO        |The amount of targetCurrency. You only need t
 }
 ```
 
-#### Accept the quote(TRADE)
+#### Accept the quote (TRADE)
 
 
 ```shell
@@ -2647,7 +2647,7 @@ quoteId | STRING | YES |The ID assigned to the quote
 }
 ```
 
-#### Retrieve order history(USER_DATA)
+#### Retrieve order history (USER_DATA)
 
 
 ```shell
@@ -2700,7 +2700,7 @@ size | int    | No |
 
 ### Fiat endpoints
 
-#### Get supported fiat channels(TRADE)
+#### Get supported fiat channels (TRADE)
 ```shell
 POST openapi/fiat/v1/support-channel
 ```
@@ -2913,7 +2913,7 @@ amount        | STRING | No | If not set, the default value is 0
 ```
 
 
-#### Cash out(TRADE)
+#### Cash out (TRADE)
 ```shell
 POST openapi/fiat/v1/cash-out
 ```
@@ -3017,7 +3017,7 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
 }
 ```
 
-#### Fiat order detail(USER_DATA)
+#### Fiat order detail (USER_DATA)
 ```shell
 GET openapi/fiat/v1/details
 ```
@@ -3076,7 +3076,7 @@ internalOrderId | STRING | Yes | ID of the order for which the user wishes to re
 }
 ```
 ------
-#### Fiat order history(USER_DATA)
+#### Fiat order history (USER_DATA)
 ```shell
 POST openapi/fiat/v1/history
 ```
