@@ -96,6 +96,20 @@ nav: sidebar/rest-api.html
 
 * Specific error codes and messages are defined in another document.
 
+## API Library
+
+### Connectors
+
+The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
+
+* Python https://github.com/coins-docs/coins-connector-python
+
+### Postman Collections
+
+
+Postman collections are available, and they are recommended for new users seeking a quick and easy start with the API.
+
+https://github.com/coins-docs/coins-api-postman
 
 
 ## General Information on Endpoints
@@ -162,13 +176,13 @@ nav: sidebar/rest-api.html
 * API keys can be configured to have access only to specific types of secure endpoints. For example, one API key may be restricted to TRADE routes only, while another API key can have access to all routes except TRADE.
 * By default, API keys have access to all secure routes.
 
-Security Type | Description
------------- | ------------
-NONE | Endpoint can be accessed freely.
-TRADE | Endpoint requires sending a valid API Key and signature.
-USER_DATA | Endpoint requires sending a valid API Key and signature.
-USER_STREAM | Endpoint requires sending a valid API Key.
-MARKET_DATA | Endpoint requires sending a valid API Key.
+Security Type | Additional parameter          | Description
+------------ |-------------------------------| ------------
+NONE | none                          | Endpoint can be accessed freely.
+TRADE| `X-COINS-APIKEY`、`signature`、`timestamp` | Endpoint requires sending a valid API Key and signature and timing security. 
+USER_DATA| `X-COINS-APIKEY`、`signature`、`timestamp`                         | Endpoint requires sending a valid API Key and signature and timing security.. 
+USER_STREAM | `X-COINS-APIKEY`                         | Endpoint requires sending a valid API Key.               
+MARKET_DATA | `X-COINS-APIKEY`                         | Endpoint requires sending a valid API Key.               
 
 * `TRADE` and `USER_DATA` endpoints are `SIGNED` endpoints.
 
@@ -177,7 +191,7 @@ MARKET_DATA | Endpoint requires sending a valid API Key.
 ### SIGNED (TRADE and USER_DATA) Endpoint Security
 
 * `SIGNED` endpoints require an additional parameter, `signature`, to be
-  sent in the  `query string` or `request body`.
+  sent in the  `query string` or `form request body` or `header`.
 * Endpoints use `HMAC SHA256` signatures. The `HMAC SHA256 signature` is a keyed `HMAC SHA256` operation.
   Use your `secretKey` as the key and `totalParams` as the value for the HMAC operation.
 * The `signature` is **not case sensitive**.
@@ -188,7 +202,8 @@ MARKET_DATA | Endpoint requires sending a valid API Key.
 
 ### Timing Security
 
-* A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be included in the request. The `timestamp` should be the millisecond timestamp indicating when the request was created and sent.
+* A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be
+  sent in the  `query string` or `form request body` or `header`. The `timestamp` should be the millisecond timestamp indicating when the request was created and sent.
 * An optional parameter, `recvWindow`, can be included to specify the validity duration of the request in milliseconds after the timestamp. If `recvWindow` is not provided, **it will default to 5000 milliseconds**.
 * The logic is as follows:
 
@@ -252,7 +267,7 @@ timestamp | 1538323200000
 
 
 
-#### Example 2: As a request body
+#### Example 2: As a form body
 
 * **requestBody:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
 * **HMAC SHA256 signature:**
@@ -271,7 +286,7 @@ timestamp | 1538323200000
 
 
 
-#### Example 3: Mixed query string and request body
+#### Example 3: Mixed query string and form body
 
 * **queryString:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC
 * **requestBody:** quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
@@ -292,6 +307,27 @@ timestamp | 1538323200000
 Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
 
 
+#### Example 4: Mixed query string and json body
+
+* **queryString:** k1=v1&k2=v2
+* **requestBody:** {"key":"value"}
+* **HMAC SHA256 signature:**
+
+```shell
+[linux]$ echo -n 'k1=v1&k2=v2{"key":"value"}' | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd
+```
+
+* **curl command:**
+
+```shell
+(HMAC SHA256)
+[linux]$ curl -X POST 'https://$HOST/openapi/fiat/v1/cash-out?k1=v1&k2=v2' \
+-H 'X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW' \
+-H 'signature: ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd' \
+-H 'Content-Type: application/json' \
+--data '{"key":"value"}'
+```
 
 ## Public API Endpoints
 
@@ -2117,7 +2153,7 @@ timestamp          | LONG   | YES        |
 ```
 
 
-#### Get payment request
+#### Get payment request (USER_DATA)
 
 ```shell
 GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
@@ -2158,7 +2194,7 @@ timestamp          | LONG   | YES        |
 }
 ```
 
-#### Cancel payment request
+#### Cancel payment request (USER_DATA)
 
 ```shell
 POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
@@ -2196,7 +2232,7 @@ timestamp          | LONG   | YES        |
 }
 ```
 
-#### Send reminder for payment request
+#### Send reminder for payment request (USER_DATA)
 
 ```shell
 POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
@@ -2510,7 +2546,7 @@ invoice.payment_reference_number_generated| The invoice payment reference number
 
 
 ### Convert endpoints
-#### Get supported trading pairs
+#### Get supported trading pairs (TRADE)
 ```shell
 POST /openapi/convert/v1/get-supported-trading-pairs
 ```
@@ -2574,7 +2610,7 @@ precision	| The level of precision in decimal places used.
 
 
 
-#### Fetch a quote
+#### Fetch a quote (TRADE)
 
 ```shell
 POST /openapi/convert/v1/get-quote
@@ -2621,7 +2657,7 @@ expiry	| Quote expire time seconds.
 }
 ```
 
-#### Accept the quote
+#### Accept the quote (TRADE)
 
 
 ```shell
@@ -2669,7 +2705,7 @@ status code           | Description
 10000003 | Insufficient balance.
 10000003 | Failed to fetch liquidity. Try again later.
 
-#### Retrieve order history
+#### Retrieve order history (USER_DATA)
 
 
 ```shell
@@ -2738,7 +2774,7 @@ errorMessage	| Error message if order failed.
 
 ### Fiat endpoints
 
-#### Get supported fiat channels
+#### Get supported fiat channels (TRADE)
 ```shell
 POST openapi/fiat/v1/support-channel
 ```
@@ -2746,7 +2782,7 @@ POST openapi/fiat/v1/support-channel
 This continuously updated endpoint returns a list of all available fiat channels.
 **Weight:** 1
 
-**Parameters:**
+**Parameters(suggest json body):**
 
 Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
@@ -2979,7 +3015,7 @@ maxWithdrawBalance | String |Current user’s balance available for withdrawal.
 ```
 
 
-#### Cash out
+#### Cash out (TRADE)
 ```shell
 POST openapi/fiat/v1/cash-out
 ```
@@ -2988,7 +3024,7 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 **Weight:** 1
 
-**Parameters:**
+**Parameters(with json body):**
 
 Name         | Type   | Mandatory | Description
 -------------|--------|-----------| ------------
@@ -3094,7 +3130,7 @@ status code           | Description
 
 
 
-#### Fiat order detail
+#### Fiat order detail (USER_DATA)
 ```shell
 GET openapi/fiat/v1/details
 ```
@@ -3180,7 +3216,7 @@ dealCancel | boolean |If order can cancel value will be true.
 }
 ```
 ------
-#### Fiat order history
+#### Fiat order history (USER_DATA)
 ```shell
 POST openapi/fiat/v1/history
 ```
@@ -3189,7 +3225,7 @@ This endpoint is used to query all fiat related history
 
 **Weight:** 1
 
-**Parameters:**
+**Parameters(with json body):**
 
 Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
@@ -3724,6 +3760,11 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 - Transfer from master account by default if fromEmail is not sent.
 - Transfer to master account by default if toEmail is not sent.
 - Specify at least one of fromEmail and toEmail.
+- Supported transfer scenarios:
+  - Master account transfer to sub-account 
+  - Sub-account transfer to master account 
+  - Sub-account transfer to Sub-account
+
 
 **Response:**
 ```json
@@ -3887,7 +3928,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
@@ -3920,7 +3961,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
@@ -3952,7 +3993,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
     "8.8.8.8"
   ],
   "ipRestrict": true,
-  "type": 1,//0:READ_ONLY,1:TRADE
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
 }
 ```
