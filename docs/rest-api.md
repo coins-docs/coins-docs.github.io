@@ -265,7 +265,7 @@ timestamp | 1538323200000
 
 
 
-#### Example 2: As a form body
+#### Example 2: As a request body
 
 * **requestBody:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
 * **HMAC SHA256 signature:**
@@ -284,7 +284,7 @@ timestamp | 1538323200000
 
 
 
-#### Example 3: Mixed query string and form body
+#### Example 3: Mixed query string and request body
 
 * **queryString:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC
 * **requestBody:** quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
@@ -304,28 +304,6 @@ timestamp | 1538323200000
 
 Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
 
-
-#### Example 4: Mixed query string and json body
-
-* **queryString:** k1=v1&k2=v2
-* **requestBody:** {"key":"value"}
-* **HMAC SHA256 signature:**
-
-```shell
-[linux]$ echo -n 'k1=v1&k2=v2{"key":"value"}' | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
-(stdin)= ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd
-```
-
-* **curl command:**
-
-```shell
-(HMAC SHA256)
-[linux]$ curl -X POST 'https://$HOST/openapi/fiat/v1/cash-out?k1=v1&k2=v2' \
--H 'X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW' \
--H 'signature: ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd' \
--H 'Content-Type: application/json' \
---data '{"key":"value"}'
-```
 
 ## Public API Endpoints
 
@@ -3129,6 +3107,27 @@ status code           | Description
 88010000 | Server side error,please contact support for assistance.
 
 
+#### Curl Example
+
+* **queryString:** k1=v1&k2=v2
+* **requestBody:** {"key":"value"}
+* **HMAC SHA256 signature:**
+
+```shell
+[linux]$ echo -n 'k1=v1&k2=v2{"key":"value"}' | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd
+```
+
+* **curl command:**
+
+```shell
+(HMAC SHA256)
+[linux]$ curl -X POST 'https://$HOST/openapi/fiat/v1/cash-out?k1=v1&k2=v2' \
+-H 'X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW' \
+-H 'signature: ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd' \
+-H 'Content-Type: application/json' \
+--data '{"key":"value"}'
+```
 
 #### Fiat order detail (USER_DATA)
 ```shell
