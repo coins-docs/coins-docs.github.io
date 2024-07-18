@@ -2698,6 +2698,7 @@ data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESS
 
 status code           | Description
 ----------------| ------------
+0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
 10000003 | Failed to fetch account verification information.
 10000003 | Quote expired.
 10000003 | Unable to fetch account information.
