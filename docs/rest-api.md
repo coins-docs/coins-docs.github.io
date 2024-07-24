@@ -3256,7 +3256,7 @@ transactionSubjectName | String  |channel Name.
 feeCurrency | String  |PHP as it is the only currency currently supported
 channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
 platformFee | String  |The fee of order.
-status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not a final state, SUCCEEDED represents the order processing success, FAILED represents the order processing failure, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
 errorCode | String  |Order fail with errorCode.
 errorMessage | String  |Order fail with error message.
 completedTime | String  |The time of order completed.
