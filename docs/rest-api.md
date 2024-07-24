@@ -2795,7 +2795,7 @@ remainingAnnualLimit | String |Channel annual limit remaining.
 precision | String |Preserved precision.
 fee | String |Fee rate.
 feeType | String |Channel fee method, FIXED stands for fixed, value PERCENTAGE stands for percentage charging.
-status | String |Channel status 1 is normally available, 0 means the channel is under maintenance.
+status | String | Channel status 1 means it is normally available, 0 means the channel is under maintenance.
 maxWithdrawBalance | String |Current user’s balance available for withdrawal.
 
 
