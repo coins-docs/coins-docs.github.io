@@ -3100,7 +3100,7 @@ status code           | Description
 88010006 | Monthly cash-out limit exceeded.
 88010007 | Annual cash-out limit exceeded.
 88010008,88010009,88010010,88010011 | Cash-outs method unavailable. please try again later
-88010012 | Have cash-out order in progress. Wait for it completion and create new.
+88010012 | Cash-out order in progress. Wait for its completion and create a new one.
 88010013 | Insufficient balance.Please make sure you have enough available balance
 88010014,88010015,88010016,88010018 | Please pass kyc first.
 88010017 | Please bind your phone number under Account Settings first.
