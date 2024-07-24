@@ -3005,7 +3005,7 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 Name         | Type   | Mandatory | Description
 -------------|--------|-----------| ------------
-internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, all are numbers and not start with 0,Length is 10 to 20
+internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, all are numbers and does not start with 0, Length is 10 to 20
 currency     | STRING | Yes       | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 amount       | STRING | Yes       | The amount of currency to be withdrawn.
 channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
