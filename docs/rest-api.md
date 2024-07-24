@@ -3169,7 +3169,7 @@ completedTime | String  |The time of order completed.
 source | String  |Order create client Type，such as WEB,ANDROID,IOS,open-api.
 createdAt | String  |The time of order created.
 orderExtendedMap | Object  |The order extend data.
-dealCancel | boolean |If order can cancel value will be true.
+dealCancel | boolean | If order can be canceled, value will be true.
 
 
 ```javascript
