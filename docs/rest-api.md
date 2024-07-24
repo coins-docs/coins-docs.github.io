@@ -201,7 +201,7 @@ MARKET_DATA | `X-COINS-APIKEY`                         | Endpoint requires sendi
 ### Timing Security
 
 * A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be
-  sent in the  `query string` or `form request body` or `header`(Not recommended). The `timestamp` should be the millisecond timestamp indicating when the request was created and sent.
+  sent in the  `query string` or `form request body` or `header`(Not recommended). The `timestamp` should be in millisecond timestamp indicating when the request was created and sent.
 * An optional parameter, `recvWindow`, can be included to specify the validity duration of the request in milliseconds after the timestamp. If `recvWindow` is not provided, **it will default to 5000 milliseconds**.
 * The logic is as follows:
 
