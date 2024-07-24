@@ -2765,8 +2765,8 @@ Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
 transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-transactionChannel | STRING | No |  Filter list passes through the first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
-transactionSubject        | STRING | No | Filter the list through secondary channels. Such as gcash.
+transactionChannel | STRING | No |  Filter the list by first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+transactionSubject        | STRING | No | Filter the list by secondary channels. Such as Gcash.
 amount        | STRING | No | Used to match the fee rate. If the fee rate is calculated based on the amount range, the default value is 0 if not filled in.
 
 **Response:**
