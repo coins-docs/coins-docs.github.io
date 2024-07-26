@@ -3206,7 +3206,7 @@ pageNum | STRING | No | Page number default 1.
 pageSize | STRING | No | Page size,default 10.
 internalOrderId | STRING | No | Coins returns a unique tracking order number.
 transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
-transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
 transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
 status | STRING | No | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
 fiatCurrency | STRING | No | fiat currecy.
