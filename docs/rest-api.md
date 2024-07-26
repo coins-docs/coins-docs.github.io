@@ -2765,7 +2765,7 @@ Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
 transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-transactionChannel | STRING | No |  Filter the list by first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+transactionChannel | STRING | No |  Filter the list by first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET.
 transactionSubject        | STRING | No | Filter the list by secondary channels. Such as Gcash.
 amount        | STRING | No | Used to match the fee rate. If the fee rate is calculated based on the amount range, the default value is 0 if not filled in.
 
@@ -3008,37 +3008,12 @@ Name         | Type   | Mandatory | Description
 internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, all are numbers and does not start with 0, Length is 10 to 20
 currency     | STRING | Yes       | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 amount       | STRING | Yes       | The amount of currency to be withdrawn.
-channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET, SWIFTPAY_OTC.
+channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET.
 channelSubject | STRING | Yes       | Channel code.
-extendInfo | JSON Object | No        | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
+extendInfo | JSON Object | No        | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`.
 
 **Request:**
 
-- SWIFTPAY_OTC （Cash transactions at offline partner stores）
-```javascript
-{
-  "amount": "1000",
-  "internalOrderId":"2023090410571114",
-  "currency":"PHP",
-  "channelName": "SWIFTPAY_OTC",
-  "channelSubject":"MLH",
-  "extendInfo":{
-    "recipientProvinceAddress": "South Cotabato",
-    "recipientLastName": "Fajagut",
-    "recipientMiddleName": "Pal",
-    "recipientFirstName": "Joseph",
-    "recipientCityAddress": "Santo",
-    "remarks": "OTC Cash out",
-    "recipientBirthDate": "1974-06-19",
-    "recipientStreetAddress": "Purok Magsaysay",
-    "recipientNationality": "PH",
-    "recipientBarangayAddress": "Katipunan",
-    "recipientCountryAddress": "PH",
-    "recipientEmail": "xxxx@gmail.com",
-    "recipientMobile": "+63 9651960000"
-  }
-}
-```
 - SWIFTPAY_PESONET （Large amount arrives on T+1）
 ```javascript
 {
