@@ -8,7 +8,6 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-
 2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
@@ -175,13 +174,13 @@ https://github.com/coins-docs/coins-api-postman
 * API keys can be configured to have access only to specific types of secure endpoints. For example, one API key may be restricted to TRADE routes only, while another API key can have access to all routes except TRADE.
 * By default, API keys have access to all secure routes.
 
-Security Type | Description
------------- | ------------
-NONE | Endpoint can be accessed freely.
-TRADE | Endpoint requires sending a valid API Key and signature.
-USER_DATA | Endpoint requires sending a valid API Key and signature.
-USER_STREAM | Endpoint requires sending a valid API Key.
-MARKET_DATA | Endpoint requires sending a valid API Key.
+Security Type | Additional parameter          | Description
+------------ |-------------------------------| ------------
+NONE | none                          | Endpoint can be accessed freely.
+TRADE| `X-COINS-APIKEY`、`signature`、`timestamp` | Endpoint requires sending a valid API Key and signature and timing security. 
+USER_DATA| `X-COINS-APIKEY`、`signature`、`timestamp`                         | Endpoint requires sending a valid API Key and signature and timing security.. 
+USER_STREAM | `X-COINS-APIKEY`                         | Endpoint requires sending a valid API Key.               
+MARKET_DATA | `X-COINS-APIKEY`                         | Endpoint requires sending a valid API Key.               
 
 * `TRADE` and `USER_DATA` endpoints are `SIGNED` endpoints.
 
@@ -190,18 +189,19 @@ MARKET_DATA | Endpoint requires sending a valid API Key.
 ### SIGNED (TRADE and USER_DATA) Endpoint Security
 
 * `SIGNED` endpoints require an additional parameter, `signature`, to be
-  sent in the  `query string` or `request body`.
+  sent in the  `query string` or `form request body` or `header`.
 * Endpoints use `HMAC SHA256` signatures. The `HMAC SHA256 signature` is a keyed `HMAC SHA256` operation.
   Use your `secretKey` as the key and `totalParams` as the value for the HMAC operation.
 * The `signature` is **not case sensitive**.
 * `totalParams` is defined as the `query string` concatenated with the
-  `request body`.
+  `request body`(exclude `signature` parameters and values If signature parameters are in both).
 
 
 
 ### Timing Security
 
-* A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be included in the request. The `timestamp` should be the millisecond timestamp indicating when the request was created and sent.
+* A `SIGNED` endpoint requires an additional parameter, `timestamp`, to be
+  sent in the  `query string` or `form request body` or `header`(Not recommended). The `timestamp` should be in millisecond timestamp indicating when the request was created and sent.
 * An optional parameter, `recvWindow`, can be included to specify the validity duration of the request in milliseconds after the timestamp. If `recvWindow` is not provided, **it will default to 5000 milliseconds**.
 * The logic is as follows:
 
@@ -303,7 +303,6 @@ timestamp | 1538323200000
 ```
 
 Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
-
 
 
 ## Public API Endpoints
@@ -2521,14 +2520,14 @@ invoice.fully_paid	| The invoice payment has been completed.
 invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
 
 
-### Convert endpoints
 
+### Convert endpoints
 #### Get supported trading pairs (TRADE)
 ```shell
 POST /openapi/convert/v1/get-supported-trading-pairs
 ```
 
-This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
+This continuously updated endpoint returns a list of all available trading pairs. 
 
 **Weight:** 1
 
@@ -2540,9 +2539,17 @@ This continuously updated endpoint returns a list of all available trading pairs
 
 **Response:**
 
+Field name	| Description
+----|---
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+minSourceAmount	| amount range min value.
+maxSourceAmount	| amount range max value.
+precision	| The level of precision in decimal places used.
+
 ```javascript
 {
-  "status":"Success",
+  "status":0, 
   "error":"OK",
   "data":[
      {
@@ -2600,6 +2607,16 @@ targetAmount | STRING | NO        |The amount of targetCurrency. You only need t
 
 **Response:**
 
+Field name	| Description
+----|---
+quoteId	| Quote unique id.
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+sourceAmount	| Source token amount.
+price	| Trading pairs price.
+targetAmount	| Targe token amount.
+expiry	| Quote expire time seconds.
+
 ```javascript
 {
   "status": 0, 
@@ -2636,6 +2653,12 @@ quoteId | STRING | YES |The ID assigned to the quote
 
 **Response:**
 
+Field name	| Description
+----|---
+status	| 0 mean order are created. 
+data.orderId	| Order ID generated by the server.
+data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESSING`;PROCESSING mean that the server is processing,SUCCESS means the order is successful.
+
 ```javascript
 {
   "status": 0, 
@@ -2646,6 +2669,18 @@ quoteId | STRING | YES |The ID assigned to the quote
   "error": "ok"
 }
 ```
+
+***Error code description:***
+
+status code           | Description
+----------------| ------------
+0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
+10000003 | Failed to fetch account verification information.
+10000003 | Quote expired.
+10000003 | Unable to fetch account information.
+10000003 | The price has changed! Please confirm the updated rate to complete the transaction.
+10000003 | Insufficient balance.
+10000003 | Failed to fetch liquidity. Try again later.
 
 #### Retrieve order history (USER_DATA)
 
@@ -2669,6 +2704,22 @@ size | int    | No |
 
 
 **Response:**
+
+Field name	| Description
+----|---
+orderId	| Order ID generated by the server.
+quoteId	| Order reference quote Id.
+userId	| user id.
+sourceCurrency	| source currency.
+targetCurrency	| target currency.
+sourceAmount	| source currency amount.
+targetAmount	| target currency amount.
+price	| price.
+status	| Order status.`TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+createdAt	| Order create time.
+errorMessage	| Error message if order failed.
+
+
 
 ```javascript
 {
@@ -2708,17 +2759,45 @@ POST openapi/fiat/v1/support-channel
 This continuously updated endpoint returns a list of all available fiat channels.
 **Weight:** 1
 
-**Parameters:**
+**Parameters(suggest json body):**
 
 Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
 transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
 currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-transactionChannel | STRING | No | transaction channel.
-transactionSubject        | STRING | No | Subchannels under transactionChannel.
-amount        | STRING | No | If not set, the default value is 0 
+transactionChannel | STRING | No |  Filter the list by first-level channel. The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET.
+transactionSubject        | STRING | No | Filter the list by secondary channels. Such as Gcash.
+amount        | STRING | No | Used to match the fee rate. If the fee rate is calculated based on the amount range, the default value is 0 if not filled in.
 
 **Response:**
+
+FieldName            | Type   | Description
+----------------|--------| ------------
+id | Long   |channel id
+transactionChannel | String |The first-level channel to which it belongs.
+transactionChannelName | String |The name of the first-level channel to which it belongs
+transactionSubject | String |Channel code.
+transactionSubjectType | String |Channel type.
+transactionSubjectTypeLabel | String |Channel label.
+transactionSubjectName | String |Channel name.
+transactionType | int    |1 mean cash in,-1 mean cash out.
+paymentMethod | String |Payment type, BANK_TRANSFER only. 
+channelIcon | url    |first-level channel Icon.
+subjectIcon | url    |Channel Icon.
+maximum | String |Maximum order amount.
+minimum | String |Minimum order amount.
+dailyLimit | String |Channel daily limit.
+monthlyLimit | String |Channel monthly limit.
+annualLimit | String |Channel annual limit.
+remainingDailyLimit | String |Channel daily limit remaining.
+remainingMonthlyLimit | String |Channel monthly limit remaining.
+remainingAnnualLimit | String |Channel annual limit remaining.
+precision | String |Preserved precision.
+fee | String |Fee rate.
+feeType | String |Channel fee method, FIXED stands for fixed, value PERCENTAGE stands for percentage charging.
+status | String | Channel status 1 means it is normally available, 0 means the channel is under maintenance.
+maxWithdrawBalance | String |Current user’s balance available for withdrawal.
+
 
 ```javascript
 {
@@ -2922,45 +3001,20 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 **Weight:** 1
 
-**Parameters:**
+**Parameters(with json body):**
 
 Name         | Type   | Mandatory | Description
--------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order, all are numbers and not start with 0,Length is 10 to 20
-currency     | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
-amount       | STRING | Yes | The amount of currency to be withdrawn.
-channelName  | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
-channelSubject | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
-extendInfo | JSON Object | No | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`, `recipientFirstName`,`recipientMiddleName`,`recipientLastName`,`recipientBirthDate`,`recipientNationality`,`recipientStreetAddress`,`recipientStreet2Address`,`recipientCityAddress`,`recipientProvinceAddress`,`recipientCountryAddress`,`recipientBarangayAddress`,`recipientEmail`,`recipientMobile`.
+-------------|--------|-----------| ------------
+internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, all are numbers and does not start with 0, Length is 10 to 20
+currency     | STRING | Yes       | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+amount       | STRING | Yes       | The amount of currency to be withdrawn.
+channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET.
+channelSubject | STRING | Yes       | Channel code.
+extendInfo | JSON Object | No        | A JSON object with additional information. Its structure and content may vary depending on the specific channel(Refer to demo below). The fields within the JSON object are: `recipientName`, `recipientAccountNumber`, `recipientAddress`, `remarks`.
 
 **Request:**
 
-- SWIFTPAY_OTC 
-```javascript
-{
-  "amount": "1000",
-  "internalOrderId":"2023090410571114",
-  "currency":"PHP",
-  "channelName": "SWIFTPAY_OTC",
-  "channelSubject":"MLH",
-  "extendInfo":{
-    "recipientProvinceAddress": "South Cotabato",
-    "recipientLastName": "Fajagut",
-    "recipientMiddleName": "Pal",
-    "recipientFirstName": "Joseph",
-    "recipientCityAddress": "Santo",
-    "remarks": "OTC Cash out",
-    "recipientBirthDate": "1974-06-19",
-    "recipientStreetAddress": "Purok Magsaysay",
-    "recipientNationality": "PH",
-    "recipientBarangayAddress": "Katipunan",
-    "recipientCountryAddress": "PH",
-    "recipientEmail": "xxxx@gmail.com",
-    "recipientMobile": "+63 9651960000"
-  }
-}
-```
-- SWIFTPAY_PESONET
+- SWIFTPAY_PESONET （Large amount arrives on T+1）
 ```javascript
 {
   "amount": "1000",
@@ -2970,18 +3024,13 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
   "channelSubject":"unionbank",
   "extendInfo":{    
     "recipientAccountNumber": "20232249",
-    "recipientEmail": "xxxx@gmail.com",  
-    "recipientMobile": "+639651960000",
     "recipientName":"Joseph Pal Fajagut",
-    "recipientAddress": "Santo",
-    "recipientLastName": "Fajagut",     //optional
-    "recipientMiddleName": "Pal",       //optional
-    "recipientFirstName": "Joseph",     //optional
-    "remarks": ""                       //optional
+    "recipientAddress": "Santo",  // optional
+    "remarks": "pesonet Cash out"  // optional
   }
 }
 ```
-- INSTAPAY
+- INSTAPAY （Near real-time payment）
 ```javascript
 {
   "amount": "1000",
@@ -2991,19 +3040,17 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
   "channelSubject":"gcash",
   "extendInfo":{    
     "recipientAccountNumber": "20232249",
-    "recipientEmail": "xxxx@gmail.com",  
-    "recipientMobile": "+639651960000",
-    "recipientName":"Joseph Pal Fajagut",
-    "recipientAddress": "Santo",
-    "recipientLastName": "Fajagut",     //optional
-    "recipientMiddleName": "Pal",       //optional
-    "recipientFirstName": "Joseph",     //optional
-    "remarks": ""                       //optional
+    "recipientName":"Joseph Pal Fajagut"
   }
 }
 ```
 
 **Response:**
+
+FieldName            | Type   | Description
+----------------|--------| ------------
+externalOrderId | String   | Coins internal ID, query not supported yet; ignore it.
+internalOrderId | String   | The unique order id generated by the server or the passed `internalOrderId`.
 
 ```javascript
 {
@@ -3013,8 +3060,48 @@ extendInfo | JSON Object | No | A JSON object with additional information. Its s
          "externalOrderId": "1380692028693995623",
          "internalOrderId": "1388420429697583896"
           },
-  "params": null
+  "params": null  //Reserved field Ignore it
 }
+```
+***status code description:***
+
+status code           | Description
+----------------| ------------
+0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure) 
+88010002 | User account disabled,please contact support for assistance.
+88010003 | order amount lower than channel minAmount.
+88010004 | order amount great than channel maxAmount.
+88010005 | Daily cash-out limit exceeded.
+88010006 | Monthly cash-out limit exceeded.
+88010007 | Annual cash-out limit exceeded.
+88010008,88010009,88010010,88010011 | Cash-outs method unavailable. please try again later
+88010012 | Cash-out order in progress. Wait for its completion and create a new one.
+88010013 | Insufficient balance.Please make sure you have enough available balance
+88010014,88010015,88010016,88010018 | Please pass kyc first.
+88010017 | Please bind your phone number under Account Settings first.
+88010000 | Server side error,please contact support for assistance.
+
+
+#### Curl Example
+
+* **queryString:** k1=v1&k2=v2
+* **requestBody:** {"key":"value"}
+* **HMAC SHA256 signature:**
+
+```shell
+[linux]$ echo -n 'k1=v1&k2=v2{"key":"value"}' | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd
+```
+
+* **curl command:**
+
+```shell
+(HMAC SHA256)
+[linux]$ curl -X POST 'https://$HOST/openapi/fiat/v1/cash-out?k1=v1&k2=v2' \
+-H 'X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW' \
+-H 'signature: ef230e573e76e304d4579ef7f777a7f236aec25b8881ccc9797bb91b186e24dd' \
+-H 'Content-Type: application/json' \
+--data '{"key":"value"}'
 ```
 
 #### Fiat order detail (USER_DATA)
@@ -3029,18 +3116,44 @@ This endpoint retrieves information about a specific fiat currency order. The re
 **Parameters:**
 
 Name            | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
+----------------|--------|-----------| ------------
+internalOrderId | STRING | YES       | ID of the order for which the user wishes to retrieve details.
 
 **Response:**
+
+FieldName            | Type    | Description
+----------------|---------| ------------
+externalOrderId | String  | Coins internal ID, query not supported yet; ignore it.
+internalOrderId | String  |The unique order id generated by the server.
+paymentOrderId | String  |The payment order id generated by the channel.
+fiatCurrency | String  |PHP as it is the only currency currently supported
+fiatAmount | String  |The order amount.
+transactionType | String  | 1 means cash in, -1 means cash out.
+transactionChannel | String  |The first-level channel to order it belongs.
+transactionSubject | String  |The channel code of order.
+transactionSubjectType | String  |Channel type.
+transactionChannelName | String  |First level channel Name.
+transactionSubjectName | String  |channel Name.
+feeCurrency | String  |PHP as it is the only currency currently supported
+channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
+platformFee | String  |The fee of order.
+status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+errorCode | String  |Order fail with errorCode.
+errorMessage | String  |Order fail with error message.
+completedTime | String  |The time of order completed.
+source | String  |Order create client Type，such as WEB,ANDROID,IOS,open-api.
+createdAt | String  |The time of order created.
+orderExtendedMap | Object  |The order extend data.
+dealCancel | boolean | If order can be canceled, value will be true.
+
 
 ```javascript
 {
   "status": 0,
   "error": "OK",
   "data": {
-            "id": "1380692028693995623",
-            "orderId": "1388420429697583896",
+            "externalOrderId": "1380692028693995623",
+            "internalOrderId": "1388420429697583896",
             "paymentOrderId": "455628",
             "fiatCurrency": "PHP",
             "fiatAmount": "60",
@@ -3085,22 +3198,47 @@ This endpoint is used to query all fiat related history
 
 **Weight:** 1
 
-**Parameters:**
+**Parameters(with json body):**
 
 Name            | Type   | Mandatory | Description
 ----------------|--------| ------------ | ------------
-pageNum | STRING | No | Page number.
-pageSize | STRING | No | Page size.
+pageNum | STRING | No | Page number default 1.
+pageSize | STRING | No | Page size,default 10.
 internalOrderId | STRING | No | Coins returns a unique tracking order number.
 transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
-transactionChannel | STRING | No | Transaction channel, example: instapay etc.
+transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
 transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No | Coins fiat order status.
+status | STRING | No | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
 fiatCurrency | STRING | No | fiat currecy.
 startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 
 **Response:**
+
+FieldName            | Type    | Description
+----------------|---------| ------------
+externalOrderId | String  | Coins internal ID, query not supported yet; ignore it.
+internalOrderId | String  |The unique order id generated by the server.
+paymentOrderId | String  |The payment order id generated by the channel.
+fiatCurrency | String  |PHP as it is the only currency currently supported
+fiatAmount | String  |The order amount.
+transactionType | String  |1 mean cash in,-1 mean cash out.
+transactionChannel | String  |The first-level channel to order it belongs.
+transactionSubject | String  |The channel code of order.
+transactionSubjectType | String  |Channel type.
+transactionChannelName | String  |First level channel Name.
+transactionSubjectName | String  |channel Name.
+feeCurrency | String  |PHP as it is the only currency currently supported
+channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
+platformFee | String  |The fee of order.
+status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+errorCode | String  |Order fail with errorCode.
+errorMessage | String  |Order fail with error message.
+completedTime | String  |The time of order completed.
+source | String  |Order create client Type，such as WEB,ANDROID,IOS,open-api.
+createdAt | String  |The time of order created.
+orderExtendedMap | Object  |The order extend data.
+dealCancel | boolean | If order can be canceled, value will be true.
 
 ```javascript
 {
