@@ -129,12 +129,12 @@ contains balance changed
 
 ```javascript
 {
-  "bs": "CHAIN_DEPOSIT",        //Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
   "e": "balanceUpdate",         //Event Type
   "E": 1573200697110,           //Event Time
   "a": "ABC",                   //Asset
   "d": "100.00000000",          //Balance Delta
-  "T": 1573200697068            //Clear Time
+  "T": 1573200697068,           //Clear Time
+  "bs": "CHAIN_DEPOSIT"         //Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
 }
 ```
 
