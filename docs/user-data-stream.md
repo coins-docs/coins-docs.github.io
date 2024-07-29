@@ -7,7 +7,7 @@ layout: default
 
 
 # Change Log
-2024-07-29: add `bs` to Balance Update endpoint
+2024-07-29: add `Business Type` to Balance Update endpoint
 
 2023-07-15: update `balanceUpdate` trigger condition
 
@@ -129,7 +129,7 @@ contains balance changed
 
 ```javascript
 {
-  "bs": "CHAIN_DEPOSIT",        //CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS
+  "bs": "CHAIN_DEPOSIT",        //Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
   "e": "balanceUpdate",         //Event Type
   "E": 1573200697110,           //Event Time
   "a": "ABC",                   //Asset
