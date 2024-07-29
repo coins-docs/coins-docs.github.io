@@ -7,6 +7,8 @@ layout: default
 
 
 # Change Log
+2024-07-29: add `Business Type` to Balance Update endpoint
+
 2023-07-15: update `balanceUpdate` trigger condition
 
 2022-08-19: add weight infomation for all interfaces
@@ -127,6 +129,7 @@ contains balance changed
 
 ```javascript
 {
+  "bs": "CHAIN_DEPOSIT",        //Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
   "e": "balanceUpdate",         //Event Type
   "E": 1573200697110,           //Event Time
   "a": "ABC",                   //Asset
