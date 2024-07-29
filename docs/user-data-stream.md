@@ -127,6 +127,7 @@ contains balance changed
 
 ```javascript
 {
+  "bs": "CHAIN_DEPOSIT",        //CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS
   "e": "balanceUpdate",         //Event Type
   "E": 1573200697110,           //Event Time
   "a": "ABC",                   //Asset
