@@ -8,7 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2024-07-30: Upgrade the `internalOrderId` to support uuid `/openapi/fiat/v1/cash-out` endpoint.
+2024-07-30: Upgrade the `internalOrderId` support uuid to the `/openapi/fiat/v1/cash-out` endpoint.
 
 2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
