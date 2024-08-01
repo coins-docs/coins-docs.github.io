@@ -3005,7 +3005,7 @@ This endpoint allows users to withdraw funds from their fiat account.
 
 Name         | Type   | Mandatory | Description
 -------------|--------|-----------| ------------
-internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, all are numbers and does not start with 0, Length is 10 to 20
+internalOrderId | STRING | yes       | Internal ID assigned to the funds withdrawal order, It is recommended to use uuid. One ID can only successfully create one order, Length is 10 to 60
 currency     | STRING | Yes       | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
 amount       | STRING | Yes       | The amount of currency to be withdrawn.
 channelName  | STRING | Yes       | The first-level channel to which it belongs.The first-level channel is an enumeration. The optional values are INSTAPAY, SWIFTPAY_PESONET.
@@ -3246,7 +3246,7 @@ dealCancel | boolean | If order can be canceled, value will be true.
     "error": "OK",
     "data": [
         {
-            "externalOrderId": "1476829580936625682",
+            "externalOrderId": "1380692028693995623",
             "internalOrderId": "2023090410571114",
             "paymentOrderId": "000008",
             "fiatCurrency": "PHP",
