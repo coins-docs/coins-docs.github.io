@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-08-26: Added the `startTime` `endTime` parameter to the `openapi/fiat/v1/history` endpoint.
+
 2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
@@ -3095,6 +3097,8 @@ status code           | Description
 
 * **curl command:**
 
+Note: X-COINS-APIKEY and signature are both placed in the request header
+
 ```shell
 (HMAC SHA256)
 [linux]$ curl -X POST 'https://$HOST/openapi/fiat/v1/cash-out?k1=v1&k2=v2' \
@@ -3212,6 +3216,8 @@ status | STRING | No | The order status is an enumeration with values PENDING, S
 fiatCurrency | STRING | No | fiat currecy.
 startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+startTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
+endTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
 
 **Response:**
 
