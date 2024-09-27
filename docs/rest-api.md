@@ -2124,7 +2124,7 @@ timestamp          | LONG   | YES        |
         "invoice": "1433341829953096704",
         "amount": "20",
         "currency": "PHP",
-        "status": "pending",
+        "status": "pending",//pending,fully_paid,expired,canceled
         "created_at": 1685603661217,
         "updated_at": 1685603661217,
         "expires_at": 1686208461219,
@@ -2166,7 +2166,7 @@ timestamp          | LONG   | YES        |
         "invoice": "1433341829953096704",
         "amount": "20",
         "currency": "PHP",
-        "status": "pending",
+        "status": "pending",//pending,fully_paid,expired,canceled
         "created_at": 1685603661217,
         "updated_at": 1685603661217,
         "expires_at": 1686208461219,
@@ -2204,7 +2204,7 @@ timestamp          | LONG   | YES        |
         "invoice": "1433341829953096704",
         "amount": "20",
         "currency": "PHP",
-        "status": "pending",
+        "status": "canceled",//pending,fully_paid,expired,canceled
         "created_at": 1685603661217,
         "updated_at": 1685603661217,
         "expires_at": 1686208461219,
@@ -2392,18 +2392,18 @@ coins_peso_wallet|Pay with the user's Peso Coins wallet.
 ```javascript
 {
     "invoice": {
-        "id": "",
-        "amount": "",
-        "amount_due": "",
-        "currency": "",
-        "status": "",
-        "external_transaction_id": "",
-        "created_at": 0,
-        "updated_at": 0,
-        "expires_at": 0,
-        "supported_payment_collectors": "",
-        "payment_url": "",
-        "expires_in_seconds": 0,
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
         "incoming_address":""
     }
 }
@@ -2436,18 +2436,18 @@ If the start_time and end_time parameters are not provided, the response will in
 ```javascript
 {
     "invoice": [{
-        "id": "",
-        "amount": "",
-        "amount_due": "",
-        "currency": "",
-        "status": "",
-        "external_transaction_id": "",
-        "created_at": 0,
-        "updated_at": 0,
-        "expires_at": 0,
-        "supported_payment_collectors": "",
-        "payment_url": "",
-        "expires_in_seconds": 0,
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
         "incoming_address":""
     }]
 }
@@ -2476,18 +2476,18 @@ invoice_id            | STRING | YES       | The ID of a specific invoice to can
 ```javascript
 {
     "invoice": {
-        "id": "",
-        "amount": "",
-        "amount_due": "",
-        "currency": "",
-        "status": "",
-        "external_transaction_id": "",
-        "created_at": 0,
-        "updated_at": 0,
-        "expires_at": 0,
-        "supported_payment_collectors": "",
-        "payment_url": "",
-        "expires_in_seconds": 0,
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "canceled",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
         "incoming_address":""
     }
 }
