@@ -878,8 +878,8 @@ Fetch deposit address with network.
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-coin | STRING | YES |
-network | STRING | YES |
+coin | STRING | YES | The value is from All Coins' Information api
+network | STRING | YES | The value is from All Coins' Information api
 recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
