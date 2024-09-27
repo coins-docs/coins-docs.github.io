@@ -1954,6 +1954,9 @@ timestamp | LONG | YES |
 ```javascript
 {
    "accountType":"SPOT",
+   "canDeposit":true,
+   "canTrade":true,
+   "canWithdraw":true,
    "balances":[
       {
          "asset":"456",
@@ -1971,9 +1974,7 @@ timestamp | LONG | YES |
          "locked":"0"
       }
    ],
-   "canDeposit":true,
-   "canTrade":true,
-   "canWithdraw":true,
+   "token":"PHP",
    "daily":{
       "cashInLimit":"500000",
       "cashInRemaining":"499994",
@@ -1998,7 +1999,6 @@ timestamp | LONG | YES |
       "totalWithdrawLimit":"120000000",
       "totalWithdrawRemaining":"119998487.97"
    },
-   "token":"PHP",
    "updateTime":1707273549694
 }
 ```
