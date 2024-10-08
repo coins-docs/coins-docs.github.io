@@ -109,11 +109,11 @@ balance snapshot
   "e": "outboundAccountPosition", // Event Type
   "E": 1564034571105,             // Event Time
   "u": 1564034571073,             // Account Last Update time
-  "B": [                          // balance
+  "B": [                          // Balance
     {
-      "a": "ETH",                 // asset
-      "f": "10000.000000",        // free
-      "l": "0.000000"             // locked
+      "a": "ETH",                 // Asset
+      "f": "10000.000000",        // Free
+      "l": "0.000000"             // Locked
     }
   ]
 }
@@ -129,12 +129,12 @@ contains balance changed
 
 ```javascript
 {
-  "e": "balanceUpdate",         //Event Type
-  "E": 1573200697110,           //Event Time
-  "a": "ABC",                   //Asset
-  "d": "100.00000000",          //Balance Delta
-  "T": 1573200697068,           //Clear Time
-  "bs": "CHAIN_DEPOSIT"         //Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
+  "e": "balanceUpdate",         // Event Type
+  "E": 1573200697110,           // Event Time
+  "a": "ETH",                   // Asset
+  "d": "100.00000000",          // Balance Delta
+  "T": 1573200697068,           // Clear Time
+  "bs": "CHAIN_DEPOSIT"         // Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
 }
 ```
 
