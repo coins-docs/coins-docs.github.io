@@ -72,6 +72,7 @@ GEM
 PLATFORMS
   universal-darwin-21
   universal-darwin-23
+  universal-darwin-24
 
 DEPENDENCIES
   bundler (~> 2.3.5)
