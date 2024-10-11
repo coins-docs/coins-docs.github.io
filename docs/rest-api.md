@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2024-10-11: Added the `/openapi/v1/sub-account/wallet/deposit/address` endpoint.
+
 2024-08-26: Added the `startTime` `endTime` parameter to the `openapi/fiat/v1/history` endpoint.
 
 2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
@@ -3625,7 +3627,7 @@ GET /openapi/v1/sub-account/list
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
+email      | STRING | NO    | Sub account email
 page    | INT | NO | Current page, default value: 1
 limit    | INT | NO | Quantity per page, default value 10, maximum `200`
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
@@ -3665,7 +3667,7 @@ POST /openapi/v1/sub-account/create
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-accountName      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+accountName      | STRING | YES       | Sub account email
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3694,7 +3696,7 @@ GET /openapi/v1/sub-account/asset
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES       | Sub account email
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3899,7 +3901,7 @@ GET /openapi/v1/sub-account/apikey/ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES        | 
-email      | STRING | YES        | 	<a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES        | 	Sub account email
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3930,7 +3932,7 @@ POST /openapi/v1/sub-account/apikey/add-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES       | 	Sub account email
 ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
 ipRestriction      | STRING | YES       | 	IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
@@ -3963,7 +3965,7 @@ POST /openapi/v1/sub-account/apikey/delete-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES       | 	Sub account email
 ipAddress      | STRING | YES       | 	Can be added in batches, separated by commas
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
@@ -3982,6 +3984,37 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 }
 ```
 
+
+###  Get Sub-account Deposit Address(For Master Account)
+
+```shell
+POST /openapi/v1/sub-account/wallet/deposit/address
+```
+
+Fetch sub account deposit address with network.
+
+
+**Weight:** 10
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+email      | STRING | YES       | Sub account email
+coin      | STRING | YES       | 	 The value is from All Coins' Information api
+network      | STRING | YES       | 	The value is from All Coins' Information api
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "coin": "ETH",
+  "address": "0xfe98628173830bf79c59f04585ce41f7de168784",
+  "addressTag": ""
+}
+```
 
 
 ### Note
