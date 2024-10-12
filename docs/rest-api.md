@@ -3988,7 +3988,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 ###  Get Sub-account Deposit Address(For Master Account)
 
 ```shell
-POST /openapi/v1/sub-account/wallet/deposit/address
+GET /openapi/v1/sub-account/wallet/deposit/address
 ```
 
 Fetch sub account deposit address with network.
