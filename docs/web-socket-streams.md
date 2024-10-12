@@ -20,7 +20,7 @@ layout: default
 
 # Web Socket Streams for coins (2022-08-15)
 # General WSS information
-* The base endpoint is: **wsapi.pro.coins.ph**
+* The base endpoint is: **wss://wsapi.pro.coins.ph**
 * Streams can be accessed either in a single raw stream or in a combined stream
 * Raw streams are accessed at **/openapi/quote/ws/v3/\<streamName\>**
 * Combined streams are accessed at **/openapi/quote/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
