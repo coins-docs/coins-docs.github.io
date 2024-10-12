@@ -20,7 +20,7 @@ layout: default
 
 # Web Socket Streams for coins (2022-08-15)
 # General WSS information
-* The base endpoint is: **wsapi.pro.coins.ph**
+* The base endpoint is: **wss://wsapi.pro.coins.ph**
 * Streams can be accessed either in a single raw stream or in a combined stream
 * Raw streams are accessed at **/openapi/quote/ws/v3/\<streamName\>**
 * Combined streams are accessed at **/openapi/quote/stream?streams=\<streamName1\>/\<streamName2\>/\<streamName3\>**
@@ -423,7 +423,7 @@ Order book price and quantity depth updates used to locally manage an order book
 ```
 
 ## How to manage a local order book correctly
-1. Open a stream to **wsapi.pro.coins.ph/openapi/quote/ws/stream?streams=ethbusd@depth**.
+1. Open a stream to **wss://wsapi.pro.coins.ph/openapi/quote/stream?streams=btcphp@depth**.
 2. Buffer the events you receive from the stream.
 3. Get a depth snapshot from **https://api.pro.coins.ph/openapi/quote/v1/depth?symbol=ETHBUSD** .
 4. Drop any event where `u` is <= `lastUpdateId` in the snapshot.
