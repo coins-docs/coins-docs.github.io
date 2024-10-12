@@ -341,7 +341,7 @@ Pushes any update to the best bid or ask's price or quantity in real-time for a 
 ```javascript
 {
   "u":400900217,     // order book updateId
-  "s":"BNBUSDT",     // symbol
+  "s":"BTCPHP",     // symbol
   "b":"25.35190000", // best bid price
   "B":"31.21000000", // best bid qty
   "a":"25.36520000", // best ask price
@@ -425,7 +425,7 @@ Order book price and quantity depth updates used to locally manage an order book
 ## How to manage a local order book correctly
 1. Open a stream to **wss://wsapi.pro.coins.ph/openapi/quote/stream?streams=btcphp@depth**.
 2. Buffer the events you receive from the stream.
-3. Get a depth snapshot from **https://api.pro.coins.ph/openapi/quote/v1/depth?symbol=ETHBUSD** .
+3. Get a depth snapshot from **https://api.pro.coins.ph/openapi/quote/v1/depth?symbol=BTCPHP** .
 4. Drop any event where `u` is <= `lastUpdateId` in the snapshot.
 5. The first processed event should have `U` <= `lastUpdateId`+1 **AND** `u` >= `lastUpdateId`+1.
 6. While listening to the stream, each new event's `U` should be equal to the previous event's `u`+1.
