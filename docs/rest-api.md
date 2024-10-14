@@ -408,263 +408,6 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 
 
 
-### Filters
-
-Filters define trading rules on a symbol or an exchange. Filters come in two forms: `symbol filters` and `exchange filters`.
-
-
-
-#### Symbol filters
-
-##### PRICE_FILTER
-
-The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
-
-* `minPrice` defines the minimum `price`/`stopPrice` allowed.
-* `maxPrice` defines the maximum `price`/`stopPrice` allowed.
-* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by.
-
-In order to pass the `price filter`, the following must be true for `price`/`stopPrice`:
-
-* `price` >= `minPrice`
-* `price` <= `maxPrice`
-* (`price`-`minPrice`) % `tickSize` == 0
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PRICE_FILTER",
-    "minPrice": "0.00000100",
-    "maxPrice": "100000.00000000",
-    "tickSize": "0.00000100"
-  }
-```
-
-
-
-##### PERCENT_PRICE
-
-The `PERCENT_PRICE` filter defines valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
-
-In order to pass the `percent price`, the following must be true for `price`:
-
-- `price` <= `weightedAveragePrice` * `multiplierUp`
-- `price` >= `weightedAveragePrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-    "avgPriceMins": 5
-  }
-```
-
-
-
-##### PERCENT_PRICE_SA
-
-The `PERCENT_PRICE_SA` filter defines valid range for a price based on the  simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
-
-In order to pass the `percent_price_sa`, the following must be true for `price`:
-
-- `price` <= `simpleAveragePrice` * `multiplierUp`
-- `price` >= `simpleAveragePrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_SA",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-    "avgPriceMins": 5
-  }
-```
-
-
-
-##### PERCENT_PRICE_BY_SIDE
-
-The `PERCENT_PRICE_BY_SIDE` filter defines the valid range for the price based on the last price of the symbol.
-There is a different range depending on whether the order is placed on the `BUY` side or the `SELL` side.
-
-Buy orders will succeed on this filter if:
-
-- `Order price` <= `bidMultiplierUp` * `lastPrice`
-- `Order price` >= `bidMultiplierDown` * `lastPrice`
-
-Sell orders will succeed on this filter if:
-
-- `Order Price` <= `askMultiplierUp` * `lastPrice`
-- `Order Price` >= `askMultiplierDown` * `lastPrice`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_BY_SIDE",
-    "bidMultiplierUp": "1.2",
-    "bidMultiplierDown": "0.2",
-    "askMultiplierUp": "1.5",
-    "askMultiplierDown": "0.8",
-  }
-```
-
-
-
-##### PERCENT_PRICE_INDEX
-
-The `PERCENT_PRICE_INDEX` filter defines valid range for a price based on the  index price which is calculated based on  several exhanges in the market by centain rule. (indexPrice wobsocket pushing will be available in future)
-
-In order to pass the `percent_price_index`, the following must be true for `price`:
-
-- `price` <= `indexPrice` * `multiplierUp`
-- `price` >= `indexPrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_INDEX",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-  }
-```
-
-
-
-##### PERCENT_PRICE_ORDER_SIZE
-
-The `PERCENT_PRICE_ORDER_SIZE` filter  is used to determine whether the execution of an order would cause the market price to fluctuate beyond the limit price, and if so, the order will be rejected.
-
-In order to pass the `percent_price_order_size`, the following must be true:
-
-- A buy order needs to meet: the market price after the order get filled  <`askPrice` * `multiplierUp`
-- A sell order needs to meet: the market price after the order get filled  >`bidPrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_ORDER_SIZE",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000"
-  }
-```
-
-
-
-##### STATIC_PRICE_RANGE
-
-The `STATIC_PRICE_RANGE` filter defines a static valid range for the price.
-
-In order to pass the `static_price_range`, the following must be true for `price`:
-
-- `price` <= `priceUp`
-- `price` >= `priceDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "STATIC_PRICE_RANGE",
-    "priceUp": "520",
-    "priceDown": "160"
-  }
-```
-
-
-
-##### LOT_SIZE
-
-The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
-
-* `minQty` defines the minimum `quantity` allowed.
-* `maxQty` defines the maximum `quantity` allowed.
-* `stepSize` defines the intervals that a `quantity`can be increased/decreased by.
-
-In order to pass the `lot size`, the following must be true for `quantity`:
-
-* `quantity` >= `minQty`
-* `quantity` <= `maxQty`
-* (`quantity`-`minQty`) % `stepSize` == 0
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "LOT_SIZE",
-    "minQty": "0.00100000",
-    "maxQty": "99999999.00000000",
-    "stepSize": "0.00100000"
-  }
-```
-
-
-
-##### NOTIONAL
-
-The `NOTIONAL` filter defines the acceptable notional range allowed for an order on a symbol.
-
-In order to pass this filter, the notional (`price * quantity`) has to pass the following conditions:
-
-- `price * quantity` <= `maxNotional`
-- `price * quantity` >= `minNotional`
-
-**/exchangeInfo format:**
-
-```javascript
-{
-   "filterType": "NOTIONAL",
-   "minNotional": "10.00000000",
-   "maxNotional": "10000.00000000"
-}
-```
-
-
-
-##### MAX_NUM_ORDERS
-
-The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
-Note that both triggered "algo" orders and normal orders are counted for this filter.
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "MAX_NUM_ORDERS",
-    "maxNumOrders": 200
-  }
-```
-
-
-
-##### MAX_NUM_ALGO_ORDERS
-
-The `MAX_ALGO_ORDERS` filter defines the maximum number of untriggered "algo" orders an account is allowed to have open on a symbol.
-"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "MAX_NUM_ALGO_ORDERS",
-    "maxNumAlgoOrders": 5
-  }
-```
-
-
-
-#### Exchange Filters
-
-None for now
-
-
-
 ### General endpoints
 
 #### Test connectivity
@@ -1064,6 +807,167 @@ Fetch withdraw history.
 
 
 
+#### Transfers (USER_DATA)
+
+```shell
+POST /openapi/transfer/v3/transfers
+```
+This endpoint is used to transfer funds between two accounts.
+
+**Weight:** 50
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+client_transfer_id | STRING | NO | Client Transfer ID
+account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
+amount      | BigDecimal | YES    | The amount being transferred
+recvWindow | LONG  | NO    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time when the transfer is performed
+message     | STRING  | NO    | The message sent to the recipient account
+
+If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
+
+
+**Response:**
+```javascript
+{
+  "transfer":
+    {
+      "id": "1451431230880900352",
+      "status": "success",//status enum: pending,success,failed
+      "account": "90dfg03goamdf02fs",
+      "target_address": "testsub@gmail.com",
+      "amount": "1",
+      "exchange": "1",
+      "payment": "23094j0amd0fmag9agjgasd",
+      "client_transfer_id": "1487573639841995271",
+      "message": "example"
+     }
+}
+```
+
+
+
+#### Payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
+```
+Initiate a new payment transaction by creating a payment request.
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type    | Mandatory | Description
+-----------------|---------|----------|--------------------------------------------------------------------------------------
+payer_contact_info            | STRING  | YES      | The contact information, typically an email address, to which the payment request should be sent.
+receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
+amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
+message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
+supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
+expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+recvWindow | LONG    | NO        | The value cannot be greater than `60000`
+timestamp          | LONG    | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+
+
+#### Account information (USER_DATA)
+
+```shell
+GET /openapi/v1/account (HMAC SHA256)
+```
+
+GET current account information.
+
+**Weight:** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+recvWindow | LONG | NO |The value cannot be greater than `60000`
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+{
+   "accountType":"SPOT",
+   "canDeposit":true,
+   "canTrade":true,
+   "canWithdraw":true,
+   "balances":[
+      {
+         "asset":"456",
+         "free":"100",
+         "locked":"0"
+      },
+      {
+         "asset":"APE",
+         "free":"0",
+         "locked":"0"
+      },
+      {
+         "asset":"AXS",
+         "free":"0.00005",
+         "locked":"0"
+      }
+   ],
+   "token":"PHP",
+   "daily":{
+      "cashInLimit":"500000",
+      "cashInRemaining":"499994",
+      "cashOutLimit":"500000",
+      "cashOutRemaining":"500000",
+      "totalWithdrawLimit":"500000",
+      "totalWithdrawRemaining":"500000"
+   },
+   "monthly":{
+      "cashInLimit":"10000000",
+      "cashInRemaining":"9999157",
+      "cashOutLimit":"10000000",
+      "cashOutRemaining":"10000000",
+      "totalWithdrawLimit":"10000000",
+      "totalWithdrawRemaining":"10000000"
+   },
+   "annually":{
+      "cashInLimit":"120000000",
+      "cashInRemaining":"119998577",
+      "cashOutLimit":"120000000",
+      "cashOutRemaining":"119999488",
+      "totalWithdrawLimit":"120000000",
+      "totalWithdrawRemaining":"119998487.97"
+   },
+   "updateTime":1707273549694
+}
+```
+
+
+
 ### Market Data endpoints
 
 #### Order book
@@ -1200,31 +1104,7 @@ limit | INT | NO | Default 500; max 1000.
 ]
 ```
 
-#### Current average price
 
-```shell
-GET /openapi/quote/v1/avgPrice
-```
-
-Current average price for a symbol.
-
-**Weight:** 1
-
-**Parameters:**
-
-| Name   | Type   | Mandatory | Description                                           |
-| ------ | ------ | --------- | ----------------------------------------------------- |
-| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
-
-
-**Response:**
-
-```javascript
-{
-  "mins": 5,
-  "price": "9.35751834"
-}
-```
 
 #### 24hr ticker price change statistics
 
@@ -1425,6 +1305,35 @@ OR
 ```
 
 
+
+#### Current average price
+
+```shell
+GET /openapi/quote/v1/avgPrice
+```
+
+Current average price for a symbol.
+
+**Weight:** 1
+
+**Parameters:**
+
+| Name   | Type   | Mandatory | Description                                           |
+| ------ | ------ | --------- | ----------------------------------------------------- |
+| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
+
+
+**Response:**
+
+```javascript
+{
+  "mins": 5,
+  "price": "9.35751834"
+}
+```
+
+
+
 #### Cryptoasset trading pairs
 
 ```shell
@@ -1458,29 +1367,6 @@ None
 
 
 ### Spot Trading Endpoints
-
-#### Test new order (TRADE)
-
-```shell
-POST /openapi/v1/order/test (HMAC SHA256)
-```
-
-Test new order creation and signature/recvWindow long.
-Creates and validates a new order but does not send it into the matching engine.
-
-**Weight:** 1
-
-**Parameters:**
-
-Same as `POST /openapi/v1/order`
-
-**Response:**
-
-```javascript
-{}
-```
-
-
 
 #### New order  (TRADE)
 
@@ -1593,6 +1479,29 @@ Trigger order price rules against market price for both MARKET and LIMIT version
         }
     ]
 }
+```
+
+
+
+#### Test new order (TRADE)
+
+```shell
+POST /openapi/v1/order/test (HMAC SHA256)
+```
+
+Test new order creation and signature/recvWindow long.
+Creates and validates a new order but does not send it into the matching engine.
+
+**Weight:** 1
+
+**Parameters:**
+
+Same as `POST /openapi/v1/order`
+
+**Response:**
+
+```javascript
+{}
 ```
 
 
@@ -1932,79 +1841,6 @@ timestamp | LONG | YES       |
 
 
 
-#### Account information (USER_DATA)
-
-```shell
-GET /openapi/v1/account (HMAC SHA256)
-```
-
-GET current account information.
-
-**Weight:** 10
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-recvWindow | LONG | NO |The value cannot be greater than `60000`
-timestamp | LONG | YES |
-
-**Response:**
-
-```javascript
-{
-   "accountType":"SPOT",
-   "canDeposit":true,
-   "canTrade":true,
-   "canWithdraw":true,
-   "balances":[
-      {
-         "asset":"456",
-         "free":"100",
-         "locked":"0"
-      },
-      {
-         "asset":"APE",
-         "free":"0",
-         "locked":"0"
-      },
-      {
-         "asset":"AXS",
-         "free":"0.00005",
-         "locked":"0"
-      }
-   ],
-   "token":"PHP",
-   "daily":{
-      "cashInLimit":"500000",
-      "cashInRemaining":"499994",
-      "cashOutLimit":"500000",
-      "cashOutRemaining":"500000",
-      "totalWithdrawLimit":"500000",
-      "totalWithdrawRemaining":"500000"
-   },
-   "monthly":{
-      "cashInLimit":"10000000",
-      "cashInRemaining":"9999157",
-      "cashOutLimit":"10000000",
-      "cashOutRemaining":"10000000",
-      "totalWithdrawLimit":"10000000",
-      "totalWithdrawRemaining":"10000000"
-   },
-   "annually":{
-      "cashInLimit":"120000000",
-      "cashInRemaining":"119998577",
-      "cashOutLimit":"120000000",
-      "cashOutRemaining":"119999488",
-      "totalWithdrawLimit":"120000000",
-      "totalWithdrawRemaining":"119998487.97"
-   },
-   "updateTime":1707273549694
-}
-```
-
-
-
 #### Account trade list (USER_DATA)
 
 ```shell
@@ -2092,153 +1928,6 @@ timestamp          | LONG   | YES        |
 
 
 
-
-#### Payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
-```
-Initiate a new payment transaction by creating a payment request.
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type    | Mandatory | Description
------------------|---------|----------|--------------------------------------------------------------------------------------
-payer_contact_info            | STRING  | YES      | The contact information, typically an email address, to which the payment request should be sent.
-receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
-message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
-supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
-recvWindow | LONG    | NO        | The value cannot be greater than `60000`
-timestamp          | LONG    | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
-
-
-#### Get payment request (USER_DATA)
-
-```shell
-GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
-```
-Retrieve either a single existing payment request or a list of existing payment requests.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | NO        | The ID of a specific payment request to retrieve.
-start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
-end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
-limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
-
-#### Cancel payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
-```
-Cancel an existing payment request.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | YES       | The ID the payment request that needs to be canceled.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "canceled",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
-
-#### Send reminder for payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
-```
-Send a reminder to the recipient to fulfill the payment request.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-true
-```
-
-
 ### User data stream endpoints
 
 Specifics on how user data streams work is in another document(user-data-stream.md).
@@ -2316,445 +2005,263 @@ listenKey | STRING | YES |
 ```
 
 
-## Merchant Endpoints
 
-### Signature
+### Filters
 
-
-**Common Headers**
-
-The table below shows all of the common API Headers you will encounter in the Coins API.
-
-Header Name | Required | Type | Example | Description
------------- |----------|--| ------------|--
-X-Merchant-Key | YES   | STRING |     | The authorized merchant key
-X-Merchant-Sign | YES | STRING |   | The authorized merchant request sign
-X-Timestamp | YES | LONG  | 1671158910| Request initiation time
-X-Trace-Id | NO | STRING |    |  Request log trace ID
-
-To craft an X-Merchant-Sign:
-1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://127.0.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
-2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
-
-### Invoicing
-
-An invoice is a document that outlines the details of a transaction between two parties, typically a seller and a buyer. The transaction could be for goods or services rendered, or it could be a transfer of funds from one user to another.
-
-In an invoice, there are two main entities involved:
-
-1) The payee, who is the recipient of the payment for the goods or services provided (the merchant).
-2) The payer, who is the individual or organization making the payment to fulfill the invoice (the customer).
-
-The API endpoints described in this section allow you to integrate invoicing functionality into your application. Creating, sending, and managing invoices directly from the application simplifies the invoicing process and improves the user experience.
-
-#### Creating Invoices
+Filters define trading rules on a symbol or an exchange. Filters come in two forms: `symbol filters` and `exchange filters`.
 
 
-```shell
-POST /merchant-api/v1/invoices (HMAC SHA256)
-```
 
-This endpoint generates an invoice based on the provided parameters and returns a response with details of the created invoice.
+#### Symbol filters
 
-**Weight:** 1
+##### PRICE_FILTER
 
-**Parameters:**
+The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
 
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-amount            | DECIMAL | YES       |The amount expected from the customer.
-currency | STRING      | YES       | Currency of transaction.
-supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
-expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+* `minPrice` defines the minimum `price`/`stopPrice` allowed.
+* `maxPrice` defines the maximum `price`/`stopPrice` allowed.
+* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by.
 
-**Payment Options**
+In order to pass the `price filter`, the following must be true for `price`/`stopPrice`:
 
-Code |Description
-----|----
-coins_peso_wallet|Pay with the user's Peso Coins wallet.
+* `price` >= `minPrice`
+* `price` <= `maxPrice`
+* (`price`-`minPrice`) % `tickSize` == 0
 
-
-**Request:**
+**/exchangeInfo format:**
 
 ```javascript
-{
-    "amount": 100,
-    "currency": "PHP",
-    "supported_payment_collectors": "["coins_peso_wallet"]",
-    "external_transaction_id": "1",
-    "expires_at": "1w"
-}
-```
-
-**Response:**
-
-```javascript
-{
-    "invoice": {
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }
-}
-```
-#### Retrieving Invoices
-
-
-```shell
-GET /merchant-api/v1/get-invoices (HMAC SHA256)
-```
-
-This endpoint retrieves information about a specific invoice.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | NO        | The ID of a specific invoice to retrieve.
-start_time            | LONG  | NO        | The start time of a time range within which to search for invoices.
-end_time            | LONG  | NO        | The end time of a time range within which to search for invoices.
-limit            | INT   | NO        | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
-
-If the invoice_id parameter is provided, only the data for the specified invoice will be returned.
-If the start_time and end_time parameters are not provided, the response will include the records within the last 90 days by default. Developers can provide a specific time range by setting the time parameter to a value that specifies the start and end times of the desired range.
-
-**Response:**
-
-```javascript
-{
-    "invoice": [{
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }]
-}
-```
-
-
-#### Canceling Invoices
-
-
-```shell
-POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
-```
-
-This endpoint cancels an existing invoice.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | YES       | The ID of a specific invoice to cancel.
-
-**Response:**
-
-```javascript
-{
-    "invoice": {
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "canceled",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }
-}
-```
-
-### Invoice Callbacks
-
-During the lifecycle of an invoice, various events may occur. For example, when an invoice is fully paid, the invoice.fully_paid event is triggered. These events can be tracked and acted upon using the Coins API's event system.
-
-Merchants can specify a callback URL when creating or updating an invoice, which is a web address that the API will send event data to. When an event occurs, the API will send a POST request to the specified callback_URL, containing data about the event. The merchant can then process this data as needed, such as by updating their internal systems or notifying the customer.
-
-To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
-
-Event payloads follow this convention:
-```javascript
-{
-  "event": {
-    "name": "invoice.name",
-    "data": {
-        "id": "invoice_id",
-        "currency": "PHP",
-        "amount": "100",
-        "amount_received": "0",
-        "external_transaction_id": "1"
-        }
-    }
-}
-```
-
-Events which may be consumed by callbacks are described in the table below:
-
-Event Name	| Description
-----|---
-invoice.created	| The invoice has been created.
-invoice.updated	| The invoice has been updated. This may be due to the payment received for the invoice.
-invoice.fully_paid	| The invoice payment has been completed.
-invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
-
-
-
-### Convert endpoints
-#### Get supported trading pairs (TRADE)
-```shell
-POST /openapi/convert/v1/get-supported-trading-pairs
-```
-
-This continuously updated endpoint returns a list of all available trading pairs. 
-
-**Weight:** 1
-
-**Parameters:**
-
- N/A
-
-
-
-**Response:**
-
-Field name	| Description
-----|---
-sourceCurrency	| Source token.
-targetCurrency	| Target token.
-minSourceAmount	| amount range min value.
-maxSourceAmount	| amount range max value.
-precision	| The level of precision in decimal places used.
-
-```javascript
-{
-  "status":0, 
-  "error":"OK",
-  "data":[
-     {
-      "sourceCurrency":"PHP",
-      "targetCurrency":"BTC",
-      "minSourceAmount":"1000",
-      "maxSourceAmount":"15000",
-      "precision":"2"
-    },
-    {
-      "sourceCurrency":"BTC",
-      "targetCurrency":"PHP",
-      "minSourceAmount":"0.0001",
-      "maxSourceAmount":"0.1",
-      "precision":"8"
-    },
-    {
-      "sourceCurrency":"PHP",
-      "targetCurrency":"ETH",
-      "minSourceAmount":"1000",
-      "maxSourceAmount":"18000",
-      "precision":"2"
-    },
-    {
-      "sourceCurrency":"ETH",
-      "targetCurrency":"PHP",
-      "minSourceAmount":"0.003",
-      "maxSourceAmount":"4.2",
-      "precision":"8"
-    }
-  ]
-}
-```
-
-
-
-#### Fetch a quote (TRADE)
-
-```shell
-POST /openapi/convert/v1/get-quote
-```
-
-This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ |-----------| ------------
-sourceCurrency | STRING | YES       |The currency the user holds
-targetCurrency | STRING | YES       |The currency the user would like to obtain
-sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
-targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
-
-**Response:**
-
-Field name	| Description
-----|---
-quoteId	| Quote unique id.
-sourceCurrency	| Source token.
-targetCurrency	| Target token.
-sourceAmount	| Source token amount.
-price	| Trading pairs price.
-targetAmount	| Targe token amount.
-expiry	| Quote expire time seconds.
-
-```javascript
-{
-  "status": 0, 
-  "error": "OK", 
-  "data": {
-            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
-            "sourceCurrency": "BTC",
-            "targetCurrency": "PHP",
-            "sourceAmount": "0.1",
-            "price": "59999",             //1BTC=59999PHP
-            "targetAmount": "5999",       //The amount of PHP the user holds
-            "expiry": "10"
+  {
+    "filterType": "PRICE_FILTER",
+    "minPrice": "0.00000100",
+    "maxPrice": "100000.00000000",
+    "tickSize": "0.00000100"
   }
-}
 ```
 
-#### Accept the quote (TRADE)
 
 
-```shell
-POST /openapi/convert/v1/accept-quote
+##### PERCENT_PRICE
+
+The `PERCENT_PRICE` filter defines valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
+
+In order to pass the `percent price`, the following must be true for `price`:
+
+- `price` <= `weightedAveragePrice` * `multiplierUp`
+- `price` >= `weightedAveragePrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+    "avgPriceMins": 5
+  }
 ```
 
-Use this endpoint to accept the quote and receive the result instantly.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-quoteId | STRING | YES |The ID assigned to the quote
 
 
-**Response:**
+##### PERCENT_PRICE_SA
 
-Field name	| Description
-----|---
-status	| 0 mean order are created. 
-data.orderId	| Order ID generated by the server.
-data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESSING`;PROCESSING mean that the server is processing,SUCCESS means the order is successful.
+The `PERCENT_PRICE_SA` filter defines valid range for a price based on the  simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
+
+In order to pass the `percent_price_sa`, the following must be true for `price`:
+
+- `price` <= `simpleAveragePrice` * `multiplierUp`
+- `price` >= `simpleAveragePrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_SA",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+    "avgPriceMins": 5
+  }
+```
+
+
+
+##### PERCENT_PRICE_BY_SIDE
+
+The `PERCENT_PRICE_BY_SIDE` filter defines the valid range for the price based on the last price of the symbol.
+There is a different range depending on whether the order is placed on the `BUY` side or the `SELL` side.
+
+Buy orders will succeed on this filter if:
+
+- `Order price` <= `bidMultiplierUp` * `lastPrice`
+- `Order price` >= `bidMultiplierDown` * `lastPrice`
+
+Sell orders will succeed on this filter if:
+
+- `Order Price` <= `askMultiplierUp` * `lastPrice`
+- `Order Price` >= `askMultiplierDown` * `lastPrice`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_BY_SIDE",
+    "bidMultiplierUp": "1.2",
+    "bidMultiplierDown": "0.2",
+    "askMultiplierUp": "1.5",
+    "askMultiplierDown": "0.8",
+  }
+```
+
+
+
+##### PERCENT_PRICE_INDEX
+
+The `PERCENT_PRICE_INDEX` filter defines valid range for a price based on the  index price which is calculated based on  several exhanges in the market by centain rule. (indexPrice wobsocket pushing will be available in future)
+
+In order to pass the `percent_price_index`, the following must be true for `price`:
+
+- `price` <= `indexPrice` * `multiplierUp`
+- `price` >= `indexPrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_INDEX",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+  }
+```
+
+
+
+##### PERCENT_PRICE_ORDER_SIZE
+
+The `PERCENT_PRICE_ORDER_SIZE` filter  is used to determine whether the execution of an order would cause the market price to fluctuate beyond the limit price, and if so, the order will be rejected.
+
+In order to pass the `percent_price_order_size`, the following must be true:
+
+- A buy order needs to meet: the market price after the order get filled  <`askPrice` * `multiplierUp`
+- A sell order needs to meet: the market price after the order get filled  >`bidPrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_ORDER_SIZE",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000"
+  }
+```
+
+
+
+##### STATIC_PRICE_RANGE
+
+The `STATIC_PRICE_RANGE` filter defines a static valid range for the price.
+
+In order to pass the `static_price_range`, the following must be true for `price`:
+
+- `price` <= `priceUp`
+- `price` >= `priceDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "STATIC_PRICE_RANGE",
+    "priceUp": "520",
+    "priceDown": "160"
+  }
+```
+
+
+
+##### LOT_SIZE
+
+The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
+
+* `minQty` defines the minimum `quantity` allowed.
+* `maxQty` defines the maximum `quantity` allowed.
+* `stepSize` defines the intervals that a `quantity`can be increased/decreased by.
+
+In order to pass the `lot size`, the following must be true for `quantity`:
+
+* `quantity` >= `minQty`
+* `quantity` <= `maxQty`
+* (`quantity`-`minQty`) % `stepSize` == 0
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "LOT_SIZE",
+    "minQty": "0.00100000",
+    "maxQty": "99999999.00000000",
+    "stepSize": "0.00100000"
+  }
+```
+
+
+
+##### NOTIONAL
+
+The `NOTIONAL` filter defines the acceptable notional range allowed for an order on a symbol.
+
+In order to pass this filter, the notional (`price * quantity`) has to pass the following conditions:
+
+- `price * quantity` <= `maxNotional`
+- `price * quantity` >= `minNotional`
+
+**/exchangeInfo format:**
 
 ```javascript
 {
-  "status": 0, 
-  "data": {
-         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
-         "status": "SUCCESS"
-  },
-  "error": "ok"
+   "filterType": "NOTIONAL",
+   "minNotional": "10.00000000",
+   "maxNotional": "10000.00000000"
 }
 ```
 
-***Error code description:***
-
-status code           | Description
-----------------| ------------
-0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
-10000003 | Failed to fetch account verification information.
-10000003 | Quote expired.
-10000003 | Unable to fetch account information.
-10000003 | The price has changed! Please confirm the updated rate to complete the transaction.
-10000003 | Insufficient balance.
-10000003 | Failed to fetch liquidity. Try again later.
-
-#### Retrieve order history (USER_DATA)
 
 
-```shell
-POST /openapi/convert/v1/query-order-history
-```
-This endpoint retrieves order history with the option to define a specific time period using start and end times.
+##### MAX_NUM_ORDERS
 
-**Weight:** 1
+The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
+Note that both triggered "algo" orders and normal orders are counted for this filter.
 
-**Parameters:**
-
-Name | Type   | Mandatory | Description
------------- |--------|---------| ------------
-startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
-endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
-status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
-page | int    | No |
-size | int    | No |
-
-
-**Response:**
-
-Field name	| Description
-----|---
-orderId	| Order ID generated by the server.
-quoteId	| Order reference quote Id.
-userId	| user id.
-sourceCurrency	| source currency.
-targetCurrency	| target currency.
-sourceAmount	| source currency amount.
-targetAmount	| target currency amount.
-price	| price.
-status	| Order status.`TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
-createdAt	| Order create time.
-errorMessage	| Error message if order failed.
-
-
+**/exchangeInfo format:**
 
 ```javascript
-{
-  "status": 0,
-   "error": "OK",
-   "data": [
-    {
-      "id":"",
-      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
-      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
-      "userId":"",
-      "sourceCurrency": "BTC",
-      "sourceCurrencyIcon":"",
-      "targetCurrency": "PHP",
-      "targetCurrencyIcon":"",
-      "sourceAmount": "0.11",
-      "targetAmount": "4466.89275956",
-      "price": "40608.115996",
-      "status": "SUCCESS",
-      "createdAt": "1671797993000",
-      "errorCode": "",
-      "errorMessage": "",
-      "inversePrice": "3306.115996"
-    }
-  ],
-  "total": 23
-}
+  {
+    "filterType": "MAX_NUM_ORDERS",
+    "maxNumOrders": 200
+  }
 ```
+
+
+
+##### MAX_NUM_ALGO_ORDERS
+
+The `MAX_ALGO_ORDERS` filter defines the maximum number of untriggered "algo" orders an account is allowed to have open on a symbol.
+"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "MAX_NUM_ALGO_ORDERS",
+    "maxNumAlgoOrders": 5
+  }
+```
+
+
+
+#### Exchange Filters
+
+None for now
+
+
 
 ### Fiat endpoints
 
@@ -3316,299 +2823,8 @@ dealCancel | boolean | If order can be canceled, value will be true.
 ```
 ------
 
-### Old endpoints from coins.ph (Legacy)
 
-#### Create a new sellorder
-```shell
-POST openapi/migration/v4/sellorder
-```
 
-This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-Name        | Type   | Mandatory | Description
-------------|--------|-----------| ------------
-payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
-base_amount      | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
-currency    | STRING | Yes       |  The currency symbol of the sell order.
-bank_account_number       | STRING | Yes       | Cash out bank account number
-bank_account_name        | STRING | Yes       | Cash out bank account name
-recipient_phone_number      | STRING | Yes       | Recipient phone number
-recipient_bank_code       | STRING | No       | Recipient bank code
-external_transaction_id          | STRING | No        |  A unique identifier for the sell order, should be number.
-pay_with_wallet         | STRING | No       | The wallet code from which the user wishes to initiate the sell order.
-sender_first_name	| STRING | No       | sender first name.
-sender_middle_name	| STRING | No       | sender middle name.
-sender_last_name	| STRING | No       | sender last name.
-sender_address	| STRING | No       | sender address.
-sender_city	| STRING | No       | sender city.
-sender_province	| STRING | No       | sender province.
-sender_country	| STRING | No       | sender country.
-sender_postal_code	| STRING | No       | sender postal code.
-sender_phone	| STRING | No       | sender phone.
-sender_email	| STRING | No       | sender email.
-sender_company_name	| STRING | No       | sender company name.
-
-**Request:**
-
-```javascript
-{
-  "base_amount": "10",
-  "external_transaction_id":"12121212212121212", // number not string
-  "currency":"PHP",
-  "bank_account_number":"9163011937",  // recipient phone （pesonet）or credit card numbers （instapy）
-  "bank_account_name":"Mike",  // recipient name
-  "recipient_phone_number":"9163011937", // recipient phone
-  "payment_outlet":"citi_SWIFTPAY_PESONET"
-}
-```
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/sellorder-create
-
-------
-
-#### Retrieve an existing sellorder
-```shell
-GET openapi/migration/v4/sellorder/{sell_order_id}
-```
-
-This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-**Parameters:**
-
-Name           | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
-
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/sellorder-retrieve
-
-------
-
-#### Validate field values
-```shell
-POST openapi/migration/v4/validate-field
-```
-
-This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-**Parameters:**
-
-Name           | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
-account_number    | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
-account_type      | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
-mobile_number     | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
-region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
-
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/validate-field
-
-------
-
-#### Retrieve supported payout-outlets
-```shell
-GET openapi/migration/v4/payout-outlets/{id}
-```
-
-This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-**Parameters:**
-
-Name           | Type   | Mandatory | Description
-----------------|--------|-----------| ------------
-id       | STRING | No       |  A unique identifier for the payout outlet.
-outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
-name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
-region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
-is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
-
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/payout-outlets
-
-------
-
-#### Retrieve supported payout-outlet-categories
-```shell
-GET openapi/migration/v4/payout-outlet-categories/{id}
-```
-
-This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-**Parameters:**
-
-Name           | Type   | Mandatory | Description
-----------------|--------|-----------| ------------
-id       | STRING | No       |   ID of a particular category to retrieve. If not provided, all categories will be retrieved.
-
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/payout-outlet-categories
-
-
-------
-
-#### Retrieve current payout-outlet-fees
-```shell
-GET openapi/migration/v4/payout-outlet-fees
-```
-
-This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
-
-**Parameters:**
-
-Name           | Type   | Mandatory | Description
-----------------|--------|-----------| ------------
-payment_outlet       | STRING | Yes       |   query param to specify the target payout outlet.
-currency       | STRING | Yes       |   query param to specify the target currency.
-
-
-**Weight:** 1
-
-reference: https://docs.coins.asia/reference/payout-outlet-fees
-
-#### Query balance (USER_DATA)
-
-```shell
-GET /openapi/account/v3/crypto-accounts
-```
-
-This endpoint allows users to retrieve their current account balance.
-
-**Weight:** 1
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------
-currency      | STRING | NO    | The currency for which the balance is being queried.
-recvWindow | LONG  | YES    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time for which the balance is being queried.
-
-**Response:**
-```javascript
- {
-  "crypto-accounts": [
-    {
-      "id": "1451431230880900352",
-      "name": "name",
-      "currency": "PBTC",
-      "balance": "100",
-      "pending_balance": "200"
-    }
-  ]
-}
-```
-
-#### Transfers (USER_DATA)
-
-```shell
-POST /openapi/transfer/v3/transfers
-```
-This endpoint is used to transfer funds between two accounts.
-
-**Weight:** 50
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-client_transfer_id | STRING | NO | Client Transfer ID
-account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
-amount      | BigDecimal | YES    | The amount being transferred
-recvWindow | LONG  | NO    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time when the transfer is performed
-message     | STRING  | NO    | The message sent to the recipient account
-
-If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
-
-
-**Response:**
-```javascript
-{
-  "transfer":
-    {
-      "id": "1451431230880900352",
-      "status": "success",//status enum: pending,success,failed
-      "account": "90dfg03goamdf02fs",
-      "target_address": "testsub@gmail.com",
-      "amount": "1",
-      "exchange": "1",
-      "payment": "23094j0amd0fmag9agjgasd",
-      "client_transfer_id": "1487573639841995271",
-      "message": "example"
-     }
-}
-```
-
-#### Query transfers (USER_DATA)
-
-```shell
-GET /openapi/transfer/v3/transfers/{id}
-```
-If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
-
-**Weight:** 10
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id      | STRING | NO    | ID of the transfer record
-client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
-page    | INT | NO | Current page, default is `1`
-per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
-from_address |STRING|NO| The phone number or email for sender account (e.g. +63 9686490252 or testsub@gmail.com)
-to_address  |STRING|NO| The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
-recvWindow | LONG  | YES    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
-
-- If client_transfer_id both the id and  parameters are passed, the id parameter will take precedence.
-- If the client_transfer_id or id parameter is passed, then the client_transfer_id or id takes precedence.
-- The from_address and to_address parameters cannot be passed simultaneously.
-
-**Response:**
-```json
- {
-  "transfers": [
-    {
-      "id": "2309rjw0amf0sq9me0gmadsmfoa",
-      "client_transfer_id": "1487573639841995270",
-      "account": "90dfg03goamdf02fs",
-      "amount": "1",
-      "fee_amount": "0",
-      "currency": "PBTC",
-      "sourceAddress": "test1@gmail.com",
-      "target_address": "test2@gmail.com",
-      "payment": "23094j0amd0fmag9agjgasd",
-      "type": 2,//2:transfer out,1:transfer in
-      "status": "success",
-      "message": "example",
-      "created_at": "2019-07-04T03:28:50.531599Z"
-    }
-  ],
-  "meta": {
-    "total_count": 0,
-    "next_page": 2,
-    "previous_page": 0
-  }
-}
-```
 ## Sub-account endpoints
 
 ### Query Sub-account List (For Master Account)
@@ -3899,7 +3115,7 @@ GET /openapi/v1/sub-account/apikey/ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES        | 
-email      | STRING | YES        | 	<a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES        |  <a href="#request-parameters">Sub-account email</a>
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3930,9 +3146,9 @@ POST /openapi/v1/sub-account/apikey/add-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
-ipRestriction      | STRING | YES       | 	IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
+email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
+ipAddress      | STRING | NO        |   Can be added in batches, separated by commas
+ipRestriction      | STRING | YES       |   IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3963,8 +3179,8 @@ POST /openapi/v1/sub-account/apikey/delete-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | YES       | 	Can be added in batches, separated by commas
+email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
+ipAddress      | STRING | YES       |   Can be added in batches, separated by commas
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3979,6 +3195,804 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
   "ipRestrict": true,
   "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
   "updateTime": 1689744700710
+}
+```
+
+
+
+#### Get payment request (USER_DATA)
+
+```shell
+GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
+```
+Retrieve either a single existing payment request or a list of existing payment requests.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | NO        | The ID of a specific payment request to retrieve.
+start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
+end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
+limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+#### Cancel payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
+```
+Cancel an existing payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID the payment request that needs to be canceled.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "canceled",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+#### Send reminder for payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
+```
+Send a reminder to the recipient to fulfill the payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+true
+```
+
+
+
+## Merchant Endpoints
+
+### Signature
+
+
+**Common Headers**
+
+The table below shows all of the common API Headers you will encounter in the Coins API.
+
+Header Name | Required | Type | Example | Description
+------------ |----------|--| ------------|--
+X-Merchant-Key | YES   | STRING |     | The authorized merchant key
+X-Merchant-Sign | YES | STRING |   | The authorized merchant request sign
+X-Timestamp | YES | LONG  | 1671158910| Request initiation time
+X-Trace-Id | NO | STRING |    |  Request log trace ID
+
+To craft an X-Merchant-Sign:
+1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://127.0.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
+2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
+
+### Invoicing
+
+An invoice is a document that outlines the details of a transaction between two parties, typically a seller and a buyer. The transaction could be for goods or services rendered, or it could be a transfer of funds from one user to another.
+
+In an invoice, there are two main entities involved:
+
+1) The payee, who is the recipient of the payment for the goods or services provided (the merchant).
+2) The payer, who is the individual or organization making the payment to fulfill the invoice (the customer).
+
+The API endpoints described in this section allow you to integrate invoicing functionality into your application. Creating, sending, and managing invoices directly from the application simplifies the invoicing process and improves the user experience.
+
+#### Creating Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices (HMAC SHA256)
+```
+
+This endpoint generates an invoice based on the provided parameters and returns a response with details of the created invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+amount            | DECIMAL | YES       |The amount expected from the customer.
+currency | STRING      | YES       | Currency of transaction.
+supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
+external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
+expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+
+**Payment Options**
+
+Code |Description
+----|----
+coins_peso_wallet|Pay with the user's Peso Coins wallet.
+
+
+**Request:**
+
+```javascript
+{
+    "amount": 100,
+    "currency": "PHP",
+    "supported_payment_collectors": "["coins_peso_wallet"]",
+    "external_transaction_id": "1",
+    "expires_at": "1w"
+}
+```
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }
+}
+```
+#### Retrieving Invoices
+
+
+```shell
+GET /merchant-api/v1/get-invoices (HMAC SHA256)
+```
+
+This endpoint retrieves information about a specific invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoice_id            | STRING | NO        | The ID of a specific invoice to retrieve.
+start_time            | LONG  | NO        | The start time of a time range within which to search for invoices.
+end_time            | LONG  | NO        | The end time of a time range within which to search for invoices.
+limit            | INT   | NO        | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+
+If the invoice_id parameter is provided, only the data for the specified invoice will be returned.
+If the start_time and end_time parameters are not provided, the response will include the records within the last 90 days by default. Developers can provide a specific time range by setting the time parameter to a value that specifies the start and end times of the desired range.
+
+**Response:**
+
+```javascript
+{
+    "invoice": [{
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }]
+}
+```
+
+
+#### Canceling Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
+```
+
+This endpoint cancels an existing invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoice_id            | STRING | YES       | The ID of a specific invoice to cancel.
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "canceled",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }
+}
+```
+
+### Invoice Callbacks
+
+During the lifecycle of an invoice, various events may occur. For example, when an invoice is fully paid, the invoice.fully_paid event is triggered. These events can be tracked and acted upon using the Coins API's event system.
+
+Merchants can specify a callback URL when creating or updating an invoice, which is a web address that the API will send event data to. When an event occurs, the API will send a POST request to the specified callback_URL, containing data about the event. The merchant can then process this data as needed, such as by updating their internal systems or notifying the customer.
+
+To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
+
+Event payloads follow this convention:
+```javascript
+{
+  "event": {
+    "name": "invoice.name",
+    "data": {
+        "id": "invoice_id",
+        "currency": "PHP",
+        "amount": "100",
+        "amount_received": "0",
+        "external_transaction_id": "1"
+        }
+    }
+}
+```
+
+Events which may be consumed by callbacks are described in the table below:
+
+Event Name	| Description
+----|---
+invoice.created	| The invoice has been created.
+invoice.updated	| The invoice has been updated. This may be due to the payment received for the invoice.
+invoice.fully_paid	| The invoice payment has been completed.
+invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
+
+
+
+### Convert endpoints
+#### Get supported trading pairs (TRADE)
+```shell
+POST /openapi/convert/v1/get-supported-trading-pairs
+```
+
+This continuously updated endpoint returns a list of all available trading pairs. 
+
+**Weight:** 1
+
+**Parameters:**
+
+ N/A
+
+
+
+**Response:**
+
+Field name	| Description
+----|---
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+minSourceAmount	| amount range min value.
+maxSourceAmount	| amount range max value.
+precision	| The level of precision in decimal places used.
+
+```javascript
+{
+  "status":0, 
+  "error":"OK",
+  "data":[
+     {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"BTC",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"15000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"BTC",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.0001",
+      "maxSourceAmount":"0.1",
+      "precision":"8"
+    },
+    {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"ETH",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"18000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"ETH",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.003",
+      "maxSourceAmount":"4.2",
+      "precision":"8"
+    }
+  ]
+}
+```
+
+
+
+#### Fetch a quote (TRADE)
+
+```shell
+POST /openapi/convert/v1/get-quote
+```
+
+This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ |-----------| ------------
+sourceCurrency | STRING | YES       |The currency the user holds
+targetCurrency | STRING | YES       |The currency the user would like to obtain
+sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+
+**Response:**
+
+Field name	| Description
+----|---
+quoteId	| Quote unique id.
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+sourceAmount	| Source token amount.
+price	| Trading pairs price.
+targetAmount	| Targe token amount.
+expiry	| Quote expire time seconds.
+
+```javascript
+{
+  "status": 0, 
+  "error": "OK", 
+  "data": {
+            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
+            "sourceCurrency": "BTC",
+            "targetCurrency": "PHP",
+            "sourceAmount": "0.1",
+            "price": "59999",             //1BTC=59999PHP
+            "targetAmount": "5999",       //The amount of PHP the user holds
+            "expiry": "10"
+  }
+}
+```
+
+#### Accept the quote (TRADE)
+
+
+```shell
+POST /openapi/convert/v1/accept-quote
+```
+
+Use this endpoint to accept the quote and receive the result instantly.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+quoteId | STRING | YES |The ID assigned to the quote
+
+
+**Response:**
+
+Field name	| Description
+----|---
+status	| 0 mean order are created. 
+data.orderId	| Order ID generated by the server.
+data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESSING`;PROCESSING mean that the server is processing,SUCCESS means the order is successful.
+
+```javascript
+{
+  "status": 0, 
+  "data": {
+         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
+         "status": "SUCCESS"
+  },
+  "error": "ok"
+}
+```
+
+***Error code description:***
+
+status code           | Description
+----------------| ------------
+0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
+10000003 | Failed to fetch account verification information.
+10000003 | Quote expired.
+10000003 | Unable to fetch account information.
+10000003 | The price has changed! Please confirm the updated rate to complete the transaction.
+10000003 | Insufficient balance.
+10000003 | Failed to fetch liquidity. Try again later.
+
+#### Retrieve order history (USER_DATA)
+
+
+```shell
+POST /openapi/convert/v1/query-order-history
+```
+This endpoint retrieves order history with the option to define a specific time period using start and end times.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type   | Mandatory | Description
+------------ |--------|---------| ------------
+startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
+status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+page | int    | No |
+size | int    | No |
+
+
+**Response:**
+
+Field name	| Description
+----|---
+orderId	| Order ID generated by the server.
+quoteId	| Order reference quote Id.
+userId	| user id.
+sourceCurrency	| source currency.
+targetCurrency	| target currency.
+sourceAmount	| source currency amount.
+targetAmount	| target currency amount.
+price	| price.
+status	| Order status.`TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+createdAt	| Order create time.
+errorMessage	| Error message if order failed.
+
+
+
+```javascript
+{
+  "status": 0,
+   "error": "OK",
+   "data": [
+    {
+      "id":"",
+      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
+      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
+      "userId":"",
+      "sourceCurrency": "BTC",
+      "sourceCurrencyIcon":"",
+      "targetCurrency": "PHP",
+      "targetCurrencyIcon":"",
+      "sourceAmount": "0.11",
+      "targetAmount": "4466.89275956",
+      "price": "40608.115996",
+      "status": "SUCCESS",
+      "createdAt": "1671797993000",
+      "errorCode": "",
+      "errorMessage": "",
+      "inversePrice": "3306.115996"
+    }
+  ],
+  "total": 23
+}
+```
+
+### Old endpoints from coins.ph (Legacy)
+
+#### Create a new sellorder
+```shell
+POST openapi/migration/v4/sellorder
+```
+
+This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+Name        | Type   | Mandatory | Description
+------------|--------|-----------| ------------
+payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
+base_amount      | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
+currency    | STRING | Yes       |  The currency symbol of the sell order.
+bank_account_number       | STRING | Yes       | Cash out bank account number
+bank_account_name        | STRING | Yes       | Cash out bank account name
+recipient_phone_number      | STRING | Yes       | Recipient phone number
+recipient_bank_code       | STRING | No       | Recipient bank code
+external_transaction_id          | STRING | No        |  A unique identifier for the sell order, should be number.
+pay_with_wallet         | STRING | No       | The wallet code from which the user wishes to initiate the sell order.
+sender_first_name	| STRING | No       | sender first name.
+sender_middle_name	| STRING | No       | sender middle name.
+sender_last_name	| STRING | No       | sender last name.
+sender_address	| STRING | No       | sender address.
+sender_city	| STRING | No       | sender city.
+sender_province	| STRING | No       | sender province.
+sender_country	| STRING | No       | sender country.
+sender_postal_code	| STRING | No       | sender postal code.
+sender_phone	| STRING | No       | sender phone.
+sender_email	| STRING | No       | sender email.
+sender_company_name	| STRING | No       | sender company name.
+
+**Request:**
+
+```javascript
+{
+  "base_amount": "10",
+  "external_transaction_id":"12121212212121212", // number not string
+  "currency":"PHP",
+  "bank_account_number":"9163011937",  // recipient phone （pesonet）or credit card numbers （instapy）
+  "bank_account_name":"Mike",  // recipient name
+  "recipient_phone_number":"9163011937", // recipient phone
+  "payment_outlet":"citi_SWIFTPAY_PESONET"
+}
+```
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/sellorder-create
+
+------
+
+#### Retrieve an existing sellorder
+```shell
+GET openapi/migration/v4/sellorder/{sell_order_id}
+```
+
+This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/sellorder-retrieve
+
+------
+
+#### Validate field values
+```shell
+POST openapi/migration/v4/validate-field
+```
+
+This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
+account_number    | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
+account_type      | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
+mobile_number     | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
+region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/validate-field
+
+------
+
+#### Retrieve supported payout-outlets
+```shell
+GET openapi/migration/v4/payout-outlets/{id}
+```
+
+This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+id       | STRING | No       |  A unique identifier for the payout outlet.
+outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
+name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
+region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
+is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlets
+
+------
+
+#### Retrieve supported payout-outlet-categories
+```shell
+GET openapi/migration/v4/payout-outlet-categories/{id}
+```
+
+This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+id       | STRING | No       |   ID of a particular category to retrieve. If not provided, all categories will be retrieved.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-categories
+
+
+------
+
+#### Retrieve current payout-outlet-fees
+```shell
+GET openapi/migration/v4/payout-outlet-fees
+```
+
+This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
+It is best to no longer use this endpoint, only compatible with the old endpoint.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+payment_outlet       | STRING | Yes       |   query param to specify the target payout outlet.
+currency       | STRING | Yes       |   query param to specify the target currency.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-fees
+
+#### Query balance (USER_DATA)
+
+```shell
+GET /openapi/account/v3/crypto-accounts
+```
+
+This endpoint allows users to retrieve their current account balance.
+
+**Weight:** 1
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------
+currency      | STRING | NO    | The currency for which the balance is being queried.
+recvWindow | LONG  | YES    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time for which the balance is being queried.
+
+**Response:**
+```javascript
+ {
+  "crypto-accounts": [
+    {
+      "id": "1451431230880900352",
+      "name": "name",
+      "currency": "PBTC",
+      "balance": "100",
+      "pending_balance": "200"
+    }
+  ]
+}
+```
+
+#### Query transfers (USER_DATA)
+
+```shell
+GET /openapi/transfer/v3/transfers/{id}
+```
+If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
+
+**Weight:** 10
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id      | STRING | NO    | ID of the transfer record
+client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
+page    | INT | NO | Current page, default is `1`
+per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
+from_address |STRING|NO| The phone number or email for sender account (e.g. +63 9686490252 or testsub@gmail.com)
+to_address  |STRING|NO| The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
+recvWindow | LONG  | YES    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
+
+- If client_transfer_id both the id and  parameters are passed, the id parameter will take precedence.
+- If the client_transfer_id or id parameter is passed, then the client_transfer_id or id takes precedence.
+- The from_address and to_address parameters cannot be passed simultaneously.
+
+**Response:**
+```json
+ {
+  "transfers": [
+    {
+      "id": "2309rjw0amf0sq9me0gmadsmfoa",
+      "client_transfer_id": "1487573639841995270",
+      "account": "90dfg03goamdf02fs",
+      "amount": "1",
+      "fee_amount": "0",
+      "currency": "PBTC",
+      "sourceAddress": "test1@gmail.com",
+      "target_address": "test2@gmail.com",
+      "payment": "23094j0amd0fmag9agjgasd",
+      "type": 2,//2:transfer out,1:transfer in
+      "status": "success",
+      "message": "example",
+      "created_at": "2019-07-04T03:28:50.531599Z"
+    }
+  ],
+  "meta": {
+    "total_count": 0,
+    "next_page": 2,
+    "previous_page": 0
+  }
 }
 ```
 
