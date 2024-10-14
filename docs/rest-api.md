@@ -1503,34 +1503,6 @@ OR
 
 
 
-#### Current average price
-
-```shell
-GET /openapi/quote/v1/avgPrice
-```
-
-Current average price for a symbol.
-
-**Weight:** 1
-
-**Parameters:**
-
-| Name   | Type   | Mandatory | Description                                           |
-| ------ | ------ | --------- | ----------------------------------------------------- |
-| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
-
-
-**Response:**
-
-```javascript
-{
-  "mins": 5,
-  "price": "9.35751834"
-}
-```
-
-
-
 #### Symbol order book ticker
 
 ```shell
@@ -1588,6 +1560,35 @@ OR
   }
 ]
 ```
+
+
+
+#### Current average price
+
+```shell
+GET /openapi/quote/v1/avgPrice
+```
+
+Current average price for a symbol.
+
+**Weight:** 1
+
+**Parameters:**
+
+| Name   | Type   | Mandatory | Description                                           |
+| ------ | ------ | --------- | ----------------------------------------------------- |
+| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
+
+
+**Response:**
+
+```javascript
+{
+  "mins": 5,
+  "price": "9.35751834"
+}
+```
+
 
 
 #### Cryptoasset trading pairs
