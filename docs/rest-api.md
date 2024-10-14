@@ -2263,550 +2263,6 @@ None for now
 
 
 
-#### Get payment request (USER_DATA)
-
-```shell
-GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
-```
-Retrieve either a single existing payment request or a list of existing payment requests.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | NO        | The ID of a specific payment request to retrieve.
-start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
-end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
-limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
-
-#### Cancel payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
-```
-Cancel an existing payment request.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | YES       | The ID the payment request that needs to be canceled.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "canceled",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
-
-#### Send reminder for payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
-```
-Send a reminder to the recipient to fulfill the payment request.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
-recvWindow | LONG   | NO        | The value cannot be greater than `60000`
-timestamp          | LONG   | YES        |
-
-**Response:**
-
-```javascript
-true
-```
-
-
-
-## Merchant Endpoints
-
-### Signature
-
-
-**Common Headers**
-
-The table below shows all of the common API Headers you will encounter in the Coins API.
-
-Header Name | Required | Type | Example | Description
------------- |----------|--| ------------|--
-X-Merchant-Key | YES   | STRING |     | The authorized merchant key
-X-Merchant-Sign | YES | STRING |   | The authorized merchant request sign
-X-Timestamp | YES | LONG  | 1671158910| Request initiation time
-X-Trace-Id | NO | STRING |    |  Request log trace ID
-
-To craft an X-Merchant-Sign:
-1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://127.0.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
-2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
-
-### Invoicing
-
-An invoice is a document that outlines the details of a transaction between two parties, typically a seller and a buyer. The transaction could be for goods or services rendered, or it could be a transfer of funds from one user to another.
-
-In an invoice, there are two main entities involved:
-
-1) The payee, who is the recipient of the payment for the goods or services provided (the merchant).
-2) The payer, who is the individual or organization making the payment to fulfill the invoice (the customer).
-
-The API endpoints described in this section allow you to integrate invoicing functionality into your application. Creating, sending, and managing invoices directly from the application simplifies the invoicing process and improves the user experience.
-
-#### Creating Invoices
-
-
-```shell
-POST /merchant-api/v1/invoices (HMAC SHA256)
-```
-
-This endpoint generates an invoice based on the provided parameters and returns a response with details of the created invoice.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-amount            | DECIMAL | YES       |The amount expected from the customer.
-currency | STRING      | YES       | Currency of transaction.
-supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
-expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
-
-**Payment Options**
-
-Code |Description
-----|----
-coins_peso_wallet|Pay with the user's Peso Coins wallet.
-
-
-**Request:**
-
-```javascript
-{
-    "amount": 100,
-    "currency": "PHP",
-    "supported_payment_collectors": "["coins_peso_wallet"]",
-    "external_transaction_id": "1",
-    "expires_at": "1w"
-}
-```
-
-**Response:**
-
-```javascript
-{
-    "invoice": {
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }
-}
-```
-#### Retrieving Invoices
-
-
-```shell
-GET /merchant-api/v1/get-invoices (HMAC SHA256)
-```
-
-This endpoint retrieves information about a specific invoice.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | NO        | The ID of a specific invoice to retrieve.
-start_time            | LONG  | NO        | The start time of a time range within which to search for invoices.
-end_time            | LONG  | NO        | The end time of a time range within which to search for invoices.
-limit            | INT   | NO        | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
-
-If the invoice_id parameter is provided, only the data for the specified invoice will be returned.
-If the start_time and end_time parameters are not provided, the response will include the records within the last 90 days by default. Developers can provide a specific time range by setting the time parameter to a value that specifies the start and end times of the desired range.
-
-**Response:**
-
-```javascript
-{
-    "invoice": [{
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }]
-}
-```
-
-
-#### Canceling Invoices
-
-
-```shell
-POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
-```
-
-This endpoint cancels an existing invoice.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type  | Mandatory | Description
------------------|-------|-----------|--------------------------------------------------------------------------------------
-invoice_id            | STRING | YES       | The ID of a specific invoice to cancel.
-
-**Response:**
-
-```javascript
-{
-    "invoice": {
-        "id": "1783304323757262592",
-        "amount": "100",
-        "amount_due": "100",
-        "currency": "PHP",
-        "status": "canceled",//pending,fully_paid,expired,canceled
-        "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
-        "incoming_address":""
-    }
-}
-```
-
-### Invoice Callbacks
-
-During the lifecycle of an invoice, various events may occur. For example, when an invoice is fully paid, the invoice.fully_paid event is triggered. These events can be tracked and acted upon using the Coins API's event system.
-
-Merchants can specify a callback URL when creating or updating an invoice, which is a web address that the API will send event data to. When an event occurs, the API will send a POST request to the specified callback_URL, containing data about the event. The merchant can then process this data as needed, such as by updating their internal systems or notifying the customer.
-
-To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
-
-Event payloads follow this convention:
-```javascript
-{
-  "event": {
-    "name": "invoice.name",
-    "data": {
-        "id": "invoice_id",
-        "currency": "PHP",
-        "amount": "100",
-        "amount_received": "0",
-        "external_transaction_id": "1"
-        }
-    }
-}
-```
-
-Events which may be consumed by callbacks are described in the table below:
-
-Event Name	| Description
-----|---
-invoice.created	| The invoice has been created.
-invoice.updated	| The invoice has been updated. This may be due to the payment received for the invoice.
-invoice.fully_paid	| The invoice payment has been completed.
-invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
-
-
-
-### Convert endpoints
-#### Get supported trading pairs (TRADE)
-```shell
-POST /openapi/convert/v1/get-supported-trading-pairs
-```
-
-This continuously updated endpoint returns a list of all available trading pairs. 
-
-**Weight:** 1
-
-**Parameters:**
-
- N/A
-
-
-
-**Response:**
-
-Field name	| Description
-----|---
-sourceCurrency	| Source token.
-targetCurrency	| Target token.
-minSourceAmount	| amount range min value.
-maxSourceAmount	| amount range max value.
-precision	| The level of precision in decimal places used.
-
-```javascript
-{
-  "status":0, 
-  "error":"OK",
-  "data":[
-     {
-      "sourceCurrency":"PHP",
-      "targetCurrency":"BTC",
-      "minSourceAmount":"1000",
-      "maxSourceAmount":"15000",
-      "precision":"2"
-    },
-    {
-      "sourceCurrency":"BTC",
-      "targetCurrency":"PHP",
-      "minSourceAmount":"0.0001",
-      "maxSourceAmount":"0.1",
-      "precision":"8"
-    },
-    {
-      "sourceCurrency":"PHP",
-      "targetCurrency":"ETH",
-      "minSourceAmount":"1000",
-      "maxSourceAmount":"18000",
-      "precision":"2"
-    },
-    {
-      "sourceCurrency":"ETH",
-      "targetCurrency":"PHP",
-      "minSourceAmount":"0.003",
-      "maxSourceAmount":"4.2",
-      "precision":"8"
-    }
-  ]
-}
-```
-
-
-
-#### Fetch a quote (TRADE)
-
-```shell
-POST /openapi/convert/v1/get-quote
-```
-
-This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ |-----------| ------------
-sourceCurrency | STRING | YES       |The currency the user holds
-targetCurrency | STRING | YES       |The currency the user would like to obtain
-sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
-targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
-
-**Response:**
-
-Field name	| Description
-----|---
-quoteId	| Quote unique id.
-sourceCurrency	| Source token.
-targetCurrency	| Target token.
-sourceAmount	| Source token amount.
-price	| Trading pairs price.
-targetAmount	| Targe token amount.
-expiry	| Quote expire time seconds.
-
-```javascript
-{
-  "status": 0, 
-  "error": "OK", 
-  "data": {
-            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
-            "sourceCurrency": "BTC",
-            "targetCurrency": "PHP",
-            "sourceAmount": "0.1",
-            "price": "59999",             //1BTC=59999PHP
-            "targetAmount": "5999",       //The amount of PHP the user holds
-            "expiry": "10"
-  }
-}
-```
-
-#### Accept the quote (TRADE)
-
-
-```shell
-POST /openapi/convert/v1/accept-quote
-```
-
-Use this endpoint to accept the quote and receive the result instantly.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-quoteId | STRING | YES |The ID assigned to the quote
-
-
-**Response:**
-
-Field name	| Description
-----|---
-status	| 0 mean order are created. 
-data.orderId	| Order ID generated by the server.
-data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESSING`;PROCESSING mean that the server is processing,SUCCESS means the order is successful.
-
-```javascript
-{
-  "status": 0, 
-  "data": {
-         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
-         "status": "SUCCESS"
-  },
-  "error": "ok"
-}
-```
-
-***Error code description:***
-
-status code           | Description
-----------------| ------------
-0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
-10000003 | Failed to fetch account verification information.
-10000003 | Quote expired.
-10000003 | Unable to fetch account information.
-10000003 | The price has changed! Please confirm the updated rate to complete the transaction.
-10000003 | Insufficient balance.
-10000003 | Failed to fetch liquidity. Try again later.
-
-#### Retrieve order history (USER_DATA)
-
-
-```shell
-POST /openapi/convert/v1/query-order-history
-```
-This endpoint retrieves order history with the option to define a specific time period using start and end times.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type   | Mandatory | Description
------------- |--------|---------| ------------
-startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
-endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
-status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
-page | int    | No |
-size | int    | No |
-
-
-**Response:**
-
-Field name	| Description
-----|---
-orderId	| Order ID generated by the server.
-quoteId	| Order reference quote Id.
-userId	| user id.
-sourceCurrency	| source currency.
-targetCurrency	| target currency.
-sourceAmount	| source currency amount.
-targetAmount	| target currency amount.
-price	| price.
-status	| Order status.`TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
-createdAt	| Order create time.
-errorMessage	| Error message if order failed.
-
-
-
-```javascript
-{
-  "status": 0,
-   "error": "OK",
-   "data": [
-    {
-      "id":"",
-      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
-      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
-      "userId":"",
-      "sourceCurrency": "BTC",
-      "sourceCurrencyIcon":"",
-      "targetCurrency": "PHP",
-      "targetCurrencyIcon":"",
-      "sourceAmount": "0.11",
-      "targetAmount": "4466.89275956",
-      "price": "40608.115996",
-      "status": "SUCCESS",
-      "createdAt": "1671797993000",
-      "errorCode": "",
-      "errorMessage": "",
-      "inversePrice": "3306.115996"
-    }
-  ],
-  "total": 23
-}
-```
-
 ### Fiat endpoints
 
 #### Get supported fiat channels (TRADE)
@@ -3366,6 +2822,552 @@ dealCancel | boolean | If order can be canceled, value will be true.
 }
 ```
 ------
+
+
+
+#### Get payment request (USER_DATA)
+
+```shell
+GET /openapi/v3/payment-request/get-payment-request (HMAC SHA256)
+```
+Retrieve either a single existing payment request or a list of existing payment requests.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | NO        | The ID of a specific payment request to retrieve.
+start_time | LONG   | NO        |  The start time of a time range within which to search for payment requests.
+end_time          | LONG   | NO       |  The end time of a time range within which to search for payment requests.
+limit          | INT    | NO       | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+#### Cancel payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/delete-payment-request (HMAC SHA256)
+```
+Cancel an existing payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID the payment request that needs to be canceled.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "canceled",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+#### Send reminder for payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/payment-request-reminder (HMAC SHA256)
+```
+Send a reminder to the recipient to fulfill the payment request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+id            | STRING | YES       | The ID of the payment request for which the reminder notification needs to be sent.
+recvWindow | LONG   | NO        | The value cannot be greater than `60000`
+timestamp          | LONG   | YES        |
+
+**Response:**
+
+```javascript
+true
+```
+
+
+
+## Merchant Endpoints
+
+### Signature
+
+
+**Common Headers**
+
+The table below shows all of the common API Headers you will encounter in the Coins API.
+
+Header Name | Required | Type | Example | Description
+------------ |----------|--| ------------|--
+X-Merchant-Key | YES   | STRING |     | The authorized merchant key
+X-Merchant-Sign | YES | STRING |   | The authorized merchant request sign
+X-Timestamp | YES | LONG  | 1671158910| Request initiation time
+X-Trace-Id | NO | STRING |    |  Request log trace ID
+
+To craft an X-Merchant-Sign:
+1. Construct a message according to the following pseudo-grammar: ‘X-Timestamp’ +URL(http://127.0.0.1/merchant-api/account?paramKey=paramValue&paramKey2=paramValue2) + BODY(key1=value1&key=value2)
+2. Calculate an HMAC with the message string you just created, your API secret as the key, and SHA256 as the hash algorithm
+
+### Invoicing
+
+An invoice is a document that outlines the details of a transaction between two parties, typically a seller and a buyer. The transaction could be for goods or services rendered, or it could be a transfer of funds from one user to another.
+
+In an invoice, there are two main entities involved:
+
+1) The payee, who is the recipient of the payment for the goods or services provided (the merchant).
+2) The payer, who is the individual or organization making the payment to fulfill the invoice (the customer).
+
+The API endpoints described in this section allow you to integrate invoicing functionality into your application. Creating, sending, and managing invoices directly from the application simplifies the invoicing process and improves the user experience.
+
+#### Creating Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices (HMAC SHA256)
+```
+
+This endpoint generates an invoice based on the provided parameters and returns a response with details of the created invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+amount            | DECIMAL | YES       |The amount expected from the customer.
+currency | STRING      | YES       | Currency of transaction.
+supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
+external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
+expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+
+**Payment Options**
+
+Code |Description
+----|----
+coins_peso_wallet|Pay with the user's Peso Coins wallet.
+
+
+**Request:**
+
+```javascript
+{
+    "amount": 100,
+    "currency": "PHP",
+    "supported_payment_collectors": "["coins_peso_wallet"]",
+    "external_transaction_id": "1",
+    "expires_at": "1w"
+}
+```
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }
+}
+```
+#### Retrieving Invoices
+
+
+```shell
+GET /merchant-api/v1/get-invoices (HMAC SHA256)
+```
+
+This endpoint retrieves information about a specific invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoice_id            | STRING | NO        | The ID of a specific invoice to retrieve.
+start_time            | LONG  | NO        | The start time of a time range within which to search for invoices.
+end_time            | LONG  | NO        | The end time of a time range within which to search for invoices.
+limit            | INT   | NO        | The maximum number of records to return in a single response. The default value is 500, and the maximum allowed value is 1000.
+
+If the invoice_id parameter is provided, only the data for the specified invoice will be returned.
+If the start_time and end_time parameters are not provided, the response will include the records within the last 90 days by default. Developers can provide a specific time range by setting the time parameter to a value that specifies the start and end times of the desired range.
+
+**Response:**
+
+```javascript
+{
+    "invoice": [{
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }]
+}
+```
+
+
+#### Canceling Invoices
+
+
+```shell
+POST /merchant-api/v1/invoices-cancel (HMAC SHA256)
+```
+
+This endpoint cancels an existing invoice.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+invoice_id            | STRING | YES       | The ID of a specific invoice to cancel.
+
+**Response:**
+
+```javascript
+{
+    "invoice": {
+        "id": "1783304323757262592",
+        "amount": "100",
+        "amount_due": "100",
+        "currency": "PHP",
+        "status": "canceled",//pending,fully_paid,expired,canceled
+        "external_transaction_id": "test_111",
+        "created_at": 1690453041000,
+        "updated_at": 1690453041000,
+        "expires_at": 1690453041000,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "http:xxxx",
+        "expires_in_seconds": 60,
+        "incoming_address":""
+    }
+}
+```
+
+### Invoice Callbacks
+
+During the lifecycle of an invoice, various events may occur. For example, when an invoice is fully paid, the invoice.fully_paid event is triggered. These events can be tracked and acted upon using the Coins API's event system.
+
+Merchants can specify a callback URL when creating or updating an invoice, which is a web address that the API will send event data to. When an event occurs, the API will send a POST request to the specified callback_URL, containing data about the event. The merchant can then process this data as needed, such as by updating their internal systems or notifying the customer.
+
+To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
+
+Event payloads follow this convention:
+```javascript
+{
+  "event": {
+    "name": "invoice.name",
+    "data": {
+        "id": "invoice_id",
+        "currency": "PHP",
+        "amount": "100",
+        "amount_received": "0",
+        "external_transaction_id": "1"
+        }
+    }
+}
+```
+
+Events which may be consumed by callbacks are described in the table below:
+
+Event Name	| Description
+----|---
+invoice.created	| The invoice has been created.
+invoice.updated	| The invoice has been updated. This may be due to the payment received for the invoice.
+invoice.fully_paid	| The invoice payment has been completed.
+invoice.payment_reference_number_generated| The invoice payment reference number has been generated.
+
+
+
+### Convert endpoints
+#### Get supported trading pairs (TRADE)
+```shell
+POST /openapi/convert/v1/get-supported-trading-pairs
+```
+
+This continuously updated endpoint returns a list of all available trading pairs. 
+
+**Weight:** 1
+
+**Parameters:**
+
+ N/A
+
+
+
+**Response:**
+
+Field name	| Description
+----|---
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+minSourceAmount	| amount range min value.
+maxSourceAmount	| amount range max value.
+precision	| The level of precision in decimal places used.
+
+```javascript
+{
+  "status":0, 
+  "error":"OK",
+  "data":[
+     {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"BTC",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"15000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"BTC",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.0001",
+      "maxSourceAmount":"0.1",
+      "precision":"8"
+    },
+    {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"ETH",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"18000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"ETH",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.003",
+      "maxSourceAmount":"4.2",
+      "precision":"8"
+    }
+  ]
+}
+```
+
+
+
+#### Fetch a quote (TRADE)
+
+```shell
+POST /openapi/convert/v1/get-quote
+```
+
+This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ |-----------| ------------
+sourceCurrency | STRING | YES       |The currency the user holds
+targetCurrency | STRING | YES       |The currency the user would like to obtain
+sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+
+**Response:**
+
+Field name	| Description
+----|---
+quoteId	| Quote unique id.
+sourceCurrency	| Source token.
+targetCurrency	| Target token.
+sourceAmount	| Source token amount.
+price	| Trading pairs price.
+targetAmount	| Targe token amount.
+expiry	| Quote expire time seconds.
+
+```javascript
+{
+  "status": 0, 
+  "error": "OK", 
+  "data": {
+            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
+            "sourceCurrency": "BTC",
+            "targetCurrency": "PHP",
+            "sourceAmount": "0.1",
+            "price": "59999",             //1BTC=59999PHP
+            "targetAmount": "5999",       //The amount of PHP the user holds
+            "expiry": "10"
+  }
+}
+```
+
+#### Accept the quote (TRADE)
+
+
+```shell
+POST /openapi/convert/v1/accept-quote
+```
+
+Use this endpoint to accept the quote and receive the result instantly.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+quoteId | STRING | YES |The ID assigned to the quote
+
+
+**Response:**
+
+Field name	| Description
+----|---
+status	| 0 mean order are created. 
+data.orderId	| Order ID generated by the server.
+data.status	| The order status is an enumeration with values `SUCCESS`, `PROCESSING`;PROCESSING mean that the server is processing,SUCCESS means the order is successful.
+
+```javascript
+{
+  "status": 0, 
+  "data": {
+         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
+         "status": "SUCCESS"
+  },
+  "error": "ok"
+}
+```
+
+***Error code description:***
+
+status code           | Description
+----------------| ------------
+0 | means that the call is processed normally.(Applicable to other endpoint if there is a status structure)
+10000003 | Failed to fetch account verification information.
+10000003 | Quote expired.
+10000003 | Unable to fetch account information.
+10000003 | The price has changed! Please confirm the updated rate to complete the transaction.
+10000003 | Insufficient balance.
+10000003 | Failed to fetch liquidity. Try again later.
+
+#### Retrieve order history (USER_DATA)
+
+
+```shell
+POST /openapi/convert/v1/query-order-history
+```
+This endpoint retrieves order history with the option to define a specific time period using start and end times.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type   | Mandatory | Description
+------------ |--------|---------| ------------
+startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
+status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+page | int    | No |
+size | int    | No |
+
+
+**Response:**
+
+Field name	| Description
+----|---
+orderId	| Order ID generated by the server.
+quoteId	| Order reference quote Id.
+userId	| user id.
+sourceCurrency	| source currency.
+targetCurrency	| target currency.
+sourceAmount	| source currency amount.
+targetAmount	| target currency amount.
+price	| price.
+status	| Order status.`TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
+createdAt	| Order create time.
+errorMessage	| Error message if order failed.
+
+
+
+```javascript
+{
+  "status": 0,
+   "error": "OK",
+   "data": [
+    {
+      "id":"",
+      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
+      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
+      "userId":"",
+      "sourceCurrency": "BTC",
+      "sourceCurrencyIcon":"",
+      "targetCurrency": "PHP",
+      "targetCurrencyIcon":"",
+      "sourceAmount": "0.11",
+      "targetAmount": "4466.89275956",
+      "price": "40608.115996",
+      "status": "SUCCESS",
+      "createdAt": "1671797993000",
+      "errorCode": "",
+      "errorMessage": "",
+      "inversePrice": "3306.115996"
+    }
+  ],
+  "total": 23
+}
+```
 
 ### Old endpoints from coins.ph (Legacy)
 
