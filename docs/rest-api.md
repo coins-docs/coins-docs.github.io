@@ -1361,31 +1361,7 @@ limit | INT | NO | Default 500; max 1000.
 ]
 ```
 
-#### Current average price
 
-```shell
-GET /openapi/quote/v1/avgPrice
-```
-
-Current average price for a symbol.
-
-**Weight:** 1
-
-**Parameters:**
-
-| Name   | Type   | Mandatory | Description                                           |
-| ------ | ------ | --------- | ----------------------------------------------------- |
-| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
-
-
-**Response:**
-
-```javascript
-{
-  "mins": 5,
-  "price": "9.35751834"
-}
-```
 
 #### 24hr ticker price change statistics
 
@@ -1523,6 +1499,34 @@ OR
     "price": "0.07946600"
   }
 ]
+```
+
+
+
+#### Current average price
+
+```shell
+GET /openapi/quote/v1/avgPrice
+```
+
+Current average price for a symbol.
+
+**Weight:** 1
+
+**Parameters:**
+
+| Name   | Type   | Mandatory | Description                                           |
+| ------ | ------ | --------- | ----------------------------------------------------- |
+| symbol | STRING | YES       | symbol is not case sensitive, e.g. BTCUSDT or btcusdt |
+
+
+**Response:**
+
+```javascript
+{
+  "mins": 5,
+  "price": "9.35751834"
+}
 ```
 
 
