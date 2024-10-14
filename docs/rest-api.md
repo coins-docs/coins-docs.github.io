@@ -1064,6 +1064,94 @@ Fetch withdraw history.
 
 
 
+#### Transfers (USER_DATA)
+
+```shell
+POST /openapi/transfer/v3/transfers
+```
+This endpoint is used to transfer funds between two accounts.
+
+**Weight:** 50
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+client_transfer_id | STRING | NO | Client Transfer ID
+account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
+amount      | BigDecimal | YES    | The amount being transferred
+recvWindow | LONG  | NO    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time when the transfer is performed
+message     | STRING  | NO    | The message sent to the recipient account
+
+If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
+
+
+**Response:**
+```javascript
+{
+  "transfer":
+    {
+      "id": "1451431230880900352",
+      "status": "success",//status enum: pending,success,failed
+      "account": "90dfg03goamdf02fs",
+      "target_address": "testsub@gmail.com",
+      "amount": "1",
+      "exchange": "1",
+      "payment": "23094j0amd0fmag9agjgasd",
+      "client_transfer_id": "1487573639841995271",
+      "message": "example"
+     }
+}
+```
+
+
+
+#### Payment request (USER_DATA)
+
+```shell
+POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
+```
+Initiate a new payment transaction by creating a payment request.
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type    | Mandatory | Description
+-----------------|---------|----------|--------------------------------------------------------------------------------------
+payer_contact_info            | STRING  | YES      | The contact information, typically an email address, to which the payment request should be sent.
+receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
+amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
+message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
+supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
+expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+recvWindow | LONG    | NO        | The value cannot be greater than `60000`
+timestamp          | LONG    | YES        |
+
+**Response:**
+
+```javascript
+{
+    "payment-request": {
+        "message": "i am boss",
+        "id": "1433341829953096704",
+        "invoice": "1433341829953096704",
+        "amount": "20",
+        "currency": "PHP",
+        "status": "pending",//pending,fully_paid,expired,canceled
+        "created_at": 1685603661217,
+        "updated_at": 1685603661217,
+        "expires_at": 1686208461219,
+        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
+        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
+        "payer_contact_info": "jennins@coins.ph"
+    }
+}
+```
+
+
+
 ### Market Data endpoints
 
 #### Order book
@@ -2090,50 +2178,6 @@ timestamp          | LONG   | YES        |
   ]
 ```
 
-
-
-
-#### Payment request (USER_DATA)
-
-```shell
-POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
-```
-Initiate a new payment transaction by creating a payment request.
-**Weight:** 1
-
-**Parameters:**
-
-Name              | Type    | Mandatory | Description
------------------|---------|----------|--------------------------------------------------------------------------------------
-payer_contact_info            | STRING  | YES      | The contact information, typically an email address, to which the payment request should be sent.
-receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
-message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
-supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
-recvWindow | LONG    | NO        | The value cannot be greater than `60000`
-timestamp          | LONG    | YES        |
-
-**Response:**
-
-```javascript
-{
-    "payment-request": {
-        "message": "i am boss",
-        "id": "1433341829953096704",
-        "invoice": "1433341829953096704",
-        "amount": "20",
-        "currency": "PHP",
-        "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
-        "supported_payment_collectors": "[\"coins_peso_wallet\"]",
-        "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
-    }
-}
-```
 
 
 #### Get payment request (USER_DATA)
@@ -3511,48 +3555,6 @@ timestamp     | LONG  | YES    | A point in time for which the balance is being 
       "pending_balance": "200"
     }
   ]
-}
-```
-
-#### Transfers (USER_DATA)
-
-```shell
-POST /openapi/transfer/v3/transfers
-```
-This endpoint is used to transfer funds between two accounts.
-
-**Weight:** 50
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-client_transfer_id | STRING | NO | Client Transfer ID
-account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
-target_address   | STRING | YES    | The phone number or email for recipient account (e.g. +63 9686490252 or testsub@gmail.com)
-amount      | BigDecimal | YES    | The amount being transferred
-recvWindow | LONG  | NO    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time when the transfer is performed
-message     | STRING  | NO    | The message sent to the recipient account
-
-If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
-
-
-**Response:**
-```javascript
-{
-  "transfer":
-    {
-      "id": "1451431230880900352",
-      "status": "success",//status enum: pending,success,failed
-      "account": "90dfg03goamdf02fs",
-      "target_address": "testsub@gmail.com",
-      "amount": "1",
-      "exchange": "1",
-      "payment": "23094j0amd0fmag9agjgasd",
-      "client_transfer_id": "1487573639841995271",
-      "message": "example"
-     }
 }
 ```
 
