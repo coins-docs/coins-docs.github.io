@@ -2825,6 +2825,381 @@ dealCancel | boolean | If order can be canceled, value will be true.
 
 
 
+## Sub-account endpoints
+
+### Query Sub-account List (For Master Account)
+
+Applies to master accounts only.
+
+```shell
+GET /openapi/v1/sub-account/list
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
+page    | INT | NO | Current page, default value: 1
+limit    | INT | NO | Quantity per page, default value 10, maximum `200`
+recvWindow | LONG  | NO    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "subAccounts": [
+    {
+      "createTime": "1689744671462",
+      "email": "testsub@gmail.com",
+      "isFreeze": false
+    },
+    {
+      "createTime": "1689744700710",
+      "email": "testsub2@gmail.com",
+      "isFreeze": false
+    }
+  ],
+ "total": 2
+}
+```
+
+### Create a Virtual Sub-account(For Master Account)
+
+This interface currently supports the creation of virtual sub-accounts (maximum 30).
+
+```shell
+POST /openapi/v1/sub-account/create
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+accountName      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "email": "testsub@gmail.com",
+  "createTime": 1689744700710,
+  "isFreeze": false
+}
+```
+
+
+### Query Sub-account Assets (For Master Account)
+
+Query detailed balance information of a sub-account via the master account (applies to master accounts only).
+
+```shell
+GET /openapi/v1/sub-account/asset
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+email      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "balances": [
+    {
+      "asset": "BTC",
+      "free": "0.1",
+      "locked": "0"
+    },
+    {
+      "asset": "ETH",
+      "free": "0.1",
+      "locked": "0"
+    }
+  ]
+}
+```
+
+
+
+### Universal Transfer (For Master Account)
+
+Master account can initiate a transfer from any of its sub-accounts to the master account, or from the master account to any sub-account.
+
+```shell
+POST /openapi/v1/sub-account/transfer/universal-transfer
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+fromEmail      | STRING | NO        | 
+toEmail      | STRING | NO        | 
+clientTranId      | STRING | NO        | Must be unique
+asset      | STRING | YES       | 
+amount      | DECIMAL | YES        | 
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+- Transfer from master account by default if fromEmail is not sent.
+- Transfer to master account by default if toEmail is not sent.
+- Specify at least one of fromEmail and toEmail.
+- Supported transfer scenarios:
+  - Master account transfer to sub-account 
+  - Sub-account transfer to master account 
+  - Sub-account transfer to Sub-account
+
+
+**Response:**
+```json
+{
+  "clientTransferId": "1487573639841995271",
+  "result": true//true:success,false:failed
+}
+```
+
+### Transfer to Master (For Sub-account)
+
+Sub-account can initiate a transfer from itself to the master account.
+
+```shell
+POST /openapi/v1/sub-account/transfer/sub-to-master
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+asset      | STRING | YES       |
+amount      | DECIMAL | YES        |
+clientTranId      | STRING | NO        | Must be unique
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "clientTransferId": "1487573639841995271",
+  "result": true//true:success,false:failed
+}
+```
+
+### Query Universal Transfer History (For Master Account)
+
+Applies to master accounts only.
+If startTime and endTime are not sent, this will return records of the last 30 days by default.
+
+```shell
+GET /openapi/v1/sub-account/transfer/universal-transfer-history
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+fromEmail      | STRING | NO        |
+toEmail      | STRING | NO        |
+clientTranId      | STRING | NO        | 
+tokenId      | STRING | NO        | 
+startTime      | LONG | NO        | Millisecond timestamp
+endTime      | LONG | NO        | Millisecond timestamp,Data excluding the endTime.
+page      | INT | NO        | Current page, default value: 1
+limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
+recvWindow | LONG  | NO        | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+
+- fromEmail and toEmail cannot be sent at the same time.
+- Return fromEmail equal master account email by default.
+- The query time period must be less than 30 days. 
+- If startTime and endTime not sent, return records of the last 30 days by default.
+
+**Response:**
+```json
+{
+  "result": [
+    {
+      "clientTranId": "1",
+      "fromEmail": "testsub@gmail",
+      "toEmail": "testsub1@gmail",
+      "asset": "BTC",
+      "amount": "0.1",
+      "createdAt": 1689744700710,
+      "status": "success"//success,pending,failed
+    }
+  ],
+  "total": 1
+}
+```
+
+
+### Sub-account Transfer History (For Sub-account)
+
+Applies to sub-accounts only.
+If startTime and endTime are not sent, this will return records of the last 30 days by default.
+
+```shell
+GET /openapi/v1/sub-account/transfer/sub-history
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+asset      | STRING | NO        |
+type      | INT | NO        | 1: transfer in, 2: transfer out. If the type parameter is not provided or provided incorrectly, the data returned will be for transfer out.
+startTime      | LONG   | NO        | Millisecond timestamp
+endTime      | LONG   | NO        | Millisecond timestamp,Data excluding the endTime.
+page      | INT    | NO        | Current page, default value: 1
+limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+- If type is not sent, the records of type 2: transfer out will be returned by default.
+- If startTime and endTime are not sent, the recent 30-day data will be returned.
+
+**Response:**
+```json
+{
+  "result": [
+    {
+      "clientTranId": "1",
+      "fromEmail": "testsub@gmail",
+      "toEmail": "testsub1@gmail",
+      "asset": "BTC",
+      "amount": "0.1",
+      "createdAt": 1689744700710,
+      "status": "success"//success,pending,failed
+    }
+  ],
+  "total": 1
+}
+```
+
+
+### Get IP Restriction for a Sub-account API Key (For Master Account)
+
+Query detailed IPs for a sub-account API key.
+
+```shell
+GET /openapi/v1/sub-account/apikey/ip-restriction
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+apikey      | STRING | YES        | 
+email      | STRING | YES        |  <a href="#request-parameters">Sub-account email</a>
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
+  "ipList": [
+    "8.8.8.8"
+  ],
+  "ipRestrict": true,
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
+  "updateTime": 1689744700710
+}
+```
+
+###  Add IP Restriction for Sub-Account API key (For Master Account)
+
+```shell
+POST /openapi/v1/sub-account/apikey/add-ip-restriction
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+apikey      | STRING | YES       |
+email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
+ipAddress      | STRING | NO        |   Can be added in batches, separated by commas
+ipRestriction      | STRING | YES       |   IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
+  "ipList": [
+    "8.8.8.8"
+  ],
+  "ipRestrict": true,
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
+  "updateTime": 1689744700710
+}
+```
+
+###  Delete IP List For a Sub-account API Key (For Master Account)
+
+```shell
+POST /openapi/v1/sub-account/apikey/delete-ip-restriction
+```
+
+**Weight:** 1
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+apikey      | STRING | YES       |
+email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
+ipAddress      | STRING | YES       |   Can be added in batches, separated by commas
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
+  "ipList": [
+    "8.8.8.8"
+  ],
+  "ipRestrict": true,
+  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
+  "updateTime": 1689744700710
+}
+```
+
+
+
 #### Get payment request (USER_DATA)
 
 ```shell
@@ -3618,378 +3993,6 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
     "next_page": 2,
     "previous_page": 0
   }
-}
-```
-## Sub-account endpoints
-
-### Query Sub-account List (For Master Account)
-
-Applies to master accounts only.
-
-```shell
-GET /openapi/v1/sub-account/list
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
-page    | INT | NO | Current page, default value: 1
-limit    | INT | NO | Quantity per page, default value 10, maximum `200`
-recvWindow | LONG  | NO    | This value cannot be greater than `60000`
-timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "subAccounts": [
-    {
-      "createTime": "1689744671462",
-      "email": "testsub@gmail.com",
-      "isFreeze": false
-    },
-    {
-      "createTime": "1689744700710",
-      "email": "testsub2@gmail.com",
-      "isFreeze": false
-    }
-  ],
- "total": 2
-}
-```
-
-### Create a Virtual Sub-account(For Master Account)
-
-This interface currently supports the creation of virtual sub-accounts (maximum 30).
-
-```shell
-POST /openapi/v1/sub-account/create
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-accountName      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
-recvWindow | LONG  | NO        | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "email": "testsub@gmail.com",
-  "createTime": 1689744700710,
-  "isFreeze": false
-}
-```
-
-
-### Query Sub-account Assets (For Master Account)
-
-Query detailed balance information of a sub-account via the master account (applies to master accounts only).
-
-```shell
-GET /openapi/v1/sub-account/asset
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
-recvWindow | LONG  | NO        | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "balances": [
-    {
-      "asset": "BTC",
-      "free": "0.1",
-      "locked": "0"
-    },
-    {
-      "asset": "ETH",
-      "free": "0.1",
-      "locked": "0"
-    }
-  ]
-}
-```
-
-
-
-### Universal Transfer (For Master Account)
-
-Master account can initiate a transfer from any of its sub-accounts to the master account, or from the master account to any sub-account.
-
-```shell
-POST /openapi/v1/sub-account/transfer/universal-transfer
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-fromEmail      | STRING | NO        | 
-toEmail      | STRING | NO        | 
-clientTranId      | STRING | NO        | Must be unique
-asset      | STRING | YES       | 
-amount      | DECIMAL | YES        | 
-recvWindow | LONG  | NO        | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
-
-- Transfer from master account by default if fromEmail is not sent.
-- Transfer to master account by default if toEmail is not sent.
-- Specify at least one of fromEmail and toEmail.
-- Supported transfer scenarios:
-  - Master account transfer to sub-account 
-  - Sub-account transfer to master account 
-  - Sub-account transfer to Sub-account
-
-
-**Response:**
-```json
-{
-  "clientTransferId": "1487573639841995271",
-  "result": true//true:success,false:failed
-}
-```
-
-### Transfer to Master (For Sub-account)
-
-Sub-account can initiate a transfer from itself to the master account.
-
-```shell
-POST /openapi/v1/sub-account/transfer/sub-to-master
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-asset      | STRING | YES       |
-amount      | DECIMAL | YES        |
-clientTranId      | STRING | NO        | Must be unique
-recvWindow | LONG  | NO        | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "clientTransferId": "1487573639841995271",
-  "result": true//true:success,false:failed
-}
-```
-
-### Query Universal Transfer History (For Master Account)
-
-Applies to master accounts only.
-If startTime and endTime are not sent, this will return records of the last 30 days by default.
-
-```shell
-GET /openapi/v1/sub-account/transfer/universal-transfer-history
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type  | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-fromEmail      | STRING | NO        |
-toEmail      | STRING | NO        |
-clientTranId      | STRING | NO        | 
-tokenId      | STRING | NO        | 
-startTime      | LONG | NO        | Millisecond timestamp
-endTime      | LONG | NO        | Millisecond timestamp,Data excluding the endTime.
-page      | INT | NO        | Current page, default value: 1
-limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
-recvWindow | LONG  | NO        | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
-
-
-- fromEmail and toEmail cannot be sent at the same time.
-- Return fromEmail equal master account email by default.
-- The query time period must be less than 30 days. 
-- If startTime and endTime not sent, return records of the last 30 days by default.
-
-**Response:**
-```json
-{
-  "result": [
-    {
-      "clientTranId": "1",
-      "fromEmail": "testsub@gmail",
-      "toEmail": "testsub1@gmail",
-      "asset": "BTC",
-      "amount": "0.1",
-      "createdAt": 1689744700710,
-      "status": "success"//success,pending,failed
-    }
-  ],
-  "total": 1
-}
-```
-
-
-### Sub-account Transfer History (For Sub-account)
-
-Applies to sub-accounts only.
-If startTime and endTime are not sent, this will return records of the last 30 days by default.
-
-```shell
-GET /openapi/v1/sub-account/transfer/sub-history
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-asset      | STRING | NO        |
-type      | INT | NO        | 1: transfer in, 2: transfer out. If the type parameter is not provided or provided incorrectly, the data returned will be for transfer out.
-startTime      | LONG   | NO        | Millisecond timestamp
-endTime      | LONG   | NO        | Millisecond timestamp,Data excluding the endTime.
-page      | INT    | NO        | Current page, default value: 1
-limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
-recvWindow | LONG   | NO        | This value cannot be greater than `60000`
-timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
-
-- If type is not sent, the records of type 2: transfer out will be returned by default.
-- If startTime and endTime are not sent, the recent 30-day data will be returned.
-
-**Response:**
-```json
-{
-  "result": [
-    {
-      "clientTranId": "1",
-      "fromEmail": "testsub@gmail",
-      "toEmail": "testsub1@gmail",
-      "asset": "BTC",
-      "amount": "0.1",
-      "createdAt": 1689744700710,
-      "status": "success"//success,pending,failed
-    }
-  ],
-  "total": 1
-}
-```
-
-
-### Get IP Restriction for a Sub-account API Key (For Master Account)
-
-Query detailed IPs for a sub-account API key.
-
-```shell
-GET /openapi/v1/sub-account/apikey/ip-restriction
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-apikey      | STRING | YES        | 
-email      | STRING | YES        | 	<a href="#request-parameters">Sub-account email</a>
-recvWindow | LONG   | NO        | This value cannot be greater than `60000`
-timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
-  "ipList": [
-    "8.8.8.8"
-  ],
-  "ipRestrict": true,
-  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
-  "updateTime": 1689744700710
-}
-```
-
-###  Add IP Restriction for Sub-Account API key (For Master Account)
-
-```shell
-POST /openapi/v1/sub-account/apikey/add-ip-restriction
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
-ipRestriction      | STRING | YES       | 	IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
-recvWindow | LONG   | NO        | This value cannot be greater than `60000`
-timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
-  "ipList": [
-    "8.8.8.8"
-  ],
-  "ipRestrict": true,
-  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
-  "updateTime": 1689744700710
-}
-```
-
-###  Delete IP List For a Sub-account API Key (For Master Account)
-
-```shell
-POST /openapi/v1/sub-account/apikey/delete-ip-restriction
-```
-
-**Weight:** 1
-
-**Parameters:**
-
-Name       | Type   | Mandatory | Description
------------------|--------|-----------|--------------------------------------------------------------------------------------
-apikey      | STRING | YES       |
-email      | STRING | YES       | 	<a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | YES       | 	Can be added in batches, separated by commas
-recvWindow | LONG   | NO        | This value cannot be greater than `60000`
-timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
-
-
-**Response:**
-```json
-{
-  "apikey": "k5V49ldtn4tszj6W3hystegdfvmGbqDzjmkCtpTvC0G74WhK7yd4rfCTo4lShf",
-  "ipList": [
-    "8.8.8.8"
-  ],
-  "ipRestrict": true,
-  "role": "2,3,4,5,6",//0:READ_ONLY, 2:TRADE_ONLY, 3:CONVERT_ONLY, 4:CRYPTO_WALLET_ONLY, 5:FIAT_ONLY, 6:ACCOUNT_ONLY
-  "updateTime": 1689744700710
 }
 ```
 
