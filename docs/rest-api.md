@@ -408,263 +408,6 @@ m -> minutes; h -> hours; d -> days; w -> weeks; M -> months
 
 
 
-### Filters
-
-Filters define trading rules on a symbol or an exchange. Filters come in two forms: `symbol filters` and `exchange filters`.
-
-
-
-#### Symbol filters
-
-##### PRICE_FILTER
-
-The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
-
-* `minPrice` defines the minimum `price`/`stopPrice` allowed.
-* `maxPrice` defines the maximum `price`/`stopPrice` allowed.
-* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by.
-
-In order to pass the `price filter`, the following must be true for `price`/`stopPrice`:
-
-* `price` >= `minPrice`
-* `price` <= `maxPrice`
-* (`price`-`minPrice`) % `tickSize` == 0
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PRICE_FILTER",
-    "minPrice": "0.00000100",
-    "maxPrice": "100000.00000000",
-    "tickSize": "0.00000100"
-  }
-```
-
-
-
-##### PERCENT_PRICE
-
-The `PERCENT_PRICE` filter defines valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
-
-In order to pass the `percent price`, the following must be true for `price`:
-
-- `price` <= `weightedAveragePrice` * `multiplierUp`
-- `price` >= `weightedAveragePrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-    "avgPriceMins": 5
-  }
-```
-
-
-
-##### PERCENT_PRICE_SA
-
-The `PERCENT_PRICE_SA` filter defines valid range for a price based on the  simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
-
-In order to pass the `percent_price_sa`, the following must be true for `price`:
-
-- `price` <= `simpleAveragePrice` * `multiplierUp`
-- `price` >= `simpleAveragePrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_SA",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-    "avgPriceMins": 5
-  }
-```
-
-
-
-##### PERCENT_PRICE_BY_SIDE
-
-The `PERCENT_PRICE_BY_SIDE` filter defines the valid range for the price based on the last price of the symbol.
-There is a different range depending on whether the order is placed on the `BUY` side or the `SELL` side.
-
-Buy orders will succeed on this filter if:
-
-- `Order price` <= `bidMultiplierUp` * `lastPrice`
-- `Order price` >= `bidMultiplierDown` * `lastPrice`
-
-Sell orders will succeed on this filter if:
-
-- `Order Price` <= `askMultiplierUp` * `lastPrice`
-- `Order Price` >= `askMultiplierDown` * `lastPrice`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_BY_SIDE",
-    "bidMultiplierUp": "1.2",
-    "bidMultiplierDown": "0.2",
-    "askMultiplierUp": "1.5",
-    "askMultiplierDown": "0.8",
-  }
-```
-
-
-
-##### PERCENT_PRICE_INDEX
-
-The `PERCENT_PRICE_INDEX` filter defines valid range for a price based on the  index price which is calculated based on  several exhanges in the market by centain rule. (indexPrice wobsocket pushing will be available in future)
-
-In order to pass the `percent_price_index`, the following must be true for `price`:
-
-- `price` <= `indexPrice` * `multiplierUp`
-- `price` >= `indexPrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_INDEX",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000",
-  }
-```
-
-
-
-##### PERCENT_PRICE_ORDER_SIZE
-
-The `PERCENT_PRICE_ORDER_SIZE` filter  is used to determine whether the execution of an order would cause the market price to fluctuate beyond the limit price, and if so, the order will be rejected.
-
-In order to pass the `percent_price_order_size`, the following must be true:
-
-- A buy order needs to meet: the market price after the order get filled  <`askPrice` * `multiplierUp`
-- A sell order needs to meet: the market price after the order get filled  >`bidPrice` * `multiplierDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "PERCENT_PRICE_ORDER_SIZE",
-    "multiplierUp": "1.3000",
-    "multiplierDown": "0.7000"
-  }
-```
-
-
-
-##### STATIC_PRICE_RANGE
-
-The `STATIC_PRICE_RANGE` filter defines a static valid range for the price.
-
-In order to pass the `static_price_range`, the following must be true for `price`:
-
-- `price` <= `priceUp`
-- `price` >= `priceDown`
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "STATIC_PRICE_RANGE",
-    "priceUp": "520",
-    "priceDown": "160"
-  }
-```
-
-
-
-##### LOT_SIZE
-
-The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
-
-* `minQty` defines the minimum `quantity` allowed.
-* `maxQty` defines the maximum `quantity` allowed.
-* `stepSize` defines the intervals that a `quantity`can be increased/decreased by.
-
-In order to pass the `lot size`, the following must be true for `quantity`:
-
-* `quantity` >= `minQty`
-* `quantity` <= `maxQty`
-* (`quantity`-`minQty`) % `stepSize` == 0
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "LOT_SIZE",
-    "minQty": "0.00100000",
-    "maxQty": "99999999.00000000",
-    "stepSize": "0.00100000"
-  }
-```
-
-
-
-##### NOTIONAL
-
-The `NOTIONAL` filter defines the acceptable notional range allowed for an order on a symbol.
-
-In order to pass this filter, the notional (`price * quantity`) has to pass the following conditions:
-
-- `price * quantity` <= `maxNotional`
-- `price * quantity` >= `minNotional`
-
-**/exchangeInfo format:**
-
-```javascript
-{
-   "filterType": "NOTIONAL",
-   "minNotional": "10.00000000",
-   "maxNotional": "10000.00000000"
-}
-```
-
-
-
-##### MAX_NUM_ORDERS
-
-The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
-Note that both triggered "algo" orders and normal orders are counted for this filter.
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "MAX_NUM_ORDERS",
-    "maxNumOrders": 200
-  }
-```
-
-
-
-##### MAX_NUM_ALGO_ORDERS
-
-The `MAX_ALGO_ORDERS` filter defines the maximum number of untriggered "algo" orders an account is allowed to have open on a symbol.
-"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
-
-**/exchangeInfo format:**
-
-```javascript
-  {
-    "filterType": "MAX_NUM_ALGO_ORDERS",
-    "maxNumAlgoOrders": 5
-  }
-```
-
-
-
-#### Exchange Filters
-
-None for now
-
-
-
 ### General endpoints
 
 #### Test connectivity
@@ -2260,6 +2003,263 @@ listenKey | STRING | YES |
 ```javascript
 {}
 ```
+
+
+
+### Filters
+
+Filters define trading rules on a symbol or an exchange. Filters come in two forms: `symbol filters` and `exchange filters`.
+
+
+
+#### Symbol filters
+
+##### PRICE_FILTER
+
+The `PRICE_FILTER` defines the `price` rules for a symbol. There are 3 parts:
+
+* `minPrice` defines the minimum `price`/`stopPrice` allowed.
+* `maxPrice` defines the maximum `price`/`stopPrice` allowed.
+* `tickSize` defines the intervals that a `price`/`stopPrice` can be increased/decreased by.
+
+In order to pass the `price filter`, the following must be true for `price`/`stopPrice`:
+
+* `price` >= `minPrice`
+* `price` <= `maxPrice`
+* (`price`-`minPrice`) % `tickSize` == 0
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PRICE_FILTER",
+    "minPrice": "0.00000100",
+    "maxPrice": "100000.00000000",
+    "tickSize": "0.00000100"
+  }
+```
+
+
+
+##### PERCENT_PRICE
+
+The `PERCENT_PRICE` filter defines valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
+
+In order to pass the `percent price`, the following must be true for `price`:
+
+- `price` <= `weightedAveragePrice` * `multiplierUp`
+- `price` >= `weightedAveragePrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+    "avgPriceMins": 5
+  }
+```
+
+
+
+##### PERCENT_PRICE_SA
+
+The `PERCENT_PRICE_SA` filter defines valid range for a price based on the  simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
+
+In order to pass the `percent_price_sa`, the following must be true for `price`:
+
+- `price` <= `simpleAveragePrice` * `multiplierUp`
+- `price` >= `simpleAveragePrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_SA",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+    "avgPriceMins": 5
+  }
+```
+
+
+
+##### PERCENT_PRICE_BY_SIDE
+
+The `PERCENT_PRICE_BY_SIDE` filter defines the valid range for the price based on the last price of the symbol.
+There is a different range depending on whether the order is placed on the `BUY` side or the `SELL` side.
+
+Buy orders will succeed on this filter if:
+
+- `Order price` <= `bidMultiplierUp` * `lastPrice`
+- `Order price` >= `bidMultiplierDown` * `lastPrice`
+
+Sell orders will succeed on this filter if:
+
+- `Order Price` <= `askMultiplierUp` * `lastPrice`
+- `Order Price` >= `askMultiplierDown` * `lastPrice`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_BY_SIDE",
+    "bidMultiplierUp": "1.2",
+    "bidMultiplierDown": "0.2",
+    "askMultiplierUp": "1.5",
+    "askMultiplierDown": "0.8",
+  }
+```
+
+
+
+##### PERCENT_PRICE_INDEX
+
+The `PERCENT_PRICE_INDEX` filter defines valid range for a price based on the  index price which is calculated based on  several exhanges in the market by centain rule. (indexPrice wobsocket pushing will be available in future)
+
+In order to pass the `percent_price_index`, the following must be true for `price`:
+
+- `price` <= `indexPrice` * `multiplierUp`
+- `price` >= `indexPrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_INDEX",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000",
+  }
+```
+
+
+
+##### PERCENT_PRICE_ORDER_SIZE
+
+The `PERCENT_PRICE_ORDER_SIZE` filter  is used to determine whether the execution of an order would cause the market price to fluctuate beyond the limit price, and if so, the order will be rejected.
+
+In order to pass the `percent_price_order_size`, the following must be true:
+
+- A buy order needs to meet: the market price after the order get filled  <`askPrice` * `multiplierUp`
+- A sell order needs to meet: the market price after the order get filled  >`bidPrice` * `multiplierDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "PERCENT_PRICE_ORDER_SIZE",
+    "multiplierUp": "1.3000",
+    "multiplierDown": "0.7000"
+  }
+```
+
+
+
+##### STATIC_PRICE_RANGE
+
+The `STATIC_PRICE_RANGE` filter defines a static valid range for the price.
+
+In order to pass the `static_price_range`, the following must be true for `price`:
+
+- `price` <= `priceUp`
+- `price` >= `priceDown`
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "STATIC_PRICE_RANGE",
+    "priceUp": "520",
+    "priceDown": "160"
+  }
+```
+
+
+
+##### LOT_SIZE
+
+The `LOT_SIZE` filter defines the `quantity` (aka "lots" in auction terms) rules for a symbol. There are 3 parts:
+
+* `minQty` defines the minimum `quantity` allowed.
+* `maxQty` defines the maximum `quantity` allowed.
+* `stepSize` defines the intervals that a `quantity`can be increased/decreased by.
+
+In order to pass the `lot size`, the following must be true for `quantity`:
+
+* `quantity` >= `minQty`
+* `quantity` <= `maxQty`
+* (`quantity`-`minQty`) % `stepSize` == 0
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "LOT_SIZE",
+    "minQty": "0.00100000",
+    "maxQty": "99999999.00000000",
+    "stepSize": "0.00100000"
+  }
+```
+
+
+
+##### NOTIONAL
+
+The `NOTIONAL` filter defines the acceptable notional range allowed for an order on a symbol.
+
+In order to pass this filter, the notional (`price * quantity`) has to pass the following conditions:
+
+- `price * quantity` <= `maxNotional`
+- `price * quantity` >= `minNotional`
+
+**/exchangeInfo format:**
+
+```javascript
+{
+   "filterType": "NOTIONAL",
+   "minNotional": "10.00000000",
+   "maxNotional": "10000.00000000"
+}
+```
+
+
+
+##### MAX_NUM_ORDERS
+
+The `MAX_NUM_ORDERS` filter defines the maximum number of orders an account is allowed to have open on a symbol.
+Note that both triggered "algo" orders and normal orders are counted for this filter.
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "MAX_NUM_ORDERS",
+    "maxNumOrders": 200
+  }
+```
+
+
+
+##### MAX_NUM_ALGO_ORDERS
+
+The `MAX_ALGO_ORDERS` filter defines the maximum number of untriggered "algo" orders an account is allowed to have open on a symbol.
+"Algo" orders are `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
+
+**/exchangeInfo format:**
+
+```javascript
+  {
+    "filterType": "MAX_NUM_ALGO_ORDERS",
+    "maxNumAlgoOrders": 5
+  }
+```
+
+
+
+#### Exchange Filters
+
+None for now
 
 
 
