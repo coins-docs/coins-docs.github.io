@@ -2185,6 +2185,84 @@ timestamp          | LONG   | YES        |
 
 
 
+### User data stream endpoints
+
+Specifics on how user data streams work is in another document(user-data-stream.md).
+
+
+
+#### Start user data stream (USER_STREAM)
+
+```shell
+POST /openapi/v1/userDataStream
+```
+
+Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
+
+**Weight:** 1
+
+**Parameters:**
+
+None
+
+**Response:**
+
+```javascript
+{
+  "listenKey": "xDqtskqOciCzRashthgjTHBcymasBBShEEzPiXgOGEujviYWCuyYwcPDVPeezJOT"
+}
+```
+
+
+
+#### Keepalive user data stream (USER_STREAM)
+
+```shell
+PUT /openapi/v1/userDataStream
+```
+
+Keepalive a user data stream to prevent a time out. User data streams will close after 60 minutes. It's recommended to send a ping about every 30 minutes.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+listenKey | STRING | YES |
+
+**Response:**
+
+```javascript
+{}
+```
+
+
+
+#### Close user data stream (USER_STREAM)
+
+```shell
+DELETE /openapi/v1/userDataStream
+```
+
+Close out a user data stream.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+listenKey | STRING | YES |
+
+**Response:**
+
+```javascript
+{}
+```
+
+
+
 #### Get payment request (USER_DATA)
 
 ```shell
@@ -2287,82 +2365,6 @@ timestamp          | LONG   | YES        |
 true
 ```
 
-
-### User data stream endpoints
-
-Specifics on how user data streams work is in another document(user-data-stream.md).
-
-
-
-#### Start user data stream (USER_STREAM)
-
-```shell
-POST /openapi/v1/userDataStream
-```
-
-Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
-
-**Weight:** 1
-
-**Parameters:**
-
-None
-
-**Response:**
-
-```javascript
-{
-  "listenKey": "xDqtskqOciCzRashthgjTHBcymasBBShEEzPiXgOGEujviYWCuyYwcPDVPeezJOT"
-}
-```
-
-
-
-#### Keepalive user data stream (USER_STREAM)
-
-```shell
-PUT /openapi/v1/userDataStream
-```
-
-Keepalive a user data stream to prevent a time out. User data streams will close after 60 minutes. It's recommended to send a ping about every 30 minutes.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-listenKey | STRING | YES |
-
-**Response:**
-
-```javascript
-{}
-```
-
-
-
-#### Close user data stream (USER_STREAM)
-
-```shell
-DELETE /openapi/v1/userDataStream
-```
-
-Close out a user data stream.
-
-**Weight:** 1
-
-**Parameters:**
-
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-listenKey | STRING | YES |
-
-**Response:**
-
-```javascript
-{}
-```
 
 
 ## Merchant Endpoints
