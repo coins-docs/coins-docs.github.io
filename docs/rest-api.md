@@ -1625,29 +1625,6 @@ None
 
 ### Spot Trading Endpoints
 
-#### Test new order (TRADE)
-
-```shell
-POST /openapi/v1/order/test (HMAC SHA256)
-```
-
-Test new order creation and signature/recvWindow long.
-Creates and validates a new order but does not send it into the matching engine.
-
-**Weight:** 1
-
-**Parameters:**
-
-Same as `POST /openapi/v1/order`
-
-**Response:**
-
-```javascript
-{}
-```
-
-
-
 #### New order  (TRADE)
 
 ```shell
@@ -1759,6 +1736,29 @@ Trigger order price rules against market price for both MARKET and LIMIT version
         }
     ]
 }
+```
+
+
+
+#### Test new order (TRADE)
+
+```shell
+POST /openapi/v1/order/test (HMAC SHA256)
+```
+
+Test new order creation and signature/recvWindow long.
+Creates and validates a new order but does not send it into the matching engine.
+
+**Weight:** 1
+
+**Parameters:**
+
+Same as `POST /openapi/v1/order`
+
+**Response:**
+
+```javascript
+{}
 ```
 
 
