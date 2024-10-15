@@ -4016,6 +4016,69 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 }
 ```
 
+###  Get Sub-account Deposit History(For Master Account)
+
+```shell
+GET /openapi/v1/sub-account/wallet/deposit/history
+```
+
+Fetch deposit history.
+
+
+**Weight(IP):** 2
+
+**Parameters:**
+
+| Name       | Type   | Mandatory | Description                                                  |
+|------------| ------ |-----------| ------------------------------------------------------------ |
+| email      | STRING | YES       | Sub account email                                                             |
+| coin       | STRING | NO        |                                                              |
+| txId       | STRING | NO        |                                                              |
+| depositId  | STRING | NO        |                                                              |
+| status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
+| startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
+| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| offset     | INT    | NO        | Default:0                                                    |
+| limit      | LONG   | NO        | Default:1000, Max:1000                                       |
+| recvWindow | LONG   | NO        |                                                              |
+| timestamp  | LONG   | YES       |                                                              |
+
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+
+* If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
+
+
+**Response:**
+
+```javascript
+[
+    {
+        "id": "d_769800519366885376",
+        "amount": "0.001",
+        "coin": "BNB",
+        "network": "BNB",
+        "status": 0,
+        "address": "bnb136ns6lfw4zs5hg4n85vdthaad7hq5m4gtkgf23",
+        "addressTag": "101764890",
+        "txId": "98A3EA560C6B3336D348B6C83F0F95ECE4F1F5919E94BD006E5BF3BF264FACFC",
+        "insertTime": 1661493146000,
+        "confirmNo": 10,
+    },
+    {
+        "id": "d_769754833590042625",
+        "amount":"0.5",
+        "coin":"IOTA",
+        "network":"IOTA",
+        "status":1,
+        "address":"SIZ9VLMHWATXKV99LH99CIGFJFUMLEHGWVZVNNZXRJJVWBPHYWPPBOSDORZ9EQSHCZAMPVAPGFYQAUUV9DROOXJLNW",
+        "addressTag":"",
+        "txId":"ESBFVQUTPIWQNJSPXFNHNYHSQNTGKRVKPRABQWTAXCDWOAKDKYWPTVG9BGXNVNKTLEJGESAVXIKIZ9999",
+        "insertTime":1599620082000,
+        "confirmNo": 20,
+    }
+]
+```
+
 
 ### Note
 
