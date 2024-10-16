@@ -7,6 +7,8 @@ layout: default
 
 
 # Change Log
+2024-10-16: add `account email` and `busienss serial number` to Balance Update endpoint, add `account email` to Account Update endpoint.
+
 2024-07-29: add `Business Type` to Balance Update endpoint
 
 2023-07-15: update `balanceUpdate` trigger condition
@@ -115,7 +117,8 @@ balance snapshot
       "f": "10000.000000",        // Free
       "l": "0.000000"             // Locked
     }
-  ]
+  ],
+  "em": "test@coins.ph"          // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
 }
 ```
 
@@ -134,7 +137,9 @@ contains balance changed
   "a": "ETH",                   // Asset
   "d": "100.00000000",          // Balance Delta
   "T": 1573200697068,           // Clear Time
-  "bs": "CHAIN_DEPOSIT"         // Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
+  "BS": "CHAIN_DEPOSIT",        // Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, OTHERS)
+  "em": "test@coins.ph",        // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
+  "BI": "123456789"             // Business serial number,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
 }
 ```
 
