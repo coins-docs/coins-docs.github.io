@@ -8,7 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2024-10-11: Added the `/openapi/v1/sub-account/wallet/deposit/address` endpoint.
+
+2024-10-11: Added the `/openapi/v1/sub-account/wallet/deposit/address`,`/openapi/v1/sub-account/wallet/deposit/history` endpoint.
 
 2024-08-26: Added the `startTime` `endTime` parameter to the `openapi/fiat/v1/history` endpoint.
 
