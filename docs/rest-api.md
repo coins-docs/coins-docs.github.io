@@ -8,6 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+
+2024-10-11: Added the `/openapi/v1/sub-account/wallet/deposit/address`,`/openapi/v1/sub-account/wallet/deposit/history` endpoint.
+
 2024-08-26: Added the `startTime` `endTime` parameter to the `openapi/fiat/v1/history` endpoint.
 
 2024-05-10: Added the `from_address` `to_address` parameter to the `/openapi/transfer/v3/transfers` endpoint.
@@ -2841,7 +2844,7 @@ GET /openapi/v1/sub-account/list
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | NO    | <a href="#request-parameters">Sub-account email</a>
+email      | STRING | NO    | Sub account email
 page    | INT | NO | Current page, default value: 1
 limit    | INT | NO | Quantity per page, default value 10, maximum `200`
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
@@ -2881,7 +2884,7 @@ POST /openapi/v1/sub-account/create
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-accountName      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+accountName      | STRING | YES       | Sub account email
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -2910,7 +2913,7 @@ GET /openapi/v1/sub-account/asset
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-email      | STRING | YES       | <a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES       | Sub account email
 recvWindow | LONG  | NO        | This value cannot be greater than `60000`
 timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
 
@@ -3115,7 +3118,7 @@ GET /openapi/v1/sub-account/apikey/ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES        | 
-email      | STRING | YES        |  <a href="#request-parameters">Sub-account email</a>
+email      | STRING | YES        | 	Sub account email
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3146,9 +3149,9 @@ POST /openapi/v1/sub-account/apikey/add-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | NO        |   Can be added in batches, separated by commas
-ipRestriction      | STRING | YES       |   IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
+email      | STRING | YES       | 	Sub account email
+ipAddress      | STRING | NO        | 	Can be added in batches, separated by commas
+ipRestriction      | STRING | YES       | 	IP Restriction status. 2 = IP Unrestricted. 1 = Restrict access to trusted IPs only.
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3179,8 +3182,8 @@ POST /openapi/v1/sub-account/apikey/delete-ip-restriction
 Name       | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 apikey      | STRING | YES       |
-email      | STRING | YES       |   <a href="#request-parameters">Sub-account email</a>
-ipAddress      | STRING | YES       |   Can be added in batches, separated by commas
+email      | STRING | YES       | 	Sub account email
+ipAddress      | STRING | YES       | 	Can be added in batches, separated by commas
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
 
@@ -3198,6 +3201,100 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 }
 ```
 
+
+###  Get Sub-account Deposit Address(For Master Account)
+
+```shell
+GET /openapi/v1/sub-account/wallet/deposit/address
+```
+
+Fetch sub account deposit address with network.
+
+
+**Weight:** 10
+
+**Parameters:**
+
+Name       | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+email      | STRING | YES       | Sub account email
+coin      | STRING | YES       | 	 The value is from All Coins' Information api
+network      | STRING | YES       | 	The value is from All Coins' Information api
+recvWindow | LONG   | NO        | This value cannot be greater than `60000`
+timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+
+
+**Response:**
+```json
+{
+  "coin": "ETH",
+  "address": "0xfe98628173830bf79c59f04585ce41f7de168784",
+  "addressTag": ""
+}
+```
+
+###  Get Sub-account Deposit History(For Master Account)
+
+```shell
+GET /openapi/v1/sub-account/wallet/deposit/history
+```
+
+Fetch deposit history.
+
+
+**Weight(IP):** 2
+
+**Parameters:**
+
+| Name       | Type   | Mandatory | Description                                                  |
+|------------| ------ |-----------| ------------------------------------------------------------ |
+| email      | STRING | YES       | Sub account email                                                             |
+| coin       | STRING | NO        |                                                              |
+| txId       | STRING | NO        |                                                              |
+| depositId  | STRING | NO        |                                                              |
+| status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
+| startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
+| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| offset     | INT    | NO        | Default:0                                                    |
+| limit      | LONG   | NO        | Default:1000, Max:1000                                       |
+| recvWindow | LONG   | NO        |                                                              |
+| timestamp  | LONG   | YES       |                                                              |
+
+* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+
+* If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
+
+
+**Response:**
+
+```javascript
+[
+    {
+        "id": "d_769800519366885376",
+        "amount": "0.001",
+        "coin": "BNB",
+        "network": "BNB",
+        "status": 0,
+        "address": "bnb136ns6lfw4zs5hg4n85vdthaad7hq5m4gtkgf23",
+        "addressTag": "101764890",
+        "txId": "98A3EA560C6B3336D348B6C83F0F95ECE4F1F5919E94BD006E5BF3BF264FACFC",
+        "insertTime": 1661493146000,
+        "confirmNo": 10,
+    },
+    {
+        "id": "d_769754833590042625",
+        "amount":"0.5",
+        "coin":"IOTA",
+        "network":"IOTA",
+        "status":1,
+        "address":"SIZ9VLMHWATXKV99LH99CIGFJFUMLEHGWVZVNNZXRJJVWBPHYWPPBOSDORZ9EQSHCZAMPVAPGFYQAUUV9DROOXJLNW",
+        "addressTag":"",
+        "txId":"ESBFVQUTPIWQNJSPXFNHNYHSQNTGKRVKPRABQWTAXCDWOAKDKYWPTVG9BGXNVNKTLEJGESAVXIKIZ9999",
+        "insertTime":1599620082000,
+        "confirmNo": 20,
+    }
+]
+```
 
 
 #### Get payment request (USER_DATA)
