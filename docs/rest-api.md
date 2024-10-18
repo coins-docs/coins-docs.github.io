@@ -1532,7 +1532,7 @@ Notes:
 
 * Either `orderId` or `origClientOrderId` must be sent. If both parameters are sent, `orderId` takes precedence. A list will be returned for orders with identical clientOrderId.
 
-**Response Single Trade:**
+**Response Single Order:**
 
 ```javascript
 {
@@ -1554,7 +1554,7 @@ Notes:
     'updateTime': 1729223201201
 }
 ```
-**Response Trade List:**
+**Response Order List:**
 
 ```javascript
 [
