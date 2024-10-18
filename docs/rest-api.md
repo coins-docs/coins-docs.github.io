@@ -1515,7 +1515,7 @@ Same as `POST /openapi/v1/order`
 GET /openapi/v1/order (HMAC SHA256)
 ```
 
-Check an order's status. 
+Check an order's status.
 
 **Weight:** 2
 
