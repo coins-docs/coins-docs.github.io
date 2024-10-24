@@ -847,7 +847,8 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
       "exchange": "1",
       "payment": "23094j0amd0fmag9agjgasd",
       "client_transfer_id": "1487573639841995271",
-      "message": "example"
+      "message": "example",
+      "errorMessage":""//Error message returned when transfer fails, eg: Insufficient balance
      }
 }
 ```
