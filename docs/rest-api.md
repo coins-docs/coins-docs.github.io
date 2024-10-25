@@ -2589,9 +2589,9 @@ extendInfo | JSON Object | No        | A JSON object with additional information
   "internalOrderId":"2023090410571114",
   "currency":"PHP",
   "channelName": "SWIFTPAY_PESONET",
-  "channelSubject":"unionbank",
+  "channelSubject":"gcash",
   "extendInfo":{    
-    "recipientAccountNumber": "20232249",
+    "recipientAccountNumber": "095656x4060",
     "recipientName":"Joseph Pal Fajagut",
     "recipientAddress": "Santo",  // optional
     "remarks": "pesonet Cash out"  // optional
@@ -2607,7 +2607,7 @@ extendInfo | JSON Object | No        | A JSON object with additional information
   "channelName": "INSTAPAY",
   "channelSubject":"gcash",
   "extendInfo":{    
-    "recipientAccountNumber": "20232249",
+    "recipientAccountNumber": "095656x4060",
     "recipientName":"Joseph Pal Fajagut"
   }
 }
@@ -2744,9 +2744,10 @@ dealCancel | boolean | If order can be canceled, value will be true.
             "createdAt": "2023-03-31T07:43:37.000+00:00",
             "orderExtendedMap": {
              "amount": "50",
-              "sendAcctNo": "1326887193441018369",
+              "sendAcctNo"
+              "1326887193441018369",
               "tfrName": "Li Mei Ling",
-              "tfrAcctNo": "447415103851",
+              "tfrAcctNo": "095656x4060",
               "channelName": "INSTAPAY",
               "currency": "PHP",
               "source": "WEB",
