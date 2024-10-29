@@ -4169,3 +4169,60 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
 
 
 
+## Margin
+
+### New Margin Account Transfer (USER_DATA)
+
+This endpoint supports transferring funds from the spot account to the margin account, and from the margin account to the spot account.
+
+```shell
+POST /openapi/v1/margin/transfer
+```
+If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
+
+**Weight:** 10
+
+**Parameters:**
+
+ Name               | Type    | Mandatory | Description                                                                             
+--------------------|---------|-----------|-----------------------------------------------------------------------------------------
+ client_transfer_id | STRING  | NO        | Client Transfer ID, Maximum length 100                                                  
+ tokenId            | STRING  | YES       | Transfer currency                                                                       
+ amount             | DECIMAL | YES       | Transfer quantity                                                                       
+ type               | INT     | YES       | 1: transfer from spot account to margin account, 2: transfer from margin account to spot account.
+
+**Response:**
+```json
+{
+  "tranId" : "100000002"
+}
+```
+
+### Query Margin Account Transfer history (USER_DATA)
+
+```shell
+GET /openapi/v1/margin/transfer/history
+```
+If an ID is provided, this endpoint retrieves an existing transfer record; otherwise, it returns a paginated list of transfers.
+
+**Weight:** 10
+
+**Parameters:**
+
+ Name               | Type   | Mandatory | Description                                                                                       
+--------------------|--------|-----------|---------------------------------------------------------------------------------------------------
+ client_transfer_id | STRING | NO        | Client Transfer ID, Maximum length 100                                                            
+ type               | INT    | YES       | 1: transfer from spot account to margin account, 2: transfer from margin account to spot account. 
+ current            | INT    | NO        | Currently querying page. Start from 1. Default:1                                                   
+ size               | INT    | NO        | Default:10 Max:100                                                     
+ startTime          | LONG   | NO        |                                              
+ endTime            | LONG   | NO        |                                              
+
+- The max interval between startTime and endTime is 30 days.
+
+**Response:**
+```json
+{
+  "tranId" : "100000002"
+}
+```
