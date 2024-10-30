@@ -3640,10 +3640,23 @@ Merchants can specify a callback URL when creating or updating an invoice, which
 To ensure that the events are delivered securely, merchants must include an authorization header with their Merchant API key in each POST request. This header, with the format Authorization: Token MERCHANT_APIKEY, confirms that the request is coming from a trusted source and provides an additional layer of security for the event data.
 
 Event payloads follow this convention:
+
+**Request Url**
+
+Please contact our partner support team to configure the callback address.
+
+**Request Heder**
+
+Name             | Type  | Mandatory | Description
+-----------------|-------|-----------|--------------------------------------------------------------------------------------
+Authorization    | STRING | YES       | The merchant API key used when creating an invoice
+
+**Body**
+
 ```javascript
 {
   "event": {
-    "name": "invoice.name",
+    "name": "invoice.name",//event
     "data": {
         "id": "invoice_id",
         "currency": "PHP",
