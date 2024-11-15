@@ -881,7 +881,7 @@ receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) 
 amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
 message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (Option:1w,3d,2h,32m,5s). The default expiration period is set to 7 days.
 recvWindow | LONG    | NO        | The value cannot be greater than `60000`
 timestamp          | LONG    | YES        |
 
@@ -3505,7 +3505,7 @@ amount            | DECIMAL | YES       |The amount expected from the customer.
 currency | STRING      | YES       | Currency of transaction.
 supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
 external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
-expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (Option:`1w,3d,2h,32m,5s`).
 
 **Payment Options**
 
