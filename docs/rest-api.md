@@ -3134,6 +3134,7 @@ page      | INT    | NO        | Current page, default value: 1
 limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+clientTranId  | String   | NO       | Client tran ID
 
 - If type is not sent, the records of type 2: transfer out will be returned by default.
 - If startTime and endTime are not sent, the recent 30-day data will be returned.
