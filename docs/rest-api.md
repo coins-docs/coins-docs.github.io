@@ -105,14 +105,14 @@ nav: sidebar/rest-api.html
 
 The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
 
-* Python https://github.com/coins-docs/coins-connector-python
+* Python <a href="https://github.com/coins-docs/coins-connector-python">Link</a> 
 
 ### Postman Collections
 
 
 Postman collections are available, and they are recommended for new users seeking a quick and easy start with the API.
 
-https://github.com/coins-docs/coins-api-postman
+<a href="https://github.com/coins-docs/coins-api-postman">Link</a> 
 
 
 ## General Information on Endpoints
