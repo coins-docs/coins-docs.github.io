@@ -896,9 +896,9 @@ timestamp          | LONG    | YES        |
         "amount": "20",
         "currency": "PHP",
         "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
+        "created_at": "1685603661217",
+        "updated_at": "1685603661217",
+        "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
         "payer_contact_info": "jennins@coins.ph"
@@ -3383,9 +3383,9 @@ timestamp          | LONG   | YES        |
         "amount": "20",
         "currency": "PHP",
         "status": "pending",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
+        "created_at": "1685603661217",
+        "updated_at": "1685603661217",
+        "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
         "payer_contact_info": "jennins@coins.ph"
@@ -3421,9 +3421,9 @@ timestamp          | LONG   | YES        |
         "amount": "20",
         "currency": "PHP",
         "status": "canceled",//pending,fully_paid,expired,canceled
-        "created_at": 1685603661217,
-        "updated_at": 1685603661217,
-        "expires_at": 1686208461219,
+        "created_at": "1685603661217",
+        "updated_at": "1685603661217",
+        "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
         "payer_contact_info": "jennins@coins.ph"
@@ -3538,12 +3538,12 @@ coins_peso_wallet|Pay with the user's Peso Coins wallet.
         "currency": "PHP",
         "status": "pending",//pending,fully_paid,expired,canceled
         "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
+        "created_at": "1690453041000",
+        "updated_at": "1690453041000",
+        "expires_at": "1690453041000",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
+        "expires_in_seconds": "60",
         "incoming_address":""
     }
 }
@@ -3582,12 +3582,12 @@ If the start_time and end_time parameters are not provided, the response will in
         "currency": "PHP",
         "status": "pending",//pending,fully_paid,expired,canceled
         "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
+        "created_at": "1690453041000",
+        "updated_at": "1690453041000",
+        "expires_at": "1690453041000",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
+        "expires_in_seconds": "60",
         "incoming_address":""
     }]
 }
@@ -3622,12 +3622,12 @@ invoice_id            | STRING | YES       | The ID of a specific invoice to can
         "currency": "PHP",
         "status": "canceled",//pending,fully_paid,expired,canceled
         "external_transaction_id": "test_111",
-        "created_at": 1690453041000,
-        "updated_at": 1690453041000,
-        "expires_at": 1690453041000,
+        "created_at": "1690453041000",
+        "updated_at": "1690453041000",
+        "expires_at": "1690453041000",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "http:xxxx",
-        "expires_in_seconds": 60,
+        "expires_in_seconds": "60",
         "incoming_address":""
     }
 }
