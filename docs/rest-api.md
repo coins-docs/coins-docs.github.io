@@ -105,14 +105,14 @@ nav: sidebar/rest-api.html
 
 The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
 
-* Python https://github.com/coins-docs/coins-connector-python
+* Python <a href="https://github.com/coins-docs/coins-connector-python">https://github.com/coins-docs/coins-connector-python</a> 
 
 ### Postman Collections
 
 
 Postman collections are available, and they are recommended for new users seeking a quick and easy start with the API.
 
-https://github.com/coins-docs/coins-api-postman
+* Postman <a href="https://github.com/coins-docs/coins-api-postman">https://github.com/coins-docs/coins-api-postman</a> 
 
 
 ## General Information on Endpoints
@@ -241,7 +241,7 @@ secretKey | lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76
 
 Parameter | Value
 ------------ | ------------
-symbol | ETHBTC
+symbol | BTCPHP
 side | BUY
 type | LIMIT
 timeInForce | GTC
@@ -254,58 +254,58 @@ timestamp | 1538323200000
 
 #### Example 1: As a query string
 
-* **queryString:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
+* **queryString:** symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
 * **HMAC SHA256 signature:**
 
 ```shell
-[linux]$ echo -n "symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
-(stdin)= 5f2750ad7589d1d40757a55342e621a44037dad23b5128cc70e18ec1d1c3f4c6
+[linux]$ echo -n "symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= d7b09aa959094bafd1de10be3985651691fff6cc04b5cd94aea8cc1ca02e0ed8
 ```
 
 * **curl command:**
 
 ```shell
 (HMAC SHA256)
-[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=5f2750ad7589d1d40757a55342e621a44037dad23b5128cc70e18ec1d1c3f4c6'
+[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=d7b09aa959094bafd1de10be3985651691fff6cc04b5cd94aea8cc1ca02e0ed8'
 ```
 
 
 
 #### Example 2: As a request body
 
-* **requestBody:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
+* **requestBody:** symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
 * **HMAC SHA256 signature:**
 
 ```shell
-[linux]$ echo -n "symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
-(stdin)= 5f2750ad7589d1d40757a55342e621a44037dad23b5128cc70e18ec1d1c3f4c6
+[linux]$ echo -n "symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= d7b09aa959094bafd1de10be3985651691fff6cc04b5cd94aea8cc1ca02e0ed8
 ```
 
 * **curl command:**
 
 ```shell
 (HMAC SHA256)
-[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order' -d 'symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=5f2750ad7589d1d40757a55342e621a44037dad23b5128cc70e18ec1d1c3f4c6'
+[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order' -d 'symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC&quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=d7b09aa959094bafd1de10be3985651691fff6cc04b5cd94aea8cc1ca02e0ed8'
 ```
 
 
 
 #### Example 3: Mixed query string and request body
 
-* **queryString:** symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC
+* **queryString:** symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC
 * **requestBody:** quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000
 * **HMAC SHA256 signature:**
 
 ```shell
-[linux]$ echo -n "symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTCquantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
-(stdin)= 885c9e3dd89ccd13408b25e6d54c2330703759d7494bea6dd5a3d1fd16ba3afa
+[linux]$ echo -n "symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTCquantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000" | openssl dgst -sha256 -hmac "lH3ELTNiFxCQTmi9pPcWWikhsjO04Yoqw3euoHUuOLC3GYBW64ZqzQsiOEHXQS76"
+(stdin)= 340037ed5366e650bd0e09e170db4a6ace0a9cba3e8af4e5c37ba2143fb84de0
 ```
 
 * **curl command:**
 
 ```shell
 (HMAC SHA256)
-[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=ETHBTC&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=885c9e3dd89ccd13408b25e6d54c2330703759d7494bea6dd5a3d1fd16ba3afa'
+[linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=340037ed5366e650bd0e09e170db4a6ace0a9cba3e8af4e5c37ba2143fb84de0'
 ```
 
 Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
@@ -492,8 +492,8 @@ Current exchange trading rules and symbol information
 
 | Name    | Type   | Mandatory | Description                                                  |
 | ------- | ------ | --------- | ------------------------------------------------------------ |
-| symbol  | STRING | NO        | Specify a trading pair, for example symbol=ETHBTC            |
-| symbols | STRING | NO        | x-Specify multiple trading pairs, such as symbol=%5B"ETHBTC","BTCUSDT"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["ETHBTC","BTCUSDT"] is not supported as it is not RFC 3986 compliant. |
+| symbol  | STRING | NO        | Specify a trading pair, for example symbol=BTCPHP            |
+| symbols | STRING | NO        | x-Specify multiple trading pairs, such as symbol=%5B"BTCPHP","BTCUSDT"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["BTCPHP","BTCUSDT"] is not supported as it is not RFC 3986 compliant. |
 
 **Response:**
 
@@ -504,11 +504,11 @@ Current exchange trading rules and symbol information
   "exchangeFilters": [],
   "symbols": [
     {
-      "symbol": "ETHBTC",
+      "symbol": "BTCPHP",
       "status": "TRADING",
-      "baseAsset": "ETH",
+      "baseAsset": "BTC",
       "baseAssetPrecision": 8,
-      "quoteAsset": "BTC",
+      "quoteAsset": "PHP",
       "quoteAssetPrecision": 8,
       "orderTypes": [
         "LIMIT",
@@ -824,7 +824,7 @@ This endpoint is used to transfer funds between two accounts.
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-client_transfer_id | STRING | NO | Client Transfer ID
+client_transfer_id | STRING | NO | Client Transfer ID, cannot send duplicate ID
 account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. `1447779051242545455`) to be transferred.
 target_address   | STRING | YES    | The phone number or email for recipient account (e.g. `+63 9686490252` or `testsub@gmail.com`)
 amount      | BigDecimal | YES    | The amount being transferred
@@ -881,7 +881,7 @@ receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) 
 amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
 message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
-expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (e.g., 1w 3d 2h 32m 5s). The default expiration period is set to 7 days.
+expires_at          | STRING  | NO       | The expiration date of the payment request. Expected to be in ISO 8601 datetime format (e.g., 2016-10-20T13:00:00.000000Z) or a time delta from the current time (Option:1w,3d,2h,32m,5s). The default expiration period is set to 7 days.
 recvWindow | LONG    | NO        | The value cannot be greater than `60000`
 timestamp          | LONG    | YES        |
 
@@ -1251,7 +1251,7 @@ OR
     "price": "4.00000200"
   },
   {
-    "symbol": "ETHBTC",
+    "symbol": "BTCPHP",
     "price": "0.07946600"
   }
 ]
@@ -1308,7 +1308,7 @@ OR
     "askQty": "9.00000000"
   },
   {
-    "symbol": "ETHBTC",
+    "symbol": "BTCPHP",
     "bidPrice": "0.07946700",
     "bidQty": "9.00000000",
     "askPrice": "100000.00000000",
@@ -2675,7 +2675,7 @@ Note: X-COINS-APIKEY and signature are both placed in the request header
 --data '{"key":"value"}'
 ```
 
-#### Fiat order detail (USER_DATA)
+#### Fiat order detail V1 (USER_DATA)[Deprecated]
 ```shell
 GET openapi/fiat/v1/details
 ```
@@ -2694,8 +2694,7 @@ internalOrderId | STRING | YES       | ID of the order for which the user wishes
 
 FieldName            | Type    | Description
 ----------------|---------| ------------
-externalOrderId | String  | Coins internal ID, query not supported yet; ignore it.
-internalOrderId | String  |The unique order id generated by the server.
+internalOrderId | STRING | No | Coins returns a unique tracking order number.
 paymentOrderId | String  |The payment order id generated by the channel.
 fiatCurrency | String  |PHP as it is the only currency currently supported
 fiatAmount | String  |The order amount.
@@ -2761,7 +2760,7 @@ dealCancel | boolean | If order can be canceled, value will be true.
 }
 ```
 ------
-#### Fiat order history V1 (USER_DATA) [Deprecated]
+#### Fiat order history (USER_DATA)
 ```shell
 POST openapi/fiat/v1/history
 ```
@@ -2772,20 +2771,21 @@ This endpoint is used to query all fiat related history
 
 **Parameters(with json body):**
 
-Name            | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-pageNum | STRING | No | Page number default 1.
-pageSize | STRING | No | Page size,default 10.
-internalOrderId | STRING | No | Coins returns a unique tracking order number.
-transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
-transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
-transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
-fiatCurrency | STRING | No | fiat currecy.
-startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
-endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
-startTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
-endTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
+Name            | Type   | Mandatory                                    | Description
+----------------|--------|----------------------------------------------| ------------
+pageNum | STRING | No                                           | Page number default 1.
+pageSize | STRING | No                                           | Page size,default 10.
+externalOrderId | String  | No                                             | Coins internal ID, query not supported yet; ignore it.
+internalOrderId | String  |No |The unique order id generated by the server. 
+transactionType | STRING | No                                           | Order Transaction Type 1: cash-in, -1: cash-out.
+transactionChannel | STRING | No                                           | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
+transactionSubject | STRING | No                                           | Secondary channels, such as Gcash supported under instapay.
+status | STRING | No                                           | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
+fiatCurrency | STRING | No                                           | fiat currecy.
+startDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+endDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+startTime | LONG   | No                                           | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
+endTime | LONG   | No                                           | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
 
 **Response:**
 
@@ -2890,21 +2890,21 @@ This endpoint is used to query all fiat related history
 
 **Parameters(with json body):**
 
-Name            | Type   | Mandatory | Description
-----------------|--------| ------------ | ------------
-pageNum | STRING | No | Page number default 1.
-pageSize | STRING | No | Page size,default 10.
-externalOrderId | String  | Coins internal ID.
-internalOrderId | String  |The unique order id generated by the server.
-transactionType | STRING | No | Order Transaction Type 1: cash-in, -1: cash-out.
-transactionChannel | STRING | No | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
-transactionSubject | STRING | No | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
-fiatCurrency | STRING | No | fiat currecy.
-startDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
-endDate | STRING | No | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
-startTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
-endTime | LONG   | No | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
+Name            | Type   | Mandatory                                    | Description
+----------------|--------|----------------------------------------------| ------------
+pageNum | STRING | No                                           | Page number default 1.
+pageSize | STRING | No                                           | Page size,default 10.
+externalOrderId | String  | No                                             | Coins internal ID.
+internalOrderId | String  |No |The unique order id generated by the server. 
+transactionType | STRING | No                                           | Order Transaction Type 1: cash-in, -1: cash-out.
+transactionChannel | STRING | No                                           | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
+transactionSubject | STRING | No                                           | Secondary channels, such as Gcash supported under instapay.
+status | STRING | No                                           | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
+fiatCurrency | STRING | No                                           | fiat currecy.
+startDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+endDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+startTime | LONG   | No                                           | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
+endTime | LONG   | No                                           | the order's create time will between startTime and endTime. Works when both startDate and endDate are empty. The server time zone is utc+0
 
 **Response:**
 
@@ -3252,6 +3252,7 @@ page      | INT    | NO        | Current page, default value: 1
 limit      | INT | NO        | Quantity per page, default value `500`, maximum `500`
 recvWindow | LONG   | NO        | This value cannot be greater than `60000`
 timestamp     | LONG   | YES       | A point in time for which transfers are being queried.
+clientTranId     | STRING   | NO       |
 
 - If type is not sent, the records of type 2: transfer out will be returned by default.
 - If startTime and endTime are not sent, the recent 30-day data will be returned.
@@ -3623,7 +3624,7 @@ amount            | DECIMAL | YES       |The amount expected from the customer.
 currency | STRING      | YES       | Currency of transaction.
 supported_payment_collectors          | STRING  | YES       |Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
 external_transaction_id          | STRING  | YES       | To maintain transactional integrity, each transaction_id must be unique.
-expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
+expires_at          | STRING  | NO        |The date and time at which the invoice will expire. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (Option:`1w,3d,2h,32m,5s`).
 
 **Payment Options**
 
