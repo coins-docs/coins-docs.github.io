@@ -878,7 +878,7 @@ Initiate a new payment transaction by creating a payment request.
 Name              | Type    | Mandatory | Description
 -----------------|---------|----------|--------------------------------------------------------------------------------------
 payer_contact_info            | STRING  | YES      | The contact information, typically an email address, to which the payment request should be sent.
-receiving_account | STRING  | YES      |  Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. 1447779051242545455) to be transferred.
+receiving_account | STRING  | YES      |  Either the token (e.g. PHP) or the Balance ID (e.g. 1447779051242545455 Refer to the id field in /openapi/account/v3/crypto-accounts.) to be transferred.
 amount          | DECIMAL | YES      |  The requested amount to be transferred to the requestor's receiving_account.
 message          | STRING  | YES      | An arbitrary message that will be attached to the payment request.
 supported_payment_collectors          | STRING  | NO       | Methods of payment that are available to a user when they view a payment request, optional items `coins_peso_wallet,CEBL,MLH,PLWN`,  e.g. `["coins_peso_wallet"]` or `["coins_peso_wallet","CEBL","MLH","PLWN"]`. Note: when a payment method is closed, it will be unavailable. 
