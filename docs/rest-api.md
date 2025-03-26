@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-03-25: Added the `/openapi/v1/asset/transaction/history` endpoint.
+
 2025-01-02: Added the `/openapi/fiat/v2/history` endpoint.
 
 2024-10-11: Added the `/openapi/v1/sub-account/wallet/deposit/address`,`/openapi/v1/sub-account/wallet/deposit/history` endpoint.
@@ -4287,6 +4289,49 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
 ### Request Parameters
 
 - Email address should be encoded. e.g. test@gmail.com should be encoded into test%40gmail.com
+
+
+#### Query transaction history (USER_DATA)
+
+```shell
+GET /openapi/v1/asset/transaction/history
+```
+
+**Weight:** 10
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+tokenId      | STRING | YES        | tokenId
+startTime| LONG | NO        | Millisecond timestamp,The time span between startTime and endTime cannot exceed 7 days. If empty, default returns data from the last 7 days
+endTime| LONG | NO        | Millisecond timestamp,The time span between startTime and endTime cannot exceed 7 days. If empty, default returns data from the last 7 days.
+subUserId    | LONG | NO        | Sub user id
+pageNum    | INT | NO        | Current page, default is `1`,maximum `1000`
+pageSize    | INT | NO        | Quantity per page, default 20, maximum `100`
+recvWindow | LONG  | YES       | This value cannot be greater than `60000`
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+
+**Response:**
+```json
+ {
+  "transfers": [
+    {
+      "txId": "2309rjw0amf0sq9me0gmadsmfoa",
+      "bizSubject": "CHAIN_WITHDRAWAL",
+      "tokenId": "BTC",
+      "status": "success",
+      "changed": "1",
+      "time": "1742896126999"
+    }
+  ],
+  "meta": {
+    "has_next": true,
+    "next_page": 2,
+    "previous_page": 0
+  }
+}
+```
 
 
 
