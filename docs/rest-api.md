@@ -4303,14 +4303,14 @@ GET /openapi/v1/asset/transaction/history
 
 Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-tokenId      | STRING | YES        | tokenId
-startTime| LONG | NO        | Millisecond timestamp,The time span between startTime and endTime cannot exceed 7 days. If empty, default returns data from the last 7 days
-endTime| LONG | NO        | Millisecond timestamp,The time span between startTime and endTime cannot exceed 7 days. If empty, default returns data from the last 7 days.
-subUserId    | LONG | NO        | Sub user id
-pageNum    | INT | NO        | Current page, default is `1`,maximum `1000`
-pageSize    | INT | NO        | Quantity per page, default 20, maximum `100`
-recvWindow | LONG  | YES       | This value cannot be greater than `60000`
-timestamp     | LONG  | YES       | A point in time for which transfers are being queried.
+tokenId      | STRING | YES       | The token to retrieve data for. Example: “tokenId”: “BTC”
+startTime| LONG | NO        | Timestamp in milliseconds. Timespan between startTime and endTime cannot exceed 7 days. If only startTime is provided, returns data 7 days after.
+endTime| LONG | NO        | Timestamp in milliseconds. Timespan between startTime and endTime cannot exceed 7 days. If only endTime is provided, returns data 7 days before.
+subUserId    | LONG | NO        | UID of sub-account.
+pageNum    | INT | NO        | The current page number. Ranges from 1 - 1000, with default being 1.
+pageSize    | INT | NO        | Records per page. Ranges from 1 - 100, with default being 20.
+recvWindow | LONG  | NO         | To specify the number of milliseconds after timestamp the request is valid for. Must be less than 60000.
+timestamp     | LONG  | YES       | A point in time for which transfers are being queried. Unix timestamp format in milliseconds.
 
 **Response:**
 ```json
