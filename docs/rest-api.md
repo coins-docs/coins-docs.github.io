@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-04-03: Updated status parameter descriptions for endpoints : `openapi/fiat/v1/details`,`openapi/fiat/v1/history`,`openapi/fiat/v2/history`.
+
 2025-03-25: Added the `/openapi/v1/asset/transaction/history` endpoint.
 
 2025-01-02: Added the `/openapi/fiat/v2/history` endpoint.
@@ -20,7 +22,7 @@ nav: sidebar/rest-api.html
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
 
-2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`
+2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`.
 
 2024-04-17: Added the `targetAmount` parameter to the `/openapi/convert/v1/get-quote` endpoint.
 
@@ -2711,7 +2713,7 @@ transactionSubjectName | String  |channel Name.
 feeCurrency | String  |PHP as it is the only currency currently supported
 channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
 platformFee | String  |The fee of order.
-status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+status | String  | **Enum:** `PENDING`, `SUCCEEDED`, `FAILED`, `CANCEL`<br>Indicates the current state of the order.<br>• `PENDING`: The order is still being processed and is not in a final state.<br>• `SUCCEEDED`: The order has been successfully processed.<br>• `FAILED`: The order processing has failed.<br>• `CANCEL`: The order has been canceled by the user and is considered equivalent to a failure.<br><br>Only orders in a final state (`SUCCEEDED`, `FAILED`, or `CANCEL`) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (`PENDING`) as their status may change.
 errorCode | String  |Order fail with errorCode.
 errorMessage | String  |Order fail with error message.
 completedTime | String  |The time of order completed.
@@ -2783,7 +2785,7 @@ internalOrderId | STRING | No | Coins returns a unique tracking order number.
 transactionType | STRING | No                                           | Order Transaction Type 1: cash-in, -1: cash-out.
 transactionChannel | STRING | No                                           | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
 transactionSubject | STRING | No                                           | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No                                           | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
+status | STRING | No                                           | **Enum:** `PENDING`, `SUCCEEDED`, `FAILED`, `CANCEL`<br>Indicates the current state of the order.<br>• `PENDING`: The order is still being processed and is not in a final state.<br>• `SUCCEEDED`: The order has been successfully processed.<br>• `FAILED`: The order processing has failed.<br>• `CANCEL`: The order has been canceled by the user and is considered equivalent to a failure.<br><br>Only orders in a final state (`SUCCEEDED`, `FAILED`, or `CANCEL`) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (`PENDING`) as their status may change.
 fiatCurrency | STRING | No                                           | fiat currecy.
 startDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 endDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
@@ -2808,7 +2810,7 @@ transactionSubjectName | String  |channel Name.
 feeCurrency | String  |PHP as it is the only currency currently supported
 channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
 platformFee | String  |The fee of order.
-status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+status | String  |**Enum:** `PENDING`, `SUCCEEDED`, `FAILED`, `CANCEL`<br>Indicates the current state of the order.<br>• `PENDING`: The order is still being processed and is not in a final state.<br>• `SUCCEEDED`: The order has been successfully processed.<br>• `FAILED`: The order processing has failed.<br>• `CANCEL`: The order has been canceled by the user and is considered equivalent to a failure.<br><br>Only orders in a final state (`SUCCEEDED`, `FAILED`, or `CANCEL`) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (`PENDING`) as their status may change.
 errorCode | String  |Order fail with errorCode.
 errorMessage | String  |Order fail with error message.
 completedTime | String  |The time of order completed.
@@ -2902,7 +2904,7 @@ internalOrderId | String  |No |The unique order id generated by the server.
 transactionType | STRING | No                                           | Order Transaction Type 1: cash-in, -1: cash-out.
 transactionChannel | STRING | No                                           | Transaction channel, the optional values are INSTAPAY, SWIFTPAY_PESONET.
 transactionSubject | STRING | No                                           | Secondary channels, such as Gcash supported under instapay.
-status | STRING | No                                           | The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer’s cancellation of the order, which is the same as failure.
+status | STRING | No                                           | **Enum:** `PENDING`, `SUCCEEDED`, `FAILED`, `CANCEL`<br>Indicates the current state of the order.<br>• `PENDING`: The order is still being processed and is not in a final state.<br>• `SUCCEEDED`: The order has been successfully processed.<br>• `FAILED`: The order processing has failed.<br>• `CANCEL`: The order has been canceled by the user and is considered equivalent to a failure.<br><br>Only orders in a final state (`SUCCEEDED`, `FAILED`, or `CANCEL`) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (`PENDING`) as their status may change.
 fiatCurrency | STRING | No                                           | fiat currecy.
 startDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
 endDate | STRING | No                                           | the order's create time will between startDate and endDate. This parameter accepts input in the ISO 8601 format for date and time, which is based on the Coordinated Universal Time (UTC) time zone (e.g., "2016-10-20T13:00:00.000000Z"). Alternatively, you can provide a time delta from the current time (e.g., "1w 3d 2h 32m 5s").
@@ -2927,7 +2929,7 @@ transactionSubjectName | String  |channel Name.
 feeCurrency | String  |PHP as it is the only currency currently supported
 channelFee | String  |The fee of order always 0 Deprecated, see platformFee.
 platformFee | String  |The fee of order.
-status | String  |The order status is an enumeration with values PENDING, SUCCEEDED, FAILED, and CANCEL; PENDING represents that the order processing is not in a final state, SUCCEEDED represents the order processing is successful, FAILED represents the order processing has failed, and CANCEL represents the customer's cancellation of the order, which is the same as failure.
+status | String  |**Enum:** `PENDING`, `SUCCEEDED`, `FAILED`, `CANCEL`<br>Indicates the current state of the order.<br>• `PENDING`: The order is still being processed and is not in a final state.<br>• `SUCCEEDED`: The order has been successfully processed.<br>• `FAILED`: The order processing has failed.<br>• `CANCEL`: The order has been canceled by the user and is considered equivalent to a failure.<br><br>Only orders in a final state (`SUCCEEDED`, `FAILED`, or `CANCEL`) are considered complete and reliable for further actions. Avoid relying on orders in a non-final state (`PENDING`) as their status may change.
 errorCode | String  |Order fail with errorCode.
 errorMessage | String  |Order fail with error message.
 completedTime | String  |The time of order completed.
