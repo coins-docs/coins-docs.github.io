@@ -3490,7 +3490,7 @@ If there are tasks with a status of INIT, resubmission is not allowed. This inte
 
 Name              | Type   | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
-clientRequestId            | STRING | YES       | Request ID, must be unique
+clientRequestId            | STRING | YES       | Request ID, must be unique, Maximum length: 200
 remark | LONG   | NO        |  
 
 
