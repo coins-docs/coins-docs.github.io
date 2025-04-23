@@ -3517,7 +3517,7 @@ remark | LONG   | NO        |
 #### Retrieve asset collection records (USER_DATA)
 
 ```shell
-GET /openapi/v1/fund-collect/fund-collect/get-fund-record
+GET /openapi/v1/fund-collect/get-fund-record
 ```
 Retrieve asset collection records.
 
