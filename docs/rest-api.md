@@ -3482,7 +3482,7 @@ Fetch deposit history.
 POST /openapi/v1/fund-collect/collect-from-sub-account
 ```
 
-If there are tasks with a status of INIT, resubmission is not allowed. This interface will return {'code': -10324, 'msg': 'Request repeated.'}.
+If there are tasks with a status of INIT, resubmission is not allowed. This interface will return `{'code': -10324, 'msg': 'Request repeated.'}`.
 
 **Weight:** 1
 
