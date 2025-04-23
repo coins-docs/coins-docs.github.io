@@ -8,6 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+
+2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/fund-collect/get-fund-record` endpoint.
+
 2025-04-03: Updated status parameter descriptions for endpoints : `openapi/fiat/v1/details`,`openapi/fiat/v1/history`,`openapi/fiat/v2/history`.
 
 2025-03-25: Added the `/openapi/v1/asset/transaction/history` endpoint.
@@ -3476,7 +3479,7 @@ Fetch deposit history.
 
 #### Collect sub-account assets (For Master Account)
 ```shell
-GET /openapi/v1/fund-collect/collect-from-sub-account
+POST /openapi/v1/fund-collect/collect-from-sub-account
 ```
 
 If there are tasks with a status of INIT, resubmission is not allowed. This interface will return {'code': -10324, 'msg': 'Request repeated.'}.
