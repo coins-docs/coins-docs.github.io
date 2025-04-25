@@ -9,7 +9,7 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
-2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/fund-collect/get-fund-record` endpoint.
+2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/get-fund-record` endpoint.
 
 2025-04-03: Updated status parameter descriptions for endpoints : `openapi/fiat/v1/details`,`openapi/fiat/v1/history`,`openapi/fiat/v2/history`.
 
