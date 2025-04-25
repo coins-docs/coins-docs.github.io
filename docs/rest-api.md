@@ -8,6 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+
+2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/get-fund-record` endpoint.
+
 2025-04-03: Updated status parameter descriptions for endpoints : `openapi/fiat/v1/details`,`openapi/fiat/v1/history`,`openapi/fiat/v2/history`.
 
 2025-03-25: Added the `/openapi/v1/asset/transaction/history` endpoint.
@@ -76,7 +79,7 @@ nav: sidebar/rest-api.html
 
 <!--more-->
 
-# Public Rest API for Coins (2022-09-12)
+**# Public Rest API for Coins (2022-09-12)
 
 ## General API Information
 
@@ -3474,6 +3477,77 @@ Fetch deposit history.
 ]
 ```
 
+#### Collect sub-account assets (For Master Account)
+```shell
+POST /openapi/v1/fund-collect/collect-from-sub-account
+```
+
+If there are tasks with a status of INIT, resubmission is not allowed. This interface will return `{'code': -10324, 'msg': 'Request repeated.'}`.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+clientRequestId            | STRING | YES       | Request ID, must be unique, Maximum length: 200
+remark | LONG   | NO        |  
+
+
+**Response:**
+
+```javascript
+{
+  "clientRequestId": "777d3f71-4715-4150-9fd1-d13246d7e02b",
+  "status": "INIT",
+  "comment": ""
+}
+```
+**Response Description**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+clientRequestId            | STRING | YES       | Request ID
+status            | STRING | YES        | Collection Task Status: `INIT`, `SUCCESS`, `PARTIAL_SUCCESS`, `PROCESSING`,`FAILED`
+remark | LONG   | NO        |
+
+
+
+
+#### Retrieve asset collection records (USER_DATA)
+
+```shell
+GET /openapi/v1/fund-collect/get-fund-record
+```
+Retrieve asset collection records.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name              | Type   | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+clientRequestId            | STRING | NO        | Request ID, must be unique
+page | INT   | NO        |  Page number 
+size | INT   | NO        |  Page size (default:100,max:100)
+
+**Response:**
+
+```javascript
+[
+  {
+    "clientRequestId": "09533266-1fea-11f0-8ff9-2a3efdea066c",
+    "comment": "",
+    "status": "SUCCESS"
+  },
+  {
+    "clientRequestId": "09533266-1fea-11f0-8ff9-2a3efdea066b",
+    "comment": "",
+    "status": "SUCCESS"
+  }
+]
+```
+ Collection Task Status: `INIT`, `SUCCESS`, `PARTIAL_SUCCESS`, `PROCESSING`,`FAILED`
 
 #### Get payment request (USER_DATA)
 
