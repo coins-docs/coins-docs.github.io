@@ -714,7 +714,7 @@ Fetch deposit history.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
 
-* Please notice you cannot send both `status` and `statuses` parameters.
+* Please notice you cannot send both `status` and `statuses`, only one parameter can be sent.
 
 
 **Response:**
