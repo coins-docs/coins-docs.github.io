@@ -702,6 +702,7 @@ Fetch deposit history.
 | coin       | STRING | NO        |                                                              |
 | txId       | STRING | NO        |                                                              |
 | status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
+| statuses   | STRING | NO        | Specify multiple status, such as statuses=%5B"1","3"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["1","3"] is not supported as it is not RFC 3986 compliant. |
 | startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
 | endTime    | LONG   | NO        | Default: present timestamp                                   |
 | offset     | INT    | NO        | Default:0                                                    |
@@ -712,6 +713,8 @@ Fetch deposit history.
 * Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
+
+* Please notice you cannot send both `status` and `statuses`.
 
 
 **Response:**
