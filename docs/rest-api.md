@@ -501,7 +501,7 @@ Current exchange trading rules and symbol information
 | Name    | Type   | Mandatory | Description                                                  |
 | ------- | ------ | --------- | ------------------------------------------------------------ |
 | symbol  | STRING | NO        | Specify a trading pair, for example symbol=BTCPHP            |
-| symbols | STRING | NO        | x-Specify multiple trading pairs, such as symbol=%5B"BTCPHP","BTCUSDT"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["BTCPHP","BTCUSDT"] is not supported as it is not RFC 3986 compliant. |
+| symbols | STRING | NO        | Specify multiple trading pairs, such as symbols=%5B"BTCPHP","BTCUSDT"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["BTCPHP","BTCUSDT"] is not supported as it is not RFC 3986 compliant. |
 
 **Response:**
 
