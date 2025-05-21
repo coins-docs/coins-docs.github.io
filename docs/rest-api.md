@@ -702,7 +702,7 @@ Fetch deposit history.
 | coin       | STRING | NO        |                                                              |
 | txId       | STRING | NO        |                                                              |
 | status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
-| statuses   | STRING | NO        | Specify multiple status, such as statuses=%5B"1","3"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["1","3"] is not supported as it is not RFC 3986 compliant. |
+| statuses   | STRING | NO        | `Specify multiple status, such as statuses=%5B"1","3"%5D, note that %5B represents '[' left bracket, %5D represents ']' right bracket. Direct use of the format ["1","3"] is not supported as it is not RFC 3986 compliant.` |
 | startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
 | endTime    | LONG   | NO        | Default: present timestamp                                   |
 | offset     | INT    | NO        | Default:0                                                    |
