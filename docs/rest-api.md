@@ -716,7 +716,7 @@ Fetch deposit history.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
 
-* Please notice you cannot send both `status` and `statuses`, only one parameter can be sent.
+* Please note you can send either `status` or `statuses`, but not both.
 
 
 **Response:**
@@ -4121,7 +4121,7 @@ POST openapi/migration/v4/sellorder
 ```
 
 This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 Name        | Type   | Mandatory | Description
 ------------|--------|-----------| ------------
@@ -4172,7 +4172,7 @@ GET openapi/migration/v4/sellorder/{sell_order_id}
 ```
 
 This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4193,7 +4193,7 @@ POST openapi/migration/v4/validate-field
 ```
 
 This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4218,7 +4218,7 @@ GET openapi/migration/v4/payout-outlets/{id}
 ```
 
 This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4243,7 +4243,7 @@ GET openapi/migration/v4/payout-outlet-categories/{id}
 ```
 
 This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4265,7 +4265,7 @@ GET openapi/migration/v4/payout-outlet-fees
 ```
 
 This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
