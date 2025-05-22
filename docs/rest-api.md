@@ -13,7 +13,7 @@ nav: sidebar/rest-api.html
 
 2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/get-fund-record` endpoint.
 
-2025-04-03: Updated status parameter descriptions for endpoints : `openapi/fiat/v1/details`,`openapi/fiat/v1/history`,`openapi/fiat/v2/history`.
+2025-04-03: Updated status parameter descriptions for endpoints: `openapi/fiat/v1/details`, `openapi/fiat/v1/history`, `openapi/fiat/v2/history`.
 
 2025-03-25: Added the `/openapi/v1/asset/transaction/history` endpoint.
 
@@ -27,7 +27,7 @@ nav: sidebar/rest-api.html
 
 2024-04-29: Added the `inversePrice` response parameter to the `/openapi/convert/query-order-history` endpoint.
 
-2024-04-24: Add <a href="#sub-account-endpoints">Sub-account</a> endpoints : `/openapi/v1/sub-account/list`,`/openapi/v1/sub-account/create`,`/openapi/v1/sub-account/asset`,`/openapi/v1/sub-account/transfer/universal-transfer`,`/openapi/v1/sub-account/transfer/sub-to-master`,`/openapi/v1/sub-account/transfer/universal-transfer-history`,`/openapi/v1/sub-account/transfer/sub-history`,`/openapi/v1/sub-account/apikey/ip-restriction`,`/openapi/v1/sub-account/apikey/add-ip-restriction`,`/openapi/v1/sub-account/apikey/delete-ip-restriction`.
+2024-04-24: Added <a href="#sub-account-endpoints">Sub-account</a> endpoints: `/openapi/v1/sub-account/list`, `/openapi/v1/sub-account/create`, `/openapi/v1/sub-account/asset`, `/openapi/v1/sub-account/transfer/universal-transfer`, `/openapi/v1/sub-account/transfer/sub-to-master`, `/openapi/v1/sub-account/transfer/universal-transfer-history`, `/openapi/v1/sub-account/transfer/sub-history`, `/openapi/v1/sub-account/apikey/ip-restriction`, `/openapi/v1/sub-account/apikey/add-ip-restriction`, `/openapi/v1/sub-account/apikey/delete-ip-restriction`.
 
 2024-04-17: Added the `targetAmount` parameter to the `/openapi/convert/v1/get-quote` endpoint.
 
@@ -141,7 +141,7 @@ Postman collections are available, and they are recommended for new users seekin
 
 * `intervalNum` describes the amount of the interval. For example, `intervalNum 5` with `intervalLetter M` means "Every 5 minutes".
 
-* A HTTP status code 429 will be returned when the rate limit is violated.
+* An HTTP status code 429 will be returned when the rate limit is violated.
 
 
 
@@ -152,7 +152,7 @@ Postman collections are available, and they are recommended for new users seekin
 * **Repeated failure to comply with rate limits and a disregard for backing off after receiving 429 responses can result in an automated IP ban. The HTTP status code 418 is used for IP bans.**
 * IP bans are tracked and their duration increases for repeat offenders, ranging **from 2 minutes to 3 days**.
 * A `Retry-After` header is included in 418 or 429 responses, indicating the number of seconds that need to be waited in order to prevent a ban (for 429) or until the ban is lifted (for 418).
-* **The limits imposed by the API are based on IP addresses rather than API keys**
+* **The limits imposed by the API are based on IP addresses rather than API keys.**
 
 
 
@@ -184,7 +184,7 @@ Postman collections are available, and they are recommended for new users seekin
 
 * Each endpoint is associated with a security type, which indicates how you should interact with it. The security type is specified next to the name of the endpoint.
   * If no security type is mentioned, assume that the security type is NONE.
-* API keys are passed to the Rest API via the `X-COINS-APIKEY`header.
+* API keys are passed to the Rest API via the `X-COINS-APIKEY` header.
 * Both API keys and secret keys **are case sensitive**.
 * API keys can be configured to have access only to specific types of secure endpoints. For example, one API key may be restricted to TRADE routes only, while another API key can have access to all routes except TRADE.
 * By default, API keys have access to all secure routes.
@@ -210,7 +210,7 @@ MARKET_DATA | `X-COINS-APIKEY`                         | Endpoint requires sendi
 * The `signature` is **not case sensitive**.
 * `totalParams` is defined as the `query string` concatenated with the
   `request body`(exclude `signature` parameters and values If signature parameters are in both).
-* We recommend the use of `query string` for GET request and `form request body` for POST request. However, for Spot Trading APIs, we recommend using `query string`.
+* We recommend the use of the `query string` for GET requests and the `form request body` for POST requests. However, for Spot Trading APIs, we recommend using the `query string`.
 
 
 
@@ -235,7 +235,7 @@ servers. With `recvWindow`, you can specify that the request must be
 processed within a certain number of milliseconds or be rejected by the
 server.
 
-**To ensure optimal performance, it is recommended to use a `recvWindow` value of 5000 milliseconds or less. The maximum value allowed for `recvWindow`is 60,000 milliseconds and should not exceed this limit.**
+**To ensure optimal performance, it is recommended to use a `recvWindow` value of 5000 milliseconds or less. The maximum value allowed for `recvWindow` is 60,000 milliseconds and should not exceed this limit.**
 
 
 
@@ -318,14 +318,14 @@ timestamp | 1538323200000
 [linux]$ curl -H "X-COINS-APIKEY: tAQfOrPIZAhym0qHISRt8EFvxPemdBm5j5WMlkm3Ke9aFp0EGWC2CGM8GHV4kCYW" -X POST 'https://$HOST/openapi/v1/order?symbol=BTCPHP&side=BUY&type=LIMIT&timeInForce=GTC' -d 'quantity=1&price=0.1&recvWindow=5000&timestamp=1538323200000&signature=340037ed5366e650bd0e09e170db4a6ace0a9cba3e8af4e5c37ba2143fb84de0'
 ```
 
-Note that in Example 3, the signature is different from the previous examples. Specifically, there is be no `&` character between `GTC` and `quantity=1`.
+Note that in Example 3, the signature is different from the previous examples. Specifically, there should be no `&` character between `GTC` and `quantity=1`.
 
 
 ## Public API Endpoints
 
 ### Terminology
 
-These terms will be used throughout the documentation, so it is recommended especially for new users to read to help their understanding of the API.
+These terms will be used throughout the documentation, so new users are encouraged to read them to help their understanding of the API.
 
 * `base asset` refers to the asset that is the `quantity` of a symbol. For the symbol BTCUSDT, BTC would be the `base asset`.
 * `quote asset` refers to the asset that is the `price` of a symbol. For the symbol BTCUSDT, USDT would be the `quote asset`.
@@ -348,7 +348,7 @@ Status | Description
 `PARTIALLY_FILLED`| A part of the order has been filled.
 `FILLED` | The order has been completed.
 `PARTIALLY_CANCELED` | A part of the order has been cancelled with self trade.
-`CANCELED` | The order has been canceled by user 
+`CANCELED` | The order has been canceled by the user
 `EXPIRED`       | The order has been cancelled by matching-engine: LIMIT FOK order not filled, limit order not fully filled etc 
 
 **Order types:**
@@ -574,7 +574,7 @@ Current exchange trading rules and symbol information
 GET /openapi/wallet/v1/config/getall  (HMAC SHA256)
 ```
 
-Get information of coins (available for deposit and withdraw) for user.
+Get information on coins (available for deposit and withdrawal) for the user.
 
 **Weight(IP):** 10
 
@@ -627,7 +627,7 @@ timestamp | LONG | YES |
 GET /openapi/wallet/v1/deposit/address  (HMAC SHA256)
 ```
 
-Fetch deposit address with network.
+Fetch a deposit address along with its network.
 
 **Weight(IP):** 10
 
@@ -635,8 +635,8 @@ Fetch deposit address with network.
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-coin | STRING | YES | The value is from All Coins' Information api
-network | STRING | YES | The value is from All Coins' Information api
+coin | STRING | YES | The value is from All Coins' Information API
+network | STRING | YES | The value is from All Coins' Information API
 recvWindow | LONG | NO |
 timestamp | LONG | YES |
 
@@ -652,13 +652,13 @@ timestamp | LONG | YES |
 
 
 
-#### Withdraw(USER_DATA)
+#### Withdraw (USER_DATA)
 
 ```shell
 POST /openapi/wallet/v1/withdraw/apply  (HMAC SHA256)
 ```
 
-Submit a withdraw request.
+Submit a withdrawal request.
 
 **Weight(UID):** 100
 
@@ -675,7 +675,7 @@ Submit a withdraw request.
 | recvWindow      | LONG    | NO        |                                                          |
 | timestamp       | LONG    | YES       |                                                          |
 
-* Please notice `coin`/`network`/`address`/`addressTag` combination **MUST** be in withdraw address whitelist, it is needed to setup the withdraw address whitelist before doing this api call.
+* Please note that the `coin`/`network`/`address`/`addressTag` combination **MUST** be in the withdrawal address whitelist. You must set up the withdrawal address whitelist before making this API call.
 
 **Response:**
 
@@ -706,17 +706,17 @@ Fetch deposit history.
 | status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
 | statuses   | STRING | NO        | Specify multiple status, such as `statuses=%5B"1","3"%5D`, note that `%5B` represents `'['` left bracket, `%5D` represents `']'` right bracket. Direct use of the format `["1","3"]` is not supported as it is not RFC 3986 compliant. |
 | startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
-| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| endTime    | LONG   | NO        | Default: current timestamp                                   |
 | offset     | INT    | NO        | Default:0                                                    |
 | limit      | LONG   | NO        | Default:1000, Max:1000                                       |
 | recvWindow | LONG   | NO        |                                                              |
 | timestamp  | LONG   | YES       |                                                              |
 
-* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* Please note the default `startTime` and `endTime` to ensure the time interval is within 0-90 days.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
 
-* Please notice you cannot send both `status` and `statuses`, only one parameter can be sent.
+* Please note you can send either `status` or `statuses`, but not both.
 
 
 **Response:**
@@ -758,7 +758,7 @@ Fetch deposit history.
 GET /openapi/wallet/v1/withdraw/history  (HMAC SHA256)
 ```
 
-Fetch withdraw history.
+Fetch withdrawal history.
 
 **Weight(IP):** 2
 
@@ -770,19 +770,19 @@ Fetch withdraw history.
 | withdrawOrderId       | STRING | NO      |                                                              |
 | status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED |
 | startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
-| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| endTime    | LONG   | NO        | Default: current timestamp                                   |
 | offset     | INT    | NO        | Default:0                                                    |
 | limit      | LONG   | NO        | Default:1000, Max:1000                                       |
 | recvWindow | LONG   | NO        |                                                              |
 | timestamp  | LONG   | YES       |                                                              |
 
-* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* Please note the default `startTime` and `endTime` to ensure the time interval is within 0-90 days.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
 
 * If `withdrawOrderId` is sent, time between `startTime` and `endTime` must be less than 7 days.
 
-* If `withdrawOrderId` is sent, `startTime` and `endTime` are not sent, will return last 7 days records by default.
+* If `withdrawOrderId` is sent and `startTime` and `endTime` are not provided, the API will return records from the last 7 days by default.
 
 
 **Response:**
@@ -2341,7 +2341,7 @@ In order to pass the `price filter`, the following must be true for `price`/`sto
 
 ##### PERCENT_PRICE
 
-The `PERCENT_PRICE` filter defines valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
+The `PERCENT_PRICE` filter defines the valid range for a price based on the weighted average of the previous trades. `avgPriceMins` is the number of minutes the weighted average price is calculated over.
 
 In order to pass the `percent price`, the following must be true for `price`:
 
@@ -2363,7 +2363,7 @@ In order to pass the `percent price`, the following must be true for `price`:
 
 ##### PERCENT_PRICE_SA
 
-The `PERCENT_PRICE_SA` filter defines valid range for a price based on the  simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
+The `PERCENT_PRICE_SA` filter defines the valid range for a price based on the simple average of the previous trades. `avgPriceMins` is the number of minutes the simple average price is calculated over.
 
 In order to pass the `percent_price_sa`, the following must be true for `price`:
 
@@ -2414,7 +2414,7 @@ Sell orders will succeed on this filter if:
 
 ##### PERCENT_PRICE_INDEX
 
-The `PERCENT_PRICE_INDEX` filter defines valid range for a price based on the  index price which is calculated based on  several exhanges in the market by centain rule. (indexPrice wobsocket pushing will be available in future)
+The `PERCENT_PRICE_INDEX` filter defines the valid range for a price based on the index price, which is calculated from several exchanges in the market according to certain rules. (indexPrice websocket pushing will be available in the future)
 
 In order to pass the `percent_price_index`, the following must be true for `price`:
 
@@ -3670,13 +3670,13 @@ Fetch deposit history.
 | depositId  | STRING | NO        |                                                              |
 | status     | INT    | NO        | 0-PROCESSING, 1-SUCCESS, 2-FAILED, 3-NEED_FILL_DATA(travel rule info) |
 | startTime  | LONG   | NO        | Default: 90 days from current timestamp                      |
-| endTime    | LONG   | NO        | Default: present timestamp                                   |
+| endTime    | LONG   | NO        | Default: current timestamp                                   |
 | offset     | INT    | NO        | Default:0                                                    |
 | limit      | LONG   | NO        | Default:1000, Max:1000                                       |
 | recvWindow | LONG   | NO        |                                                              |
 | timestamp  | LONG   | YES       |                                                              |
 
-* Please notice the default `startTime` and `endTime` to make sure that time interval is within 0-90 days.
+* Please note the default `startTime` and `endTime` to ensure the time interval is within 0-90 days.
 
 * If both `startTime` and `endTime` are sent, time between `startTime` and `endTime` must be less than 90 days.
 
@@ -4121,7 +4121,7 @@ POST openapi/migration/v4/sellorder
 ```
 
 This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 Name        | Type   | Mandatory | Description
 ------------|--------|-----------| ------------
@@ -4172,7 +4172,7 @@ GET openapi/migration/v4/sellorder/{sell_order_id}
 ```
 
 This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4193,7 +4193,7 @@ POST openapi/migration/v4/validate-field
 ```
 
 This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4218,7 +4218,7 @@ GET openapi/migration/v4/payout-outlets/{id}
 ```
 
 This endpoint retrieves a list of supported payout outlets for fiat sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4243,7 +4243,7 @@ GET openapi/migration/v4/payout-outlet-categories/{id}
 ```
 
 This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
@@ -4265,7 +4265,7 @@ GET openapi/migration/v4/payout-outlet-fees
 ```
 
 This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
-It is best to no longer use this endpoint, only compatible with the old endpoint.
+It is best to no longer use this endpoint; it is only compatible with the old endpoint.
 
 **Parameters:**
 
