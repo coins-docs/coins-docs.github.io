@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2025-06-20: Added the `/openapi/fiat/v1/cancel_qr_code` endpoint for canceling QR codes.
+
 2025-05-21: Added the `statuses` parameter to the `/openapi/wallet/v1/deposit/history` endpoint.
 
 2025-04-23: Added the `/openapi/v1/fund-collect/collect-from-sub-account`,`/openapi/v1/fund-collect/get-fund-record` endpoint.
@@ -3241,6 +3243,74 @@ dealCancel | boolean | If order can be canceled, value will be true.
 ```
 ------
 
+#### Cancel QR Code (TRADE)
+```shell
+POST openapi/fiat/v1/cancel_qr_code
+```
+
+This endpoint allows users to cancel an existing QR code that was previously generated for fiat transactions.
+
+**Weight:** 1
+
+**Parameters(with json body):**
+
+Name            | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+referenceId     | STRING | YES       | Coins generate reference id that was returned when the QR code was created
+
+**Request:**
+
+```javascript
+{
+  "referenceId": "1976775180818871553"
+}
+```
+
+**Response:**
+
+FieldName            | Type    | Description
+----------------|---------| ------------
+requestStatus | String  | Request status: SUCCEEDED, FAILED
+requestId | String  | The requestId you passed in when generating the QR code
+referenceId | String  | Coins generate reference id
+qrcodeStatus | String  | QR code status: PENDING/SUCCEEDED/FAILED/EXPIRED/CANCELED/REFUNDED
+createdTime | Long  | The request sent time (timestamp in milliseconds)
+updatedTime | Long  | Response/callback sent time (timestamp in milliseconds)
+completionTime | Long  | Completion time (timestamp in milliseconds)
+errorCode | String  | Error code (if any)
+errorMsg | String  | Error message (if any)
+
+```javascript
+{
+  "status": 0,
+          "error": "OK",
+          "data": {
+            "requestStatus": "SUCCEEDED",
+            "requestId": "144270403175122888",
+            "referenceId": "1976775180818871553",
+            "qrcodeStatus": "CANCELED",
+            "createdTime": "1750385965000",
+            "updatedTime": "1750385972163",
+            "completionTime": "1750385972163",
+            "errorCode": null,
+            "errorMsg": null
+  },
+  "params": null
+}
+```
+
+***Status code description:***
+
+status code           | Description
+----------------| ------------
+0 | means that the call is processed normally.
+88020001 | QR code not found or invalid reference ID.
+88020002 | QR code cannot be canceled (already processed or expired).
+88020003 | User not authorized to cancel this QR code.
+88020000 | Server side error, please contact support for assistance.
+
+------
+
 
 
 ## Sub-account endpoints
@@ -4415,6 +4485,3 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
   }
 }
 ```
-
-
-
