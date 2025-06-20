@@ -3304,10 +3304,7 @@ errorMsg | String  | Error message (if any)
 status code           | Description
 ----------------| ------------
 0 | means that the call is processed normally.
-88020001 | QR code not found or invalid reference ID.
-88020002 | QR code cannot be canceled (already processed or expired).
-88020003 | User not authorized to cancel this QR code.
-88020000 | Server side error, please contact support for assistance.
+
 
 ------
 
