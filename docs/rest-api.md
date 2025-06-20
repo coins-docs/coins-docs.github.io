@@ -2881,7 +2881,6 @@ dealCancel | boolean | If order can be canceled, value will be true.
 #### Fiat order history V2 (USER_DATA)
 ```shell
 POST openapi/fiat/v2/history
-
 ```
 
 This endpoint is used to query all fiat related history
