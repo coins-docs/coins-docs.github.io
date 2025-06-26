@@ -9,6 +9,8 @@ nav: sidebar/rest-api.html
 
 # Change log:
 
+2025-06-26: Updated additional descriptions for the `/openapi/convert/query-order-history` endpoint.
+
 2025-06-20: Added the `/openapi/fiat/v1/cancel_qr_code` endpoint for canceling QR codes.
 
 2025-05-21: Added the `statuses` parameter to the `/openapi/wallet/v1/deposit/history` endpoint.
@@ -2165,7 +2167,7 @@ status code           | Description
 ```shell
 POST /openapi/convert/v1/query-order-history
 ```
-This endpoint retrieves order history with the option to define a specific time period using start and end times.
+This endpoint retrieves order history with the option to define a specific time period using start and end times, limited to the last 180 days.
 
 **Weight:** 1
 
@@ -2177,7 +2179,7 @@ startTime | STRING | No | Numeric string representing milliseconds. The starting
 endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
 status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
 page | int    | No |
-size | int    | No |
+size | int    | No | Default:10, Max:200
 
 
 **Response:**
