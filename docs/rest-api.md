@@ -4484,3 +4484,774 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
   }
 }
 ```
+
+
+### Convert endpoints
+
+#### Get supported trading pairs
+```shell
+POST /openapi/convert/v1/get-supported-trading-pairs
+```
+
+This continuously updated endpoint returns a list of all available trading pairs. The response includes information on the minimum and maximum amounts that can be traded for the source currency, as well as the level of precision in decimal places used for the source currency.
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------|------| ------------ | ------------
+|      |      |
+
+**Response:**
+
+```javascript
+{
+  "status":"Success",
+  "error":"OK",
+  "data":[
+     {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"BTC",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"15000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"BTC",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.0001",
+      "maxSourceAmount":"0.1",
+      "precision":"8"
+    },
+    {
+      "sourceCurrency":"PHP",
+      "targetCurrency":"ETH",
+      "minSourceAmount":"1000",
+      "maxSourceAmount":"18000",
+      "precision":"2"
+    },
+    {
+      "sourceCurrency":"ETH",
+      "targetCurrency":"PHP",
+      "minSourceAmount":"0.003",
+      "maxSourceAmount":"4.2",
+      "precision":"8"
+    }
+  ]
+}
+```
+
+
+
+#### Fetch a quote
+
+```shell
+POST /openapi/convert/v1/get-quote
+```
+
+This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+sourceCurrency | STRING | YES |The currency the user holds
+targetCurrency | STRING | YES |The currency the user would like to obtain
+sourceAmount | STRING | YES |The amount of sourceCurrency
+
+**Response:**
+
+```javascript
+{
+  "status": 0, 
+  "error": "OK", 
+  "data": {
+            "quoteId": "2182b4fc18ff4556a18332245dba75ea",
+            "sourceCurrency": "BTC",
+            "targetCurrency": "PHP",
+            "sourceAmount": "0.1",
+            "price": "59999",             //1BTC=59999PHP
+            "targetAmount": "5999",       //The amount of PHP the user holds
+            "expiry": "10"
+  }
+}
+```
+
+#### Accept the quote
+
+
+```shell
+POST /openapi/convert/v1/accpet-quote
+```
+
+Use this endpoint to accept the quote and receive the result instantly.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+quoteId | STRING | YES |The ID assigned to the quote
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0, 
+  "data": {
+         "orderId" : "49d10b74c60a475298c6bbed08dd58fa",
+         "status": "SUCCESS"
+  },
+  "error": "ok"
+}
+```
+
+#### Retrieve order history
+
+
+```shell
+POST /openapi/convert/v1/query-order-history
+```
+This endpoint retrieves order history with the option to define a specific time period using start and end times.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type   | Mandatory | Description
+------------ |--------|---------| ------------
+startTime | STRING | No |The starting point of the required period. If no period is defined, the entire order history is returned.
+endTime | STRING | No |The end point of the required period. If no period is defined, the entire order history is returned.
+page | int    | No |
+size | int    | No |
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+   "error": "OK",
+   "data": [
+    {
+      "orderId": "49d10b74c60a475298c6bbed08dd58fa",
+      "quoteId": "cfbe49acf56b43a698d99ca470658a5c",
+      "sourceCurrency": "BTC",
+      "targetCurrency": "PHP",
+      "sourceAmount": "0.00014252",
+      "targetAmount": "131.1432432",
+      "price": "920174.31378052",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1672283052000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "orderId": "ad3bb743e60747a8a57c2d33317c3149",
+      "quoteId": "5217a22fdbf044ecaf147fb99bc00be6",
+      "sourceCurrency": "ETH",
+      "targetCurrency": "BTC",
+      "sourceAmount": "0.01583701",
+      "targetAmount": "0.024643",
+      "price": "1.55603867",
+      "fee": "0",
+      "status": "FAILED",
+      "createdAt": "1672025632000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "orderId": "49678eef7b3b4003ab3552141bb2d2dd",
+      "quoteId": "ac04e42b37fd439cb06fb2d8b5b21559",
+      "sourceCurrency": "ETH",
+      "targetCurrency": "BTC",
+      "sourceAmount": "0.01584514",
+      "targetAmount": "0.024643",
+      "price": "1.55524028",
+      "fee": "0",
+      "status": "FAILED",
+      "errorMessage" : "Insufficient balance",
+      "createdAt": "1672025122000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "orderId": "69e4b2d166f24155b9f2221999a5271c",
+      "quoteId": "671f88b5330043949f6dfda222bcd5f5",
+      "sourceCurrency": "PHP",
+      "targetCurrency": "XRP",
+      "sourceAmount": "43.46",
+      "targetAmount": "1",
+      "price": "0.02300966",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1671800356000",
+      "errorCode": "",
+      "errorMessage": ""
+    },
+    {
+      "orderId": "25a9b92bcd4d4b2598c8be97bc65b466",
+      "quoteId": "1ecce9a7265a4a329cce80de46e2c583",
+      "sourceCurrency": "BTC",
+      "targetCurrency": "PHP",
+      "sourceAmount": "0.11",
+      "targetAmount": "4466.89275956",
+      "price": "40608.115996",
+      "fee": "0",
+      "status": "SUCCESS",
+      "createdAt": "1671797993000",
+      "errorCode": "",
+      "errorMessage": ""
+    }
+  ],
+  "total": 23
+}
+```
+
+### Fiat endpoints
+
+#### Get supported fiat channels
+```shell
+GET openapi/fiat/v1/support-channel
+```
+
+This continuously updated endpoint returns a list of all available fiat channels.
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| transactionType | STRING | Yes |Set this parameter to -1 to indicate a cash-out transaction. At present, only cash-out transactions are supported.
+| currency        | STRING | Yes |The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+
+
+**Response:**
+
+```javascript
+{
+  "status":0,
+  "error":"OK",
+  "data":
+   [
+    {
+      "id": 782,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "alamanah",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Al-Amanah Islamic Invest. Bank",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Al-Amanah+Islamic+Bank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 622,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 783,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "allbank",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "AllBank (A Thrift Bank), Inc.",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AllBank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "0",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 785,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "anz",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "ANZ Banking Group Ltd",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Australia+&+New+Zealand+Bank.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 647,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 837,
+      "transactionChannel": "SWIFTPAY_PESONET",
+      "transactionChannelName": "swiftpay_pesonet",
+      "transactionSubject": "guinobatan",
+      "transactionSubjectType": "bank",
+      "transactionSubjectTypeLabel": "Banks",
+      "transactionSubjectName": "Asenso",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/PesoNet@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/Asenso.png",
+      "maximum": "100000000",
+      "minimum": "5",
+      "dailyLimit": "50",
+      "monthlyLimit": "10000001",
+      "annualLimit": "500000",
+      "remainingDailyLimit": "50",
+      "remainingMonthlyLimit": "10000001",
+      "remainingAnnualLimit": "500000",
+      "precision": "2",
+      "fee": "5",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    },
+    {
+      "id": 623,
+      "transactionChannel": "INSTAPAY",
+      "transactionChannelName": "instapay",
+      "transactionSubject": "aub",
+      "transactionSubjectType": "e-wallet",
+      "transactionSubjectTypeLabel": "E-wallets",
+      "transactionSubjectName": "Asia United Bank",
+      "transactionType": -1,
+      "paymentMethod": "BANK_TRANSFER",
+      "channelIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/InstaPay+Pesonet+copy/InstaPay@136.png",
+      "subjectIcon": "https://static.pro.coins.xyz/resource/images/fiat/fiat-png/AUB.png",
+      "maximum": "50000",
+      "minimum": "50",
+      "dailyLimit": "100000",
+      "monthlyLimit": "100000",
+      "annualLimit": "1000000",
+      "remainingDailyLimit": "100000",
+      "remainingMonthlyLimit": "100000",
+      "remainingAnnualLimit": "999656",
+      "precision": "2",
+      "fee": "10",
+      "feeType": "fixed",
+      "status": "1",
+      "maxWithdrawBalance": "10000037084.37574788"
+    }
+  ]
+}
+```
+
+
+#### Cash out
+```shell
+GET openapi/fiat/v1/cash-out
+```
+
+This endpoint allows users to withdraw funds from their fiat account.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| internalOrderId | STRING | Yes | Internal ID assigned to the funds withdrawal order.
+| currency        | STRING | Yes | The parameter represents the currency used in the transaction and should be set to PHP as it is the only currency currently supported.
+| amount          | STRING | Yes | The amount of currency to be withdrawn.
+| channelName     | STRING | Yes | The payment channel or method that the user wishes to use for the cash-out transaction.
+| channelSubject  | STRING | Yes | Additional information about the payment channel or method that the user wishes to use for the cash-out transaction.
+
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK", 
+  "data": {
+         "externalOrderId": "1380692028693995623",
+         "internalOrderId": "1388420429697583896",
+          },
+  "params": null
+}
+```
+
+#### Fiat trade history
+```shell
+POST openapi/fiat/v1/history
+```
+
+This endpoint fetches a comprehensive record of the user’s fiat trading activity. The response contains detailed information about the past trades, including the transaction date, transaction amount, and any associated fees. The user can also specify a date range for retrieving transaction data.
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type    | Mandatory | Description
+-----------------|---------|-----------| ------------
+| startDate | Date    | No        | Represents the start of the date range and specifies the earliest date for which transaction data should be retrieved. Transactions that occurred on or after the startDate will be included in the results.
+| endDate   | Date    | No        | Represents the end of the date range and specifies the latest date for which transaction data should be retrieved. Transactions that occurred before or on the endDate will be included in the results.
+
+
+**Response:**
+
+```javascript
+{
+  "status":0,
+  "error":"OK",
+  "data":[
+    {
+      "externalOrderId":"1380692028693995750",
+      "internalOrderId":"1392039268679225857",
+      "paymentOrderId":"502864",
+      "fiatCurrency":"PHP",
+      "fiatAmount":"13",
+      "transactionType":-1,
+      "transactionChannel":"INSTAPAY_QR",
+      "transactionSubject":"pnb",
+      "transactionChannelName":"instapay_qr",
+      "transactionSubjectName":"PNB",
+      "transactionSubjectType":"bank",
+      "feeCurrency":"PHP",
+      "channelFee":"0",
+      "platformFee":"0",
+      "status":"PENDING",
+      "errorCode":"",
+      "errorMessage":"",
+      "completedTime":"2023-04-05T07:33:35.000+00:00",
+      "source":"WEB",
+      "createdAt":"2023-04-05T07:33:35.000+00:00",
+      "orderExtendedMap":{
+        "amount":"13",
+        "tfrName":"est registration",
+        "tfrAcctNo":"111111111222111",
+        "channelName":"INSTAPAY_QR",
+        "currency":"PHP",
+        "source":"WEB",
+        "channelSubject":"pnb",
+        "userId":1198653352181844736,
+        "orgId":9001
+      },
+      "dealCancel":false
+    },
+    {
+      "externalOrderId":"1380692028693995749",
+      "internalOrderId":"1392011368101908738",
+      "paymentOrderId":"356142",
+      "fiatCurrency":"PHP",
+      "fiatAmount":"13",
+      "transactionType":-1,
+      "transactionChannel":"INSTAPAY_QR",
+      "transactionSubject":"pnb",
+      "transactionChannelName":"instapay_qr",
+      "transactionSubjectName":"PNB",
+      "transactionSubjectType":"bank",
+      "feeCurrency":"PHP",
+      "channelFee":"0",
+      "platformFee":"0",
+      "status":"PENDING",
+      "errorCode":"",
+      "errorMessage":"JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.",
+      "completedTime":"2023-04-05T06:38:09.000+00:00",
+      "source":"WEB",
+      "createdAt":"2023-04-05T06:38:09.000+00:00",
+      "channelSubject":"pnb",
+      "userId":1198653352181844736,
+      "orgId":9001
+        },
+      "dealCancel":false
+     },
+     {
+        "externalOrderId":"1380596328526306871",
+        "internalOrderId":"1380596591861487948",
+        "paymentOrderId":"687428",
+        "fiatCurrency":"PHP",
+        "fiatAmount":"45",
+        "transactionType":-1,
+        "transactionChannel":"INSTAPAY",
+        "transactionSubject":"coins.ph",
+        "transactionChannelName":"instapay",
+        "transactionSubjectName":"DCPAY PHILIPPINES, INC.",
+        "transactionSubjectType":"bank",
+        "feeCurrency":"PHP",
+        "channelFee":"0",
+        "platformFee":"10",
+        "status":"SUCCEEDED",
+        "errorCode":"",
+        "errorMessage":"",
+        "completedTime":"2023-03-20T12:39:03.000+00:00",
+        "source":"WEB",
+        "createdAt":"2023-03-20T12:39:00.000+00:00",
+        "channelSubject":"coins.ph",
+        "userId":1198653352181844736,
+        "orgId":9001
+     },
+  "dealCancel":false
+ }
+],
+"total":3
+} 
+```
+
+
+#### Fiat order detail
+```shell
+GET openapi/fiat/v1/details
+```
+
+This endpoint retrieves information about a specific fiat currency order. The response provides detailed information about the respective trade, including the transaction date, transaction amount, and any associated fees.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name            | Type   | Mandatory | Description
+-----------------|--------| ------------ | ------------
+| internalOrderId | STRING | Yes | ID of the order for which the user wishes to retrieve details.
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK",
+  "data": {
+            "id": "1380692028693995623",
+            "orderId": "1388420429697583896",
+            "paymentOrderId": "455628",
+            "fiatCurrency": "PHP",
+            "fiatAmount": "60",
+            "transactionType": -1,
+            "transactionChannel": "INSTAPAY",
+            "transactionSubject": "coins.ph",
+            "transactionSubjectType": "bank",
+            "transactionChannelName": "instapay",
+            "transactionSubjectName": "DCPAY PHILIPPINES, INC.",
+            "feeCurrency": "PHP",
+            "channelFee": "0",
+            "platformFee": "10",
+            "status": "SUCCEEDED",
+            "errorCode": "",
+            "errorMessage": "",
+            "completedTime": "2023-03-31T07:44:42.000+00:00",
+            "source": "WEB",
+            "createdAt": "2023-03-31T07:43:37.000+00:00",
+            "orderExtendedMap": {
+             "amount": "50",
+              "sendAcctNo": "1326887193441018369",
+              "tfrName": "XUAN sissisissi sissi CHEN6",
+              "tfrAcctNo": "447415103851",
+              "channelName": "INSTAPAY",
+              "currency": "PHP",
+              "source": "WEB",
+              "channelSubject": "coins.ph",
+              "userId": 1326887193348759809,
+              "orgId": 9001
+    },
+    "dealCancel": false
+  }
+}
+```
+------
+### Old endpoints from coins.ph (Legacy)
+
+#### Create a new sellorder
+```shell
+POST openapi/migration/v4/sellorder
+```
+
+This endpoint converts digital assets into real-world cash, making it easy for users to withdraw their funds as cash. It provides a streamlined and secure process for cashing out, ensuring that users can access their funds quickly and easily. Additionally, this API endpoint ensures that users' financial information is kept secure and confidential, providing a safe and reliable way to withdraw funds.
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+| payment_outlet | STRING | Yes       | The payment outlet used to transfer funds to another Coins wallet. Once the sell order is completed, the fiat cashout will be processed through the chosen payout outlet and the funds will be transferred to the specified destination wallet via coins_transfer.
+| currency       | STRING | Yes       |  The currency symbol of the sell order.
+| amount         | STRING | Yes       | The quantity of digital assets that the user wishes to sell and the corresponding amount of fiat cash that they will receive in exchange.
+| id             | STRING | No        |  A unique identifier for the sell order
+| pay_with_wallet             | STRING | Yes       | The wallet code from which the user wishes to initiate the sell order.
+| bank_account_number             | STRING | Yes       | Cash out bank account number
+| bank_account_name             | STRING | Yes       | Cash out bank account bane
+| recipient_phone_number             | STRING | Yes       | Recipient phone number
+| recipient_bank_code             | STRING | Yes       | Recipient bank code
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/sellorder-create
+
+------
+
+#### Retrieve an existing sellorder
+```shell
+GET openapi/migration/v4/sellorder/{sell_order_id}
+```
+
+This endpoint retrieves information about a previously executed sell order that involved a cash-out of fiat currency.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+| sell_order_id       | STRING | No |  A unique identifier that is used to specify the sell order that a user wants to retrieve information about.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/sellorder-retrieve
+
+------
+
+#### Validate field values
+```shell
+GET openapi/migration/v4/validate-field
+```
+
+This endpoint validates field values for fiat sell order to ensure that the values provided for the different fields are valid before the actual cashout process begins.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------| ------------ | ------------
+| field_type       | STRING | No |  The type of field that needs to be validated. Accepts two valid values: "account_number" and "mobile_number"..
+| account_number       | STRING | No |  When the field_type parameter is set to "account_number", this parameter is used to specify the account number that needs to be validated for the fiat sell order.
+| account_type       | STRING | No | When the field_type parameter is set to "account_number", this parameter is used to specify the payment outlet ID where the account number field value should be validated against.
+| mobile_number       | STRING | No | When the field_type parameter is set to "mobile_number", this parameter is used to specify the mobile number that needs to be validated for the fiat sell order. The mobile number provided must be in the correct format, following the E.164 phone number formatting, and associated with the correct user.
+| region       | STRING | No |  When the field_type parameter is set to "mobile_number", this parameter is used to specify the region of the mobile number that needs to be validated for the fiat sell order. Valid values for the region parameter are "PH" and "TH", which represent the regions of the Philippines and Thailand, respectively.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/validate-field
+
+------
+
+#### Retrieve supported payout-outlets
+```shell
+GET openapi/migration/v4/payout-outlets/{id}
+```
+
+This endpoint retrieves a list of supported payout outlets for sell orders. It is designed to provide users with a comprehensive list of available payout options so they can select the one that is most convenient for them.
+
+**Parameters:**
+
+Name           | Type   | Mandatory | Description
+----------------|--------|-----------| ------------
+| outlet_category       | STRING | No       |  A payment outlet category ID that is used to filter the list of supported payout outlets.
+| name       | STRING | No       | A payment outlet name that is used to filter the list of supported payout outlets.
+| region       | STRING | No       |The name of a region that is used to filter the list of supported payout outlets.
+| is_enabled       | STRING | No     | A boolean value that determines whether or not to include disabled payout outlets in the results.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlets
+
+------
+
+#### Retrieve supported payout-outlet-categories
+```shell
+GET openapi/migration/v4/payout-outlet-categories/{id}
+```
+
+This endpoint retrieves the list of payout outlet categories that are supported for fiat sell orders. Payout outlet categories are used to classify and organize the different payout outlet options that are available to users when they choose to cash out their fiat currency. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet categories.
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-categories
+
+
+------
+
+#### Retrieve current payout-outlet-fees
+```shell
+GET openapi/migration/v4/payout-outlet-fees
+```
+
+This endpoint retrieves the current payout outlet fees for the supported payout outlets for fiat sell orders. Payout outlet fees are the fees charged by the payout outlet providers for processing the cash-out transactions. This endpoint takes no parameters and returns a JSON response that includes an array of payout outlet fees.
+
+
+**Weight:** 1
+
+reference: https://docs.coins.asia/reference/payout-outlet-fees
