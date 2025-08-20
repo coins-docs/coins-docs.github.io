@@ -182,6 +182,8 @@ Postman collections are available, and they are recommended for new users seekin
 
   * The IP limit allows a maximum of 1200 requests per minute across all endpoints within the `/api/*` namespace.
 
+  * The UID limit allows a maximum of 1800 requests per minute across all endpoints within the `/api/*` namespace.
+
 
 
 ### Endpoint Security Type
