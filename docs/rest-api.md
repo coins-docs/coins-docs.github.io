@@ -8,8 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-09-10: Added the `type` parameter for the `/openapi/convert/v1/get-supported-trading-pairs`,`/openapi/convert/v1/get-quote`, `/openapi/convert/v1/accept-quote`, `/openapi/convert/v1/query-order-history` endpoint.
 
-2025-06-26: Updated additional descriptions for the `/openapi/convert/query-order-history` endpoint.
+2025-06-26: Updated additional descriptions for the `/openapi/convert/v1/query-order-history` endpoint.
 
 2025-06-20: Added the `/openapi/fiat/v1/cancel_qr_code` endpoint for canceling QR codes.
 
@@ -2014,7 +2015,15 @@ This continuously updated endpoint returns a list of all available trading pairs
 
 **Parameters:**
 
- N/A
+Name | Type | Mandatory | Description
+------------ | ------------ |-----------| ------------
+type         | STRING | NO        | Specifies the trading mode. Please refer to the following enum value for the type.
+
+** type:**
+
+* Not provided: Default mode (standard convert).
+* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of USD 20,000.
+  To request access, please contact our OTC desk at otcdesk_ph@coins.ph for whitelisting.)
 
 
 
@@ -2085,6 +2094,13 @@ sourceCurrency | STRING | YES       |The currency the user holds
 targetCurrency | STRING | YES       |The currency the user would like to obtain
 sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
 targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
+type         | STRING | NO        | Specifies the trading mode. Please refer to the following enum value for the type.
+
+** type:**
+
+* Not provided: Default mode (standard convert).
+* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of USD 20,000.
+  To request access, please contact our OTC desk at otcdesk_ph@coins.ph for whitelisting.)
 
 **Response:**
 
@@ -2128,8 +2144,15 @@ Use this endpoint to accept the quote and receive the result instantly.
 **Parameters:**
 
 Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
+------------ | ------------ | ------ | ------------
 quoteId | STRING | YES |The ID assigned to the quote
+type    | STRING | NO  | Specifies the trading mode. Please refer to the following enum value for the type.
+
+** type:**
+
+* Not provided: Default mode (standard convert).
+* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of USD 20,000.
+  To request access, please contact our OTC desk at otcdesk_ph@coins.ph for whitelisting.)
 
 
 **Response:**
@@ -2176,12 +2199,19 @@ This endpoint retrieves order history with the option to define a specific time 
 **Parameters:**
 
 Name | Type   | Mandatory | Description
------------- |--------|---------| ------------
+------------ |--------|----| ------------
 startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
 endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
 status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `TODO`, `SUCCESS`, `FAILED`, `PROCESSING`
 page | int    | No |
 size | int    | No | Default:10, Max:200
+type | STRING | NO | Specifies the trading mode. Please refer to the following enum value for the type.
+
+** type:**
+
+* Not provided: Default mode (standard convert).
+* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of USD 20,000.
+  To request access, please contact our OTC desk at otcdesk_ph@coins.ph for whitelisting.)
 
 
 **Response:**
