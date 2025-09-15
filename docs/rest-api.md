@@ -2089,10 +2089,10 @@ sourceAmount | STRING | NO        |The amount of sourceCurrency. You only need t
 targetAmount | STRING | NO        |The amount of targetCurrency. You only need to fill in either the source amount or the target amount. If both are filled, it will result in an error.
 type         | STRING | NO        | Specifies the trading mode. Please refer to the following enum value for the type.
 
-** type:**
+**type:**
 
 * Not provided: Default mode (standard convert).
-* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of USD 20,000.
+* OTC: OTC-Convert mode.(The OTC-Convert mode is a whitelist-only feature, designed to support large trading volumes with a minimum trade size of $20,000.
   To request access, please contact our OTC desk at otcdesk_ph@coins.ph for whitelisting.)
 
 **Response:**
