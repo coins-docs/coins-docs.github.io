@@ -953,6 +953,8 @@ timestamp | LONG | YES |
    "canDeposit":true,
    "canTrade":true,
    "canWithdraw":true,
+   "email": "testsub@gmail.com",
+   "enableWithdrawWhitelist": true,
    "balances":[
       {
          "asset":"456",
