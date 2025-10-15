@@ -8,7 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2025-10-15: Added the `email` `enableWithdrawWhitelist` parameter for the `/openapi/v1/account` endpoint.
+2025-10-15: Added the `email` `enableWithdrawWhitelist` parameter for the `/openapi/v1/account` endpoint. Added the `openapi/v1/api-keys` endpoint.
 
 2025-09-10: Added the `type` parameter for the `/openapi/convert/v1/get-supported-trading-pairs`,`/openapi/convert/v1/get-quote`, `/openapi/convert/v1/accept-quote`, `/openapi/convert/v1/query-order-history` endpoint.
 
@@ -937,6 +937,81 @@ GET /openapi/v1/account (HMAC SHA256)
 ```
 
 GET current account information.
+
+**Weight:** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+recvWindow | LONG | NO |The value cannot be greater than `60000`
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+{
+   "accountType":"SPOT",
+   "canDeposit":true,
+   "canTrade":true,
+   "canWithdraw":true,
+   "email": "testsub@gmail.com",
+   "enableWithdrawWhitelist": true,
+   "balances":[
+      {
+         "asset":"456",
+         "free":"100",
+         "locked":"0"
+      },
+      {
+         "asset":"APE",
+         "free":"0",
+         "locked":"0"
+      },
+      {
+         "asset":"AXS",
+         "free":"0.00005",
+         "locked":"0"
+      }
+   ],
+   "token":"PHP",
+   "daily":{
+      "cashInLimit":"500000",
+      "cashInRemaining":"499994",
+      "cashOutLimit":"500000",
+      "cashOutRemaining":"500000",
+      "totalWithdrawLimit":"500000",
+      "totalWithdrawRemaining":"500000"
+   },
+   "monthly":{
+      "cashInLimit":"10000000",
+      "cashInRemaining":"9999157",
+      "cashOutLimit":"10000000",
+      "cashOutRemaining":"10000000",
+      "totalWithdrawLimit":"10000000",
+      "totalWithdrawRemaining":"10000000"
+   },
+   "annually":{
+      "cashInLimit":"120000000",
+      "cashInRemaining":"119998577",
+      "cashOutLimit":"120000000",
+      "cashOutRemaining":"119999488",
+      "totalWithdrawLimit":"120000000",
+      "totalWithdrawRemaining":"119998487.97"
+   },
+   "updateTime":1707273549694
+}
+```
+
+
+
+#### Api Key information (USER_DATA)
+
+```shell
+GET /openapi/v1/api-keys (HMAC SHA256)
+```
+
+GET current api key information.
 
 **Weight:** 10
 
