@@ -1025,57 +1025,41 @@ timestamp | LONG | YES |
 **Response:**
 
 ```javascript
-{
-   "accountType":"SPOT",
-   "canDeposit":true,
-   "canTrade":true,
-   "canWithdraw":true,
-   "email": "testsub@gmail.com",
-   "enableWithdrawWhitelist": true,
-   "balances":[
-      {
-         "asset":"456",
-         "free":"100",
-         "locked":"0"
-      },
-      {
-         "asset":"APE",
-         "free":"0",
-         "locked":"0"
-      },
-      {
-         "asset":"AXS",
-         "free":"0.00005",
-         "locked":"0"
-      }
-   ],
-   "token":"PHP",
-   "daily":{
-      "cashInLimit":"500000",
-      "cashInRemaining":"499994",
-      "cashOutLimit":"500000",
-      "cashOutRemaining":"500000",
-      "totalWithdrawLimit":"500000",
-      "totalWithdrawRemaining":"500000"
+[
+   {
+      "apiKey":"QdGqqftMXzW3qKceYHqwRjjvQvBsdVsMb1OFg4kOuVgV07lnTsh9jIJJLsXrOLug",
+      "apiName":"test",
+      "apiType":[
+         "Enable Spot",
+         "Enable Convert",
+         "Enable Crypto Wallet",
+         "Enable Fiat",
+         "Enable Account"
+      ],
+      "createTime":"1711520996538",
+      "ipAccessRestrictions":[
+         "57.181.16.43",
+         "1.1.1.1",
+         "1.1.1.2"
+      ],
+      "status":"NOT_ENABLE"
    },
-   "monthly":{
-      "cashInLimit":"10000000",
-      "cashInRemaining":"9999157",
-      "cashOutLimit":"10000000",
-      "cashOutRemaining":"10000000",
-      "totalWithdrawLimit":"10000000",
-      "totalWithdrawRemaining":"10000000"
-   },
-   "annually":{
-      "cashInLimit":"120000000",
-      "cashInRemaining":"119998577",
-      "cashOutLimit":"120000000",
-      "cashOutRemaining":"119999488",
-      "totalWithdrawLimit":"120000000",
-      "totalWithdrawRemaining":"119998487.97"
-   },
-   "updateTime":1707273549694
-}
+   {
+      "apiKey":"oys7XrwQSV6SHvjRzWFTFWgmano88vm2iz8QCf6FN6VXYPbYVe7m6HmHqgkmYABF",
+      "apiName":"test",
+      "apiType":[
+         "Enable Spot",
+         "Enable Convert",
+         "Enable Fiat",
+         "Enable Crypto Wallet"
+      ],
+      "createTime":"1711537457048",
+      "ipAccessRestrictions":[
+         "57.181.16.43"
+      ],
+      "status":"ENABLE"
+   }
+]
 ```
 
 
