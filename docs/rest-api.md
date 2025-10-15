@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-10-15: Added the `email` `enableWithdrawWhitelist` parameter for the `/openapi/v1/account` endpoint.
+
 2025-09-10: Added the `type` parameter for the `/openapi/convert/v1/get-supported-trading-pairs`,`/openapi/convert/v1/get-quote`, `/openapi/convert/v1/accept-quote`, `/openapi/convert/v1/query-order-history` endpoint.
 
 2025-06-26: Updated additional descriptions for the `/openapi/convert/v1/query-order-history` endpoint.
