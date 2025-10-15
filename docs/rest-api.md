@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-10-15: Added the `email` `enableWithdrawWhitelist` parameter for the `/openapi/v1/account` endpoint. Added the `openapi/v1/api-keys` endpoint.
+
 2025-09-10: Added the `type` parameter for the `/openapi/convert/v1/get-supported-trading-pairs`,`/openapi/convert/v1/get-quote`, `/openapi/convert/v1/accept-quote`, `/openapi/convert/v1/query-order-history` endpoint.
 
 2025-06-26: Updated additional descriptions for the `/openapi/convert/v1/query-order-history` endpoint.
@@ -953,6 +955,8 @@ timestamp | LONG | YES |
    "canDeposit":true,
    "canTrade":true,
    "canWithdraw":true,
+   "email": "testsub@gmail.com",
+   "enableWithdrawWhitelist": true,
    "balances":[
       {
          "asset":"456",
@@ -997,6 +1001,65 @@ timestamp | LONG | YES |
    },
    "updateTime":1707273549694
 }
+```
+
+
+
+#### Api Key information (USER_DATA)
+
+```shell
+GET /openapi/v1/api-keys (HMAC SHA256)
+```
+
+GET current api key information.
+
+**Weight:** 10
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+recvWindow | LONG | NO |The value cannot be greater than `60000`
+timestamp | LONG | YES |
+
+**Response:**
+
+```javascript
+[
+   {
+      "apiKey":"QdGqqftMXzW3qKceYHqwRjjvQvBsdVsMb1OFg4kOuVgV07lnTsh9jIJJLsXrOLug",
+      "apiName":"test",
+      "apiType":[
+         "Enable Spot",
+         "Enable Convert",
+         "Enable Crypto Wallet",
+         "Enable Fiat",
+         "Enable Account"
+      ],
+      "createTime":"1711520996538",
+      "ipAccessRestrictions":[
+         "57.181.16.43",
+         "1.1.1.1",
+         "1.1.1.2"
+      ],
+      "status":"NOT_ENABLE"
+   },
+   {
+      "apiKey":"oys7XrwQSV6SHvjRzWFTFWgmano88vm2iz8QCf6FN6VXYPbYVe7m6HmHqgkmYABF",
+      "apiName":"test",
+      "apiType":[
+         "Enable Spot",
+         "Enable Convert",
+         "Enable Fiat",
+         "Enable Crypto Wallet"
+      ],
+      "createTime":"1711537457048",
+      "ipAccessRestrictions":[
+         "57.181.16.43"
+      ],
+      "status":"ENABLE"
+   }
+]
 ```
 
 
