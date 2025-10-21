@@ -80,6 +80,8 @@ author_profile: true
 
 # Change log:
 
+2025-10-21: add three system availability check APIs: query-withdraw-is-validate, query-convert-is-available, and query-spot-order-is-available.
+
 2022-09-12: change 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
 2022-09-09: update orderId/transactTime/time/updateTime returning number instead of string in order related interfaces.
@@ -757,6 +759,80 @@ Get the user ip.
 ```javascript
 {
   "ip": "57.181.16.43"
+}
+```
+
+
+
+#### Query withdraw system availability
+
+```shell
+GET /openapi/wallet/v1/withdraw/query-withdraw-is-validate
+```
+
+Check if the withdraw system is available.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK",
+  "data": true,
+  "params": null
+}
+```
+
+
+
+#### Query convert system availability
+
+```shell
+GET /openapi/convert/v1/query-convert-is-available
+```
+
+Check if the convert system is available.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK",
+  "data": true
+}
+```
+
+
+
+#### Query spot order system availability
+
+```shell
+GET /openapi/v1/order/query-spot-order-is-available
+```
+
+Check if the spot order system is available.
+
+**Weight:** 1
+
+**Parameters:** NONE
+
+**Response:**
+
+```javascript
+{
+  "status": 0,
+  "error": "OK",
+  "data": true,
+  "params": null
 }
 ```
 
@@ -2848,4 +2924,3 @@ This endpoint retrieves the current payout outlet fees for the supported payout 
 **Weight:** 1
 
 reference: https://docs.coins.asia/reference/payout-outlet-fees
-
