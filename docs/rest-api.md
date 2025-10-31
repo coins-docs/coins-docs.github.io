@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2025-10-31: Added the `/openapi/v1/check-sys-status` endpoint for checking system status. 
+
 2025-10-15: Added the `email` `enableWithdrawWhitelist` parameter for the `/openapi/v1/account` endpoint. Added the `openapi/v1/api-keys` endpoint.
 
 2025-09-10: Added the `type` parameter for the `/openapi/convert/v1/get-supported-trading-pairs`,`/openapi/convert/v1/get-quote`, `/openapi/convert/v1/accept-quote`, `/openapi/convert/v1/query-order-history` endpoint.
@@ -472,6 +474,48 @@ Test connectivity to the Rest API and get the current server time.
   "serverTime": 1538323200000
 }
 ```
+
+#### Check system status
+
+```shell
+GET /openapi/v1/check-sys-status
+```
+
+Check the system business status.
+
+**Weight:** 1
+
+**Parameters:**
+
+| Name | Type | Mandatory | Description |
+| -------------- | ------ | --------- | ------------------------------------------------------------ |
+| businessType | STRING | NO        | Business type. Optional values: SPOT, CONVERT. If not provided, returns status for all business types |
+
+**Response:**
+
+```javascript
+[
+    {
+        "businessType": "SPOT",
+        "businessStatus": "on"
+    },
+    {
+        "businessType": "CONVERT",
+        "businessStatus": "on"
+    }
+]
+```
+
+**Response fields:**
+
+| Field | Type | Description |
+| -------------- | ------ | ------------------------------------------------------------ |
+| businessType | STRING | Business type: SPOT or CONVERT |
+| businessStatus | STRING | Business status: on (enabled) or off (disabled) |
+
+
+
+
 
 
 
