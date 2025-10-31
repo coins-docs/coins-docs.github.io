@@ -80,7 +80,7 @@ author_profile: true
 
 # Change log:
 
-2025-10-21: add three system availability check APIs: query-withdraw-is-validate, query-convert-is-available, and query-spot-order-is-available.
+2025-10-31: Added the `/openapi/v1/check-sys-status` endpoint for checking system status.
 
 2022-09-12: change 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
