@@ -475,6 +475,48 @@ Test connectivity to the Rest API and get the current server time.
 }
 ```
 
+#### Check system status
+
+```shell
+GET /openapi/v1/check-sys-status
+```
+
+Check the system business status.
+
+**Weight:** 1
+
+**Parameters:**
+
+| Name | Type | Mandatory | Description |
+| -------------- | ------ | --------- | ------------------------------------------------------------ |
+| businessType | STRING | NO        | Business type. Optional values: SPOT, CONVERT. If not provided, returns status for all business types |
+
+**Response:**
+
+```javascript
+[
+    {
+        "businessType": "SPOT",
+        "businessStatus": "on"
+    },
+    {
+        "businessType": "CONVERT",
+        "businessStatus": "on"
+    }
+]
+```
+
+**Response fields:**
+
+| Field | Type | Description |
+| -------------- | ------ | ------------------------------------------------------------ |
+| businessType | STRING | Business type: SPOT or CONVERT |
+| businessStatus | STRING | Business status: on (enabled) or off (disabled) |
+
+
+
+
+
 
 
 #### Get user ip
@@ -4558,42 +4600,3 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
   }
 }
 ```
-
-#### Check system status
-
-```shell
-GET /openapi/v1/check-sys-status
-```
-
-Check the system business status.
-
-**Weight:** 1
-
-**Parameters:**
-
-| Name | Type | Mandatory | Description |
-| -------------- | ------ | --------- | ------------------------------------------------------------ |
-| businessType | STRING | NO        | Business type. Optional values: SPOT, CONVERT. If not provided, returns status for all business types |
-
-**Response:**
-
-```javascript
-[
-    {
-        "businessType": "SPOT",
-        "businessStatus": "on"
-    },
-    {
-        "businessType": "CONVERT",
-        "businessStatus": "on"
-    }
-]
-```
-
-**Response fields:**
-
-| Field | Type | Description |
-| -------------- | ------ | ------------------------------------------------------------ |
-| businessType | STRING | Business type: SPOT or CONVERT |
-| businessStatus | STRING | Business status: on (enabled) or off (disabled) |
-
