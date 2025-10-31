@@ -80,8 +80,6 @@ author_profile: true
 
 # Change log:
 
-2025-10-31: Added the `/openapi/v1/check-sys-status` endpoint for checking system status.
-
 2022-09-12: change 'Cancel All Open Orders on a Symbol' API  request parameter 'symbol' as required.
 
 2022-09-09: update orderId/transactTime/time/updateTime returning number instead of string in order related interfaces.
