@@ -759,10 +759,10 @@ Get the user ip.
   "ip": "57.181.16.43"
 }
 ```
-
-
-
 #### Exchange information
+
+
+
 
 ```shell
 GET /openapi/v1/exchangeInfo
@@ -2848,4 +2848,3 @@ This endpoint retrieves the current payout outlet fees for the supported payout 
 **Weight:** 1
 
 reference: https://docs.coins.asia/reference/payout-outlet-fees
-
