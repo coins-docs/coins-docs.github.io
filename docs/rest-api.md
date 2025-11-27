@@ -445,7 +445,8 @@ GET /openapi/v1/ping
 
 Test connectivity to the Rest API.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:** NONE
 
@@ -465,7 +466,8 @@ GET /openapi/v1/time
 
 Test connectivity to the Rest API and get the current server time.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:** NONE
 
@@ -485,7 +487,8 @@ GET /openapi/v1/check-sys-status
 
 Check the system business status.
 
-**Weight:** 1
+**Weight(IP):** 2
+**Weight(UID):** 2
 
 **Parameters:**
 
@@ -529,7 +532,8 @@ GET /openapi/v1/user/ip
 
 Get the user ip.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:** NONE
 
@@ -551,7 +555,8 @@ GET /openapi/v1/exchangeInfo
 
 Current exchange trading rules and symbol information
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -632,6 +637,7 @@ GET /openapi/wallet/v1/config/getall  (HMAC SHA256)
 Get information on coins (available for deposit and withdrawal) for the user.
 
 **Weight(IP):** 10
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -685,6 +691,7 @@ GET /openapi/wallet/v1/deposit/address  (HMAC SHA256)
 Fetch a deposit address along with its network.
 
 **Weight(IP):** 10
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -715,6 +722,7 @@ POST /openapi/wallet/v1/withdraw/apply  (HMAC SHA256)
 
 Submit a withdrawal request.
 
+**Weight(IP):** 100
 **Weight(UID):** 100
 
 **Parameters:**
@@ -751,6 +759,7 @@ GET /openapi/wallet/v1/deposit/history  (HMAC SHA256)
 Fetch deposit history.
 
 **Weight(IP):** 2
+**Weight(UID):** 2
 
 **Parameters:**
 
@@ -816,6 +825,7 @@ GET /openapi/wallet/v1/withdraw/history  (HMAC SHA256)
 Fetch withdrawal history.
 
 **Weight(IP):** 2
+**Weight(UID):** 2
 
 **Parameters:**
 
@@ -887,7 +897,8 @@ GET /openapi/wallet/v1/withdraw/address-whitelist  (HMAC SHA256)
 
 Get withdraw address whitelist for the user.
 
-**Weight(IP):** 2
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -929,7 +940,8 @@ POST /openapi/transfer/v3/transfers
 ```
 This endpoint is used to transfer funds between two accounts.
 
-**Weight:** 50
+**Weight(IP):** 50
+**Weight(UID):** 50
 
 **Parameters:**
 
