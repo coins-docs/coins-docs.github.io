@@ -993,7 +993,9 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
 POST /openapi/v3/payment-request/payment-requests (HMAC SHA256)
 ```
 Initiate a new payment transaction by creating a payment request.
-**Weight:** 1
+
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1039,7 +1041,8 @@ GET /openapi/v1/account (HMAC SHA256)
 
 GET current account information.
 
-**Weight:** 10
+**Weight(IP):** 10
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -1114,7 +1117,8 @@ GET /openapi/v1/api-keys (HMAC SHA256)
 
 GET current api key information.
 
-**Weight:** 10
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1227,7 +1231,8 @@ GET /openapi/quote/v1/trades
 
 Get recent trades (up to last 60).
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1263,7 +1268,8 @@ GET /openapi/quote/v1/klines
 Kline/candlestick bars for a symbol.
 Klines are uniquely identified by their open time.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1507,7 +1513,8 @@ GET /openapi/quote/v1/avgPrice
 
 Current average price for a symbol.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1534,7 +1541,8 @@ GET /openapi/v1/pairs
 ```
 a summary on cryptoasset trading pairs available on the exchange
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1569,7 +1577,8 @@ POST /openapi/v1/order  (HMAC SHA256)
 
 Send in a new order.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1685,7 +1694,8 @@ POST /openapi/v1/order/test (HMAC SHA256)
 Test new order creation and signature/recvWindow long.
 Creates and validates a new order but does not send it into the matching engine.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1707,7 +1717,8 @@ GET /openapi/v1/order (HMAC SHA256)
 
 Check an order's status.
 
-**Weight:** 2
+**Weight(IP):** 2
+**Weight(UID):** 2
 
 **Parameters:**
 
@@ -1797,7 +1808,8 @@ DELETE /openapi/v1/order  (HMAC SHA256)
 
 Cancel an active order.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1842,7 +1854,8 @@ DELETE /openapi/v1/openOrders  (HMAC SHA256)
 
 Cancels all active orders on a symbol.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -1914,7 +1927,8 @@ GET /openapi/v1/openOrders  (HMAC SHA256)
 
 GET all open orders on a symbol. **Careful** when accessing this with no symbol.
 
-**Weight:** 10
+**Weight(IP):** 10
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -1995,7 +2009,8 @@ GET /openapi/v1/historyOrders (HMAC SHA256)
 
 GET all orders of the account;  canceled, filled or rejected.
 
-**Weight:** 10 with symbol, **40** when the symbol parameter is omitted;
+**Weight(IP):** 10 with symbol, **40** when the symbol parameter is omitted;
+**Weight(UID):** 10 with symbol, **40** when the symbol parameter is omitted;
 
 **Parameters:**
 
@@ -2084,7 +2099,8 @@ GET /openapi/v1/myTrades  (HMAC SHA256)
 
 Get trades for a specific account and symbol.
 
-**Weight:** 10
+**Weight(IP):** 10
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -2134,7 +2150,8 @@ GET /openapi/v1/asset/tradeFee (HMAC SHA256)
 
 Fetch trade fee
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2171,7 +2188,8 @@ POST /openapi/convert/v1/get-supported-trading-pairs
 
 This continuously updated endpoint returns a list of all available trading pairs. 
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2237,7 +2255,8 @@ POST /openapi/convert/v1/get-quote
 
 This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2292,7 +2311,8 @@ POST /openapi/convert/v1/accept-quote
 
 Use this endpoint to accept the quote and receive the result instantly.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2341,7 +2361,8 @@ POST /openapi/convert/v1/query-order-history
 ```
 This endpoint retrieves order history with the option to define a specific time period using start and end times, limited to the last 180 days.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2417,7 +2438,8 @@ POST /openapi/v1/userDataStream
 
 Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2441,7 +2463,8 @@ PUT /openapi/v1/userDataStream
 
 Keepalive a user data stream to prevent a time out. User data streams will close after 60 minutes. It's recommended to send a ping about every 30 minutes.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2465,7 +2488,8 @@ DELETE /openapi/v1/userDataStream
 
 Close out a user data stream.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -2746,7 +2770,9 @@ POST openapi/fiat/v1/support-channel
 ```
 
 This continuously updated endpoint returns a list of all available fiat channels.
-**Weight:** 1
+
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters(suggest json body):**
 
@@ -2988,7 +3014,8 @@ POST openapi/fiat/v1/cash-out
 
 This endpoint allows users to withdraw funds from their fiat account.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters(with json body):**
 
@@ -3102,7 +3129,8 @@ GET openapi/fiat/v1/details
 
 This endpoint retrieves information about a specific fiat currency order. The response provides detailed information about the respective trade, including the transaction date, transaction amount, and any associated fees.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters:**
 
@@ -3188,7 +3216,8 @@ POST openapi/fiat/v1/history
 
 This endpoint is used to query all fiat related history
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters(with json body):**
 
@@ -3306,7 +3335,8 @@ POST openapi/fiat/v2/history
 
 This endpoint is used to query all fiat related history
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters(with json body):**
 
@@ -3425,7 +3455,8 @@ POST openapi/fiat/v1/cancel_qr_code
 
 This endpoint allows users to cancel an existing QR code that was previously generated for fiat transactions.
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 1
 
 **Parameters(with json body):**
 
@@ -3495,7 +3526,8 @@ Applies to master accounts only.
 GET /openapi/v1/sub-account/list
 ```
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -3535,7 +3567,8 @@ This interface currently supports the creation of virtual sub-accounts (maximum 
 POST /openapi/v1/sub-account/create
 ```
 
-**Weight:** 1
+**Weight(IP):** 60
+**Weight(UID):** 30
 
 **Parameters:**
 
@@ -3564,7 +3597,8 @@ Query detailed balance information of a sub-account via the master account (appl
 GET /openapi/v1/sub-account/asset
 ```
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 10
 
 **Parameters:**
 
@@ -3603,7 +3637,8 @@ Master account can initiate a transfer from any of its sub-accounts to the maste
 POST /openapi/v1/sub-account/transfer/universal-transfer
 ```
 
-**Weight:** 1
+**Weight(IP):** 1
+**Weight(UID):** 100
 
 **Parameters:**
 
