@@ -3633,7 +3633,7 @@ Sub-account can initiate a transfer from itself to the master account.
 POST /openapi/v1/sub-account/transfer/sub-to-master
 ```
 
-**Weight:** 1
+**Weight:** 100
 
 **Parameters:**
 
@@ -3860,7 +3860,7 @@ GET /openapi/v1/sub-account/wallet/deposit/address
 Fetch sub account deposit address with network.
 
 
-**Weight:** 10
+**Weight:** 1
 
 **Parameters:**
 
@@ -4613,7 +4613,7 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
 GET /openapi/v1/asset/transaction/history
 ```
 
-**Weight:** 10
+**Weight:** 20
 
 **Parameters:**
 
