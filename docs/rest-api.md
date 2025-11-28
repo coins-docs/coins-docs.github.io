@@ -3663,7 +3663,7 @@ If startTime and endTime are not sent, this will return records of the last 30 d
 GET /openapi/v1/sub-account/transfer/universal-transfer-history
 ```
 
-**Weight:** 1
+**Weight:** 10
 
 **Parameters:**
 
@@ -3714,7 +3714,7 @@ If startTime and endTime are not sent, this will return records of the last 30 d
 GET /openapi/v1/sub-account/transfer/sub-history
 ```
 
-**Weight:** 1
+**Weight:** 10
 
 **Parameters:**
 
@@ -3760,7 +3760,7 @@ Query detailed IPs for a sub-account API key.
 GET /openapi/v1/sub-account/apikey/ip-restriction
 ```
 
-**Weight:** 1
+**Weight:** 10
 
 **Parameters:**
 
@@ -3791,7 +3791,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 POST /openapi/v1/sub-account/apikey/add-ip-restriction
 ```
 
-**Weight:** 1
+**Weight:** 30
 
 **Parameters:**
 
@@ -3824,7 +3824,7 @@ timestamp     | LONG   | YES       | A point in time for which transfers are bei
 POST /openapi/v1/sub-account/apikey/delete-ip-restriction
 ```
 
-**Weight:** 1
+**Weight:** 30
 
 **Parameters:**
 
@@ -3891,7 +3891,7 @@ GET /openapi/v1/sub-account/wallet/deposit/history
 Fetch deposit history.
 
 
-**Weight(IP):** 2
+**Weight(IP):** 1
 
 **Parameters:**
 
