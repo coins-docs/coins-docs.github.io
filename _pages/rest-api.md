@@ -136,6 +136,7 @@ author_profile: true
 The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
 
 * Python https://github.com/coins-docs/coins-connector-python
+* Java https://github.com/coins-docs/coins-java-api
 
 ### Postman Collections
 
