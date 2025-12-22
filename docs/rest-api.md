@@ -8,7 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2025-12-19: Added Java SDK support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
+2025-12-19: Added [Java SDK](https://github.com/coins-docs/coins-java-api) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
 
 2025-11-05: Added the `/openapi/wallet/v1/withdraw/address-whitelist` endpoint for checking system status. 
 
