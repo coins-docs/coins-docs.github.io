@@ -137,6 +137,7 @@ The following are lightweight libraries that work as connectors to the Coins pub
 
 * Python https://github.com/coins-docs/coins-connector-python
 * Java https://github.com/coins-docs/coins-java-api
+* JavaScript https://github.com/coins-docs/coins-js-api
 
 ### Postman Collections
 

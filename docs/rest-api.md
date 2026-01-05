@@ -8,7 +8,9 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2025-12-19: Added [Java SDK](https://github.com/coins-docs/coins-java-api) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
+2026-01-05: Added [JavaScript SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
+
+2025-12-19: Added [Java SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
 
 2025-11-05: Added the `/openapi/wallet/v1/withdraw/address-whitelist` endpoint for checking system status. 
 
@@ -129,6 +131,7 @@ nav: sidebar/rest-api.html
 The following are lightweight libraries that work as connectors to the Coins public API, written in different languages:
 * Python <a href="https://github.com/coins-docs/coins-connector-python">https://github.com/coins-docs/coins-connector-python</a> 
 * Java <a href="https://github.com/coins-docs/coins-java-api">https://github.com/coins-docs/coins-java-api</a>
+* JavaScript <a href="https://github.com/coins-docs/coins-js-api">https://github.com/coins-docs/coins-js-api</a>
 
 ### Postman Collections
 
