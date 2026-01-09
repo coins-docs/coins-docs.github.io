@@ -8,7 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2026-01-09: Added the ``/openapi/transfer/v4/transfers` endpoint which guarantees JSON-formatted responses for both success and error cases. 
+2026-01-09: Added the `/openapi/transfer/v4/transfers` endpoint which guarantees JSON-formatted responses for both success and error cases. 
 
 2026-01-05: Added [JavaScript SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
 
