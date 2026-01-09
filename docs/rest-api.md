@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-01-09: Added the ``/openapi/transfer/v4/transfers` endpoint which guarantees JSON-formatted responses for both success and error cases. 
+
 2026-01-05: Added [JavaScript SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
 
 2025-12-19: Added [Java SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
@@ -930,7 +932,60 @@ Get withdraw address whitelist for the user.
 #### Transfers (USER_DATA)
 
 ```shell
-POST /openapi/transfer/v3/transfers
+POST /openapi/transfer/v3/transfers (Legacy)
+```
+We strongly recommend new integrations to use v4 api, v3 api is kept for backward compatibility only.
+
+**Weight:** 50
+
+**Parameters:**
+
+Name       | Type  | Mandatory | Description
+-----------------|--------|-----------|--------------------------------------------------------------------------------------
+client_transfer_id | STRING | NO | Client Transfer ID, cannot send duplicate ID
+account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. `1447779051242545455`) to be transferred.
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. `+63 9686490252` or `test@coins.ph`)
+amount      | BigDecimal | YES    | The amount being transferred
+recvWindow | LONG  | NO    | This value cannot be greater than `60000`
+timestamp     | LONG  | YES    | A point in time when the transfer is performed
+message     | STRING  | NO    | The message sent to the recipient account
+
+If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
+
+**Request:**
+```javascript
+{
+  "account": "1451431230880900352",
+  "target_address": "christina@coins.ph",
+  "amount": "1232"
+}
+```
+
+**Response:**
+```javascript
+{
+  "transfer":
+    {
+      "id": "1451431230880900352",
+      "status": "success",//status enum: pending,success,failed
+      "account": "90dfg03goamdf02fs",
+      "target_address": "test@coins.ph",
+      "amount": "1",
+      "exchange": "1",
+      "payment": "23094j0amd0fmag9agjgasd",
+      "client_transfer_id": "1487573639841995271",
+      "message": "example",
+      "errorMessage":""//Error message returned when transfer fails, eg: Insufficient balance
+     }
+}
+```
+
+
+
+#### Transfers (USER_DATA)
+
+```shell
+POST /openapi/transfer/v4/transfers
 ```
 This endpoint is used to transfer funds between two accounts.
 
