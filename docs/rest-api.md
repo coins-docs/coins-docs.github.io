@@ -188,7 +188,7 @@ Postman collections are available, and they are recommended for new users seekin
 
 
 
-### /api/ Limit Introduction
+### Api Limit Introduction
 
 * For endpoints related to `/api/*`:
 
