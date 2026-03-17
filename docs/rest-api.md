@@ -194,9 +194,9 @@ Postman collections are available, and they are recommended for new users seekin
 
   * There are two modes of limit enforcement: IP limit and UID limit. Each mode operates independently.
 
-  * The IP limit allows a maximum of 1200 requests per minute across all endpoints within the `/openapi/*` namespace.
+  * The IP limit allows a maximum of 120 requests per minute across all endpoints within the `/openapi/*` namespace.
 
-  * The UID limit allows a maximum of 1800 requests per minute across all endpoints within the `/openapi/*` namespace.
+  * The UID limit allows a maximum of 180 requests per minute across all endpoints within the `/openapi/*` namespace.
 
 
 
