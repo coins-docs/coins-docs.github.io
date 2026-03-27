@@ -2236,6 +2236,7 @@ POST /openapi/convert/v1/get-quote
 ```
 
 This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
+This endpoint supports a minimum refresh interval of 1000 ms.
 
 **Weight:** 1
 
