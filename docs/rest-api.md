@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-03-27: Added the `/openapi/v1/order/cancelReplace` endpoint under Spot Trading Endpoints.
+
 2026-03-16: Change the IP rate limit from 1200 requests to 120 requests per minute, UID rate limit from 1800 requests to 180 requests per minute.
 
 2026-01-09: Added the `/openapi/transfer/v4/transfers` endpoint which guarantees JSON-formatted responses for both success and error cases. 
@@ -402,6 +404,7 @@ Status | Description
 
 
 
+<a id="anti-self-trading-behaviour-stpflag"></a>
 **Anti self-trading behaviour(stpFlag):**
 
 | Value | Description                                     |
@@ -1585,7 +1588,7 @@ price | DECIMAL | NO |
 newClientOrderId | STRING | NO | A unique id among open orders. Automatically generated if not sent. Orders with the same `newClientOrderID` can be accepted only when the previous one is filled, otherwise the order will be rejected.
 stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` orders.
 newOrderRespType | ENUM | NO | Set the response JSON. `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` order types default to `FULL`, all other orders default to `ACK`.
-stpFlag | ENUM | NO | The anti self-trading behaviour, Default anti self-dealing behaviour is CB 
+stpFlag | ENUM | NO | The anti self-trading behaviour, Default anti self-dealing behaviour is CB. See [Anti self-trading behaviour(stpFlag)](#anti-self-trading-behaviour-stpflag).
 recvWindow | LONG | NO |The value cannot be greater than `60000`
 timestamp | LONG | YES |
 
@@ -1831,6 +1834,162 @@ Notes:
   "origQuoteOrderQty": "0"
 }
 ```
+
+
+
+#### Cancel an Existing Order and Send a New Order (TRADE)
+
+```shell
+POST /openapi/v1/order/cancelReplace  (HMAC SHA256)
+```
+
+Cancel an active order and place a new order in a single request.
+
+**Weight:** 1
+
+**Parameters:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES |
+side | ENUM | YES |
+type | ENUM | YES |
+cancelReplaceMode | ENUM | YES | The allowed values are: `STOP_ON_FAILURE` - If the cancel request fails, the new order placement will not be attempted. `ALLOW_FAILURE` - new order placement will be attempted even if cancel request fails.
+timeInForce | ENUM | NO | Default `GTC`.
+quantity | DECIMAL | NO |
+quoteOrderQty | DECIMAL | NO |
+price | DECIMAL | NO |
+newClientOrderId | STRING | NO | A unique id for the new order. Automatically generated if not sent.
+cancelOrigClientOrderId | STRING | NO | Must be sent if `cancelOrderId` is not sent.
+cancelOrderId | LONG | NO | Must be sent if `cancelOrigClientOrderId` is not sent.
+stopPrice | DECIMAL | NO | Used with `STOP_LOSS`, `STOP_LOSS_LIMIT`, `TAKE_PROFIT`, and `TAKE_PROFIT_LIMIT` order types.
+newOrderRespType | ENUM | NO | `ACK`, `RESULT`, or `FULL`; `MARKET` and `LIMIT` default to `FULL`, all other order types default to `ACK`.
+stpFlag | ENUM | NO | The anti self-trading behaviour. Default is `CB`. `DC` is not supported. See [Anti self-trading behaviour(stpFlag)](#anti-self-trading-behaviour-stpflag).
+cancelRestrictions | ENUM | NO | `ALL` (default). Supported values: `ONLY_NEW` - Cancel will succeed if the order status is `NEW`. `ONLY_PARTIALLY_FILLED` - Cancel will succeed if order status is `PARTIALLY_FILLED`.
+recvWindow | LONG | NO |The value cannot be greater than `60000`
+timestamp | LONG | YES |
+
+Additional mandatory parameters based on `type` are the same as `POST /openapi/v1/order`.
+
+**Notes:**
+
+* Either `cancelOrigClientOrderId` or `cancelOrderId` must be sent.
+* If both `cancelOrderId` and `cancelOrigClientOrderId` parameters are provided, the `cancelOrderId` is searched first, then the `cancelOrigClientOrderId` from that result is checked against that order.
+* If both conditions are not met the request will be rejected.
+* The response payload shape depends on `cancelReplaceMode` and whether the cancel/new-order legs succeed.
+
+**Response (Both legs succeed):**
+
+```javascript
+{
+  "cancelResult": "SUCCESS",
+  "newOrderResult": "SUCCESS",
+  "cancelResponse": {
+    "symbol": "BTCUSDT",
+    "orderId": 1205324142243592448,
+    "clientOrderId": "oldClientOrderId",
+    "transactTime": 1658307188627,
+    "price": "2",
+    "origQty": "10",
+    "executedQty": "8",
+    "origQuoteOrderQty": "0",
+    "cummulativeQuoteQty": "16",
+    "status": "CANCELED",
+    "timeInForce": "GTC",
+    "type": "LIMIT",
+    "side": "SELL",
+    "stpFlag": "CB",
+    "stopPrice": "0"
+  },
+  "newOrderResponse": {
+    "symbol": "BTCUSDT",
+    "orderId": 1205324142243592555,
+    "clientOrderId": "newClientOrderId",
+    "transactTime": 1658307188800
+  }
+}
+```
+
+**Response (Cancel fails, new order succeeds in `ALLOW_FAILURE` mode):**
+
+```javascript
+{
+  "code": -1133,
+  "msg": "Order cancel-replace partially failed.",
+  "data": {
+    "cancelResult": "FAILURE",
+    "newOrderResult": "SUCCESS",
+    "cancelResponse": {
+      "code": -2011,
+      "msg": "CANCEL_REJECTED"
+    },
+    "newOrderResponse": {
+      "symbol": "BTCUSDT",
+      "orderId": 1205324142243592555,
+      "clientOrderId": "newClientOrderId",
+      "transactTime": 1658307188800
+    }
+  }
+}
+```
+
+**Response (Cancel succeeds, new order fails):**
+
+```javascript
+{
+  "code": -1133,
+  "msg": "Order cancel-replace partially failed.",
+  "data": {
+    "cancelResult": "SUCCESS",
+    "newOrderResult": "FAILURE",
+    "cancelResponse": {
+      "symbol": "BTCUSDT",
+      "orderId": 1205324142243592448,
+      "clientOrderId": "oldClientOrderId",
+      "transactTime": 1658307188627,
+      "price": "2",
+      "origQty": "10",
+      "executedQty": "8",
+      "origQuoteOrderQty": "0",
+      "cummulativeQuoteQty": "16",
+      "status": "CANCELED",
+      "timeInForce": "GTC",
+      "type": "LIMIT",
+      "side": "SELL",
+      "stpFlag": "CB",
+      "stopPrice": "0"
+    },
+    "newOrderResponse": {
+      "code": -2010,
+      "msg": "New order rejected."
+    }
+  }
+}
+```
+
+**Response (`STOP_ON_FAILURE` mode with cancel failure):**
+
+```javascript
+{
+  "code": -1132,
+  "msg": "Order cancel-replace failed.",
+  "data": {
+    "cancelResult": "FAILURE",
+    "newOrderResult": "NOT_ATTEMPTED",
+    "cancelResponse": {
+      "code": -2011,
+      "msg": "CANCEL_REJECTED"
+    },
+    "newOrderResponse": null
+  }
+}
+```
+
+**Common error codes:**
+
+* `-1108` `ORDER_CANCEL_REPLACE_PARAMETER_ERROR` - Either `cancelOrigClientOrderId` or `cancelOrderId` must be provided.
+* `-1132` `ORDER_CANCEL_REPLACE_FAILED` - Order cancel-replace failed.
+* `-1133` `ORDER_CANCEL_REPLACE_PARTIALLY_FAILED` - Order cancel-replace partially failed.
 
 
 
