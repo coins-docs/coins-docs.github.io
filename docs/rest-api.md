@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-04-21: Added input parameter `customSenderName` and output parameter `customSenderName` for the `/openapi/transfer/v4/transfers`, `/openapi/transfer/v3/transfers` endpoint.
+
 2026-04-10: Added OTC trade interfaces for business users only.
 
 2026-03-27: Added the `/openapi/v1/order/cancelReplace` endpoint under Spot Trading Endpoints.
@@ -958,6 +960,7 @@ amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed
 message     | STRING  | NO    | The message sent to the recipient account
+customSenderName     | STRING  | NO    | Custom Sender Name
 
 If the client_transfer_id or id parameter is passed in, the type parameter is invalid.
 
@@ -966,6 +969,7 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
 {
   "account": "1451431230880900352",
   "target_address": "christina@coins.ph",
+  "customSenderName": "testSenderName",
   "amount": "1232"
 }
 ```
@@ -979,6 +983,7 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
       "status": "success",//status enum: pending,success,failed
       "account": "90dfg03goamdf02fs",
       "target_address": "test@coins.ph",
+      "customSenderName": "testSenderName",
       "amount": "1",
       "exchange": "1",
       "payment": "23094j0amd0fmag9agjgasd",
