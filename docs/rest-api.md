@@ -2573,7 +2573,7 @@ The following endpoints are available to Business Account users only. To migrate
 
 #### Get supported trading pairs (OTC TRADE for Business Account)
 ```shell
-GET /openapi/otc-trade/v1/get-supported-trading-pairs
+POST /openapi/otc-trade/v1/get-supported-trading-pairs
 ```
 
 This continuously updated endpoint returns a list of all available trading pairs.
@@ -2621,7 +2621,7 @@ dailySettlementLimit | Accumulated daily settlement limit by user ID, in USDT.
 #### Create RFQ (OTC TRADE for Business Account)
 
 ```shell
-POST /openapi/otc-trade/v1/create-rfp
+POST /openapi/otc-trade/v1/create-rfq
 ```
 
 This endpoint returns a quote for a specified source currency (sourceCurrency) and target currency (targetCurrency) pair.
@@ -2671,7 +2671,7 @@ expiry	| Quote expire time seconds.
 
 
 ```shell
-POST /openapi/otc-trade/v1/accept-rfp
+POST /openapi/otc-trade/v1/accept-rfq
 ```
 
 Use this endpoint to accept the quote and receive the result instantly.
