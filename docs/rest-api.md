@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-06-09: update `/openapi/v1/account` response to include p2p-related KYC limit remaining fields: `p2pDaily`, `p2pMonthly`, `p2pAnnually` under `kycLimitRemaining`.
+
 2026-04-21: Added input parameter `customSenderName` and output parameter `customSenderName` for the `/openapi/transfer/v4/transfers`, `/openapi/transfer/v3/transfers` endpoint.
 
 2026-04-10: Added OTC trade interfaces for business users only.
@@ -1110,6 +1112,30 @@ timestamp | LONG | YES |
       "totalWithdrawLimit":"120000000",
       "totalWithdrawRemaining":"119998487.97"
    },
+   "p2pDaily":{
+     "cashInLimit":"500000",
+            "cashInRemaining":"499994",
+            "cashOutLimit":"500000",
+            "cashOutRemaining":"500000",
+            "totalWithdrawLimit":"500000",
+            "totalWithdrawRemaining":"500000"
+  },
+   "p2pMonthly":{
+     "cashInLimit":"10000000",
+            "cashInRemaining":"9999157",
+            "cashOutLimit":"10000000",
+            "cashOutRemaining":"10000000",
+            "totalWithdrawLimit":"10000000",
+            "totalWithdrawRemaining":"10000000"
+  },
+   "p2pAnnually":{
+     "cashInLimit":"120000000",
+            "cashInRemaining":"119998577",
+            "cashOutLimit":"120000000",
+            "cashOutRemaining":"119999488",
+            "totalWithdrawLimit":"120000000",
+            "totalWithdrawRemaining":"119998487.97"
+  }, 
    "updateTime":1707273549694
 }
 ```
