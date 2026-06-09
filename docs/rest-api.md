@@ -8,7 +8,7 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
-2026-06-09: update `/openapi/v1/account` response to include p2p-related KYC limit remaining fields: `p2pDaily`, `p2pMonthly`, `p2pAnnually` under `kycLimitRemaining`.
+2026-06-09: update `/openapi/v1/account` response to include p2p-related KYC limit remaining fields: `p2pDaily`, `p2pMonthly`, `p2pAnnually` .
 
 2026-04-21: Added input parameter `customSenderName` and output parameter `customSenderName` for the `/openapi/transfer/v4/transfers`, `/openapi/transfer/v3/transfers` endpoint.
 
