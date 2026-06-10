@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-06-10: Added [Go SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
+
 2026-06-09: update `/openapi/v1/account` response to include p2p-related KYC limit remaining fields: `p2pDaily`, `p2pMonthly`, `p2pAnnually` .
 
 2026-04-21: Added input parameter `customSenderName` and output parameter `customSenderName` for the `/openapi/transfer/v4/transfers`, `/openapi/transfer/v3/transfers` endpoint.
@@ -144,6 +146,8 @@ The following are lightweight libraries that work as connectors to the Coins pub
 * Python <a href="https://github.com/coins-docs/coins-connector-python">https://github.com/coins-docs/coins-connector-python</a> 
 * Java <a href="https://github.com/coins-docs/coins-java-api">https://github.com/coins-docs/coins-java-api</a>
 * JavaScript <a href="https://github.com/coins-docs/coins-js-api">https://github.com/coins-docs/coins-js-api</a>
+* Go <a href="https://github.com/coins-docs/coins-go-api">https://github.com/coins-docs/coins-go-api</a>
+
 
 ### Postman Collections
 
