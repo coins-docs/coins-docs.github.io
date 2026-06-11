@@ -4325,6 +4325,9 @@ GET /openapi/v1/sub-account/wallet/deposit/address
 
 Fetch sub account deposit address with network.
 
+> NOTE: This API is a restricted-access endpoint, available only to authorized users. To request access, please contact our customer service.
+
+
 
 **Weight:** 1
 
@@ -4355,6 +4358,8 @@ GET /openapi/v1/sub-account/wallet/deposit/history
 ```
 
 Fetch deposit history.
+
+> NOTE: This API is a restricted-access endpoint, available only to authorized users. To request access, please contact our customer service.
 
 
 **Weight:** 1
