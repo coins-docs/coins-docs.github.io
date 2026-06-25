@@ -2546,7 +2546,7 @@ Name | Type   | Mandatory | Description
 ------------ |--------|----| ------------
 startTime | STRING | No | Numeric string representing milliseconds. The starting point of the required period. If no period is defined, the entire order history is returned.
 endTime | STRING | No |Numeric string representing milliseconds. The end point of the required period. If no period is defined, the entire order history is returned.
-status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `SUCCESS`, `FAILED`, `PROCESSING`
+status | STRING | No | deliveryStatus, If this field is available, use it with startTime. `PROCESSING`, `SUCCESS`, `FAILED`
 page | int    | No |
 size | int    | No | Default:10, Max:200
 type | STRING | NO | Specifies the trading mode. Please refer to [get-quote API  → type]
@@ -2564,7 +2564,7 @@ targetCurrency	| target currency.
 sourceAmount	| source currency amount.
 targetAmount	| target currency amount.
 price	| price.
-status	| Order status. `SUCCESS`, `FAILED`, `PROCESSING`
+status	| Order status. `PROCESSING`, `SUCCESS`, `FAILED` 
 createdAt	| Order create time.
 errorMessage	| Error message if order failed.
 
