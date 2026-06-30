@@ -8,6 +8,8 @@ nav: sidebar/rest-api.html
 
 
 # Change log:
+2026-06-30: add `quoteId` and `orderId` optional query parameters to `POST /openapi/convert/v1/query-order-history`.
+
 2026-06-10: Added [Go SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
 
 2026-06-09: update `/openapi/v1/account` response to include p2p-related KYC limit remaining fields: `p2pDaily`, `p2pMonthly`, `p2pAnnually` .
@@ -2550,6 +2552,8 @@ status | STRING | No | deliveryStatus, If this field is available, use it with s
 page | int    | No |
 size | int    | No | Default:10, Max:200
 type | STRING | NO | Specifies the trading mode. Please refer to [get-quote API  → type]
+quoteId | STRING | No | Filter by quote ID.
+orderId | STRING | No | Filter by order ID.
 
 
 **Response:**
