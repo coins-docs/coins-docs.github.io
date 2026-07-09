@@ -7,7 +7,8 @@ nav: sidebar/rest-api.html
 ---
 
 
-# Change log:
+2026-07-09: Added `Too many requests` error code description to `/openapi/convert/v1/get-quote`.
+
 2026-06-30: add `quoteId` and `orderId` optional query parameters to `POST /openapi/convert/v1/query-order-history`.
 
 2026-06-10: Added [Go SDK](https://docs.coins.ph/rest-api/#connectors) support for major APIs, enabling developers to integrate key endpoints through standardized client methods.
@@ -2481,6 +2482,12 @@ expiry	| Quote expire time seconds.
   }
 }
 ```
+
+***Error code description:***
+
+status code           | Description
+----------------| ------------
+10000003 | Too many requests. Try again later. (This endpoint supports a minimum refresh interval of 1000 ms)
 
 #### Accept the quote (TRADE)
 
