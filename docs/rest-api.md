@@ -7,6 +7,8 @@ nav: sidebar/rest-api.html
 ---
 
 
+2026-09-09: Added the `startTime` `endTime` parameter to the `/openapi/transfer/v3/transfers/{id}` endpoint.
+
 2026-07-09: Added `Too many requests` error code description to `/openapi/convert/v1/get-quote`.
 
 2026-06-30: add `quoteId` and `orderId` optional query parameters to `POST /openapi/convert/v1/query-order-history`.
@@ -5047,6 +5049,8 @@ from_address |STRING|NO| The phone number or email for sender account (e.g. +63 
 to_address  |STRING|NO| The phone number or email for recipient account (e.g. +63 9686490252 or test@coins.ph)
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
+startTime | LONG | NO | Timestamp in milliseconds
+endTime | LONG | NO | Timestamp in milliseconds
 
 - If client_transfer_id both the id and  parameters are passed, the id parameter will take precedence.
 - If the client_transfer_id or id parameter is passed, then the client_transfer_id or id takes precedence.
