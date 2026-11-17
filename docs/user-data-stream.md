@@ -119,7 +119,7 @@ balance snapshot
       "l": "0.000000"             // Locked
     }
   ],
-  "em": "test@coins.ph"          // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
+  "em": "user@example.com"          // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
 }
 ```
 
@@ -139,7 +139,7 @@ contains balance changed
   "d": "100.00000000",          // Balance Delta
   "T": 1573200697068,           // Clear Time
   "BS": "CHAIN_DEPOSIT",        // Business Type (CHAIN_DEPOSIT, FIAT_DEPOSIT, TRADE, FEE, FIAT_WITHDRAWAL, CHAIN_WITHDRAWAL, CONVERT, DISTRIBUTION, P2P_TRANSFER, SPOT_TO_CREDIT, CREDIT_TO_SPOT, VIRTUAL_DISTRIBUTE, OTHERS)
-  "em": "test@coins.ph",        // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
+  "em": "user@example.com",        // Account email,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
   "BI": "123456789"             // Business serial number,This parameter will only be provided when the master account is whitelisted and there has been a balance change on the sub-account.
 }
 ```

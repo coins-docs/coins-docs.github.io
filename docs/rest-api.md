@@ -966,7 +966,7 @@ Name       | Type  | Mandatory | Description
 -----------------|--------|-----------|--------------------------------------------------------------------------------------
 client_transfer_id | STRING | NO | Client Transfer ID, cannot send duplicate ID
 account      | STRING | YES    | Either the token (e.g. PHP, BTC, ETH) or the Balance ID (e.g. `1447779051242545455`) to be transferred.
-target_address   | STRING | YES    | The phone number or email for recipient account (e.g. `+63 9686490252` or `test@coins.ph`)
+target_address   | STRING | YES    | The phone number or email for recipient account (e.g. `+63 900 000 0000` or `user@example.com`)
 amount      | BigDecimal | YES    | The amount being transferred
 recvWindow | LONG  | NO    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time when the transfer is performed
@@ -979,7 +979,7 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
 ```javascript
 {
   "account": "1451431230880900352",
-  "target_address": "christina@coins.ph",
+  "target_address": "user@example.com",
   "customSenderName": "testSenderName",
   "amount": "1232"
 }
@@ -993,7 +993,7 @@ If the client_transfer_id or id parameter is passed in, the type parameter is in
       "id": "1451431230880900352",
       "status": "success",//status enum: pending,success,failed
       "account": "90dfg03goamdf02fs",
-      "target_address": "test@coins.ph",
+      "target_address": "user@example.com",
       "customSenderName": "testSenderName",
       "amount": "1",
       "exchange": "1",
@@ -1045,7 +1045,7 @@ timestamp          | LONG    | YES        |
         "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
+        "payer_contact_info": "user@example.com"
     }
 }
 ```
@@ -1077,7 +1077,7 @@ timestamp | LONG | YES |
    "canDeposit":true,
    "canTrade":true,
    "canWithdraw":true,
-   "email": "test@coins.ph",
+   "email": "user@example.com",
    "enableWithdrawWhitelist": true,
    "balances":[
       {
@@ -3983,7 +3983,7 @@ timestamp     | LONG  | YES    | A point in time for which transfers are being q
   "subAccounts": [
     {
       "createTime": "1689744671462",
-      "email": "test@coins.ph",
+      "email": "user@example.com",
       "isFreeze": false
     },
     {
@@ -4019,7 +4019,7 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
 **Response:**
 ```json
 {
-  "email": "test@coins.ph",
+  "email": "user@example.com",
   "createTime": 1689744700710,
   "isFreeze": false
 }
@@ -4171,8 +4171,8 @@ timestamp     | LONG  | YES       | A point in time for which transfers are bein
   "result": [
     {
       "clientTranId": "1",
-      "fromEmail": "test@coins.ph",
-      "toEmail": "test1@coins.ph",
+      "fromEmail": "user@example.com",
+      "toEmail": "recipient@example.com",
       "asset": "BTC",
       "amount": "0.1",
       "createdAt": 1689744700710,
@@ -4218,8 +4218,8 @@ clientTranId     | STRING   | NO       |
   "result": [
     {
       "clientTranId": "1",
-      "fromEmail": "test@coins.ph",
-      "toEmail": "test1@coins.ph",
+      "fromEmail": "user@example.com",
+      "toEmail": "recipient@example.com",
       "asset": "BTC",
       "amount": "0.1",
       "createdAt": 1689744700710,
@@ -4537,7 +4537,7 @@ timestamp          | LONG   | YES        |
         "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
+        "payer_contact_info": "user@example.com"
     }
 }
 ```
@@ -4575,7 +4575,7 @@ timestamp          | LONG   | YES        |
         "expires_at": "1686208461219",
         "supported_payment_collectors": "[\"coins_peso_wallet\"]",
         "payment_url": "https://www.pro.coins.ph/payment/invoice/1433341829953096704",
-        "payer_contact_info": "jennins@coins.ph"
+        "payer_contact_info": "user@example.com"
     }
 }
 ```
@@ -5045,8 +5045,8 @@ id      | STRING | NO    | ID of the transfer record
 client_transfer_id| STRING | NO | Client Transfer ID, Maximum length 100
 page    | INT | NO | Current page, default is `1`
 per_page    | INT | NO | Quantity per page, default 2000, maximum `2000`
-from_address |STRING|NO| The phone number or email for sender account (e.g. +63 9686490252 or test@coins.ph)
-to_address  |STRING|NO| The phone number or email for recipient account (e.g. +63 9686490252 or test@coins.ph)
+from_address |STRING|NO| The phone number or email for sender account (e.g. +63 900 000 0000 or user@example.com)
+to_address  |STRING|NO| The phone number or email for recipient account (e.g. +63 900 000 0000 or user@example.com)
 recvWindow | LONG  | YES    | This value cannot be greater than `60000`
 timestamp     | LONG  | YES    | A point in time for which transfers are being queried.
 startTime | LONG | NO | Timestamp in milliseconds
