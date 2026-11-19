@@ -1,0 +1,12 @@
+# Exact business role addresses allowed in this repository.
+# Add one exact address per line. Do not use wildcards or domain-wide patterns.
+#
+# IMPORTANT: This file is read from main/base, not from the PR checkout.
+# Bootstrap note: on the initial rollout PR, if this file does not exist on main yet,
+# the guard may fall back to the PR's copy. After merge, main is authoritative.
+# To allow a new address:
+#   1. Open a SEPARATE PR that only updates this file.
+#   2. Merge it to main first.
+#   3. Re-run the PR that needs the new address.
+# Do not add an address here and use it in the same PR; the guard will still fail.
+otcdesk_ph@coins.ph

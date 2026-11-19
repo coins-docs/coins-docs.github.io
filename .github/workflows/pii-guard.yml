@@ -1,0 +1,111 @@
+name: PII guard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pii-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for company email addresses
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            RANGE="${BASE_SHA}..HEAD"
+            ALLOW_REF="origin/${BASE_REF}"
+          else
+            if [[ "$BEFORE_SHA" =~ ^0+$ ]]; then
+              RANGE="HEAD"
+              ALLOW_REF="HEAD"
+            else
+              RANGE="${BEFORE_SHA}..HEAD"
+              ALLOW_REF="$BEFORE_SHA"
+            fi
+          fi
+
+          # Read the allowlist from the base/main ref, not from the PR checkout.
+          # This prevents a PR from allowlisting an address and using it in the same PR.
+          # Bootstrap exception: if the allowlist does not exist on the base ref yet,
+          # use HEAD so the initial rollout PR can pass. Once merged, base is authoritative.
+          ALLOW_FILE="$(mktemp)"
+          : > "$ALLOW_FILE"
+          if git cat-file -e "${ALLOW_REF}:.github/pii-allowlist.txt" 2>/dev/null; then
+            git show "${ALLOW_REF}:.github/pii-allowlist.txt" \
+              | sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' > "$ALLOW_FILE"
+          elif git cat-file -e "HEAD:.github/pii-allowlist.txt" 2>/dev/null; then
+            echo "::warning::PII allowlist not found on ${ALLOW_REF}; using HEAD allowlist for the initial rollout."
+            git show "HEAD:.github/pii-allowlist.txt" \
+              | sed '/^[[:space:]]*#/d; /^[[:space:]]*$/d' > "$ALLOW_FILE"
+          fi
+
+          mask() {
+            sed -E 's/([A-Za-z0-9._%+-])[A-Za-z0-9._%+-]*@/\1***@/g'
+          }
+
+          fail=0
+
+          # 1) commit author / committer emails
+          BAD_META=$(git log --format='%ae%n%ce' "$RANGE" \
+            | grep -E '@(coins\.ph|coinsasia\.com)$' \
+            | sort -u \
+            | grep -vFxf "$ALLOW_FILE" || true)
+          if [ -n "$BAD_META" ]; then
+            echo "Company email found in commit metadata (masked):"
+            echo "$BAD_META" | mask
+            echo "Commits:"
+            git log --format='%h' "$RANGE" | head -10
+            fail=1
+          fi
+
+          # 2) commit messages
+          BAD_MSG=$(git log --format='%B' "$RANGE" \
+            | grep -oE '[A-Za-z0-9._%+-]+@(coins\.ph|coinsasia\.com)' \
+            | sort -u \
+            | grep -vFxf "$ALLOW_FILE" || true)
+          if [ -n "$BAD_MSG" ]; then
+            echo "Company email found in commit messages (masked):"
+            echo "$BAD_MSG" | mask
+            echo "Commits:"
+            git log --format='%h' "$RANGE" | head -10
+            fail=1
+          fi
+
+          # 3) tracked text files in the checked-out tree
+          BAD_FILES=$(git grep -hoIE '[A-Za-z0-9._%+-]+@(coins\.ph|coinsasia\.com)' HEAD -- . \
+            ':(exclude).github/pii-allowlist.txt' \
+            | sort -u \
+            | grep -vFxf "$ALLOW_FILE" || true)
+          if [ -n "$BAD_FILES" ]; then
+            echo "Company email found in tracked files (masked):"
+            echo "$BAD_FILES" | mask
+            echo "Locations:"
+            git grep -nIE '[A-Za-z0-9._%+-]+@(coins\.ph|coinsasia\.com)' HEAD -- . \
+              ':(exclude).github/pii-allowlist.txt' \
+              | cut -d: -f1,2 | sort -u | head -20
+            fail=1
+          fi
+
+          if [ "$fail" -ne 0 ]; then
+            echo "PII guard: failed. See the masked output above."
+            echo "Hint: if this is a legitimate business role address, update .github/pii-allowlist.txt in a SEPARATE PR and merge it to main first."
+            exit 1
+          fi
+
+          echo "PII guard: no company email addresses found."
